@@ -23,13 +23,27 @@ public class LectorsController {
     
     private final Lectors lectors = new Lectors();
 
+    private String newLectorName;
+    
     public LectorsController() {
     }
-    
-    
     
     public List<Lector> getLectors() {
 	return lectors.listAllLectors();
     }
+
+    public String getNewLectorName() {
+	return newLectorName;
+    }
+
+    public void setNewLectorName(String newLectorName) {
+	this.newLectorName = newLectorName;
+    }
+    
+    public void addLector() {
+	lectors.addLector(new Lector(newLectorName));
+    }
+    
+    
     
 }

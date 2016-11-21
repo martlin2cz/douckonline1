@@ -20,6 +20,9 @@
 		<h:outputText value="#{lector.name}" />
 	    </h:column>
 	</h:dataTable> 
-	
+	<h:form>
+	    <h:inputText value="#{lectorsController.newLectorName}" />
+	    <h:commandButton value="Add lector" action="#{lectorsController.addLector()}" />
+	</h:form>
     </h:body>
 </html>

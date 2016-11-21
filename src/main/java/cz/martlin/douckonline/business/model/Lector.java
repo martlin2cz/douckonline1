@@ -1,13 +1,19 @@
 package cz.martlin.douckonline.business.model;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
-public class Lector implements  Serializable {
+@Entity
+@Table(name = "lectors")
+public class Lector implements Serializable {
     
+    @Id
     private String name;
 
     public Lector() {
