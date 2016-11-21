@@ -10,6 +10,8 @@ import cz.martlin.douckonline.business.model.Lector;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -20,6 +22,11 @@ import javax.inject.Named;
 public class LectorsController {
     
     private final Lectors lectors = new Lectors();
+
+    public LectorsController() {
+    }
+    
+    
     
     public List<Lector> getLectors() {
 	return lectors.listAllLectors();
