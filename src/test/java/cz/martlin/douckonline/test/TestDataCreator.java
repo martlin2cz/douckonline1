@@ -9,7 +9,7 @@ import cz.martlin.douckonline.business.model.Lector;
  */
 public class TestDataCreator {
     
-    public void create() {
+    public void create() { 
 	createLectors();
     }
 

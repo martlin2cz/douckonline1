@@ -38,7 +38,7 @@ public class DbAccessor {
 	    entityManager.persist(item);
 	    entityManager.getTransaction().commit();
 	    return true;
-	} catch (DatabaseException e) {
+	} catch (Exception e) {
 	    LOG.error("Cannot insert " + item, e);
 	    return false;
 	}
