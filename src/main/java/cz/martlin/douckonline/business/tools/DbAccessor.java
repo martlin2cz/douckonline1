@@ -39,9 +39,10 @@ public class DbAccessor {
 	    entityManager.getTransaction().commit();
 	    return true;
 	} catch (Exception e) {
+	    //entityManager.getTransaction().rollback();
 	    LOG.error("Cannot insert " + item, e);
 	    return false;
-	}
+	} 
     }
     
     

@@ -1,6 +1,9 @@
 package cz.martlin.douckonline.business.data;
 
+import cz.martlin.douckonline.business.model.Certificate;
+import cz.martlin.douckonline.business.model.Education;
 import cz.martlin.douckonline.business.model.Lector;
+import cz.martlin.douckonline.business.model.Practice;
 import cz.martlin.douckonline.business.tools.DbAccessor;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,21 @@ public class Lectors {
     public boolean addLector(Lector lector) {
 	LOG.debug("Adding lector");
 	return db.insert(lector);
+    }
+
+    public boolean addCertificate(Certificate certificate) {
+	LOG.debug("Adding certificate");
+	return db.insert(certificate);
+    }
+
+    public boolean addEducation(Education education) {
+	LOG.debug("Adding education");
+	return db.insert(education);
+    }
+
+    public boolean addPractise(Practice practice) {
+	LOG.debug("Adding practise");
+	return db.insert(practice);
     }
 }
 

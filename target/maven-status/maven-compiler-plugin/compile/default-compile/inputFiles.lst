@@ -1,4 +1,15 @@
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/data/Users.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/tools/DbAccessor.java
-/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/LectorsController.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/utils/LoginSession.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/test/TestDataCreator.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/Lector.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/Subject.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/data/Lectors.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/data/Subjects.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/Certificate.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/LogingInController.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/LectorsController.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/Practice.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/Education.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/User.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/TestsController.java

@@ -41,7 +41,8 @@ public class LectorsController {
     }
     
     public void addLector() {
-	lectors.addLector(new Lector(newLectorName));
+	//lectors.addLector(new Lector(newLectorName));
+	throw new UnsupportedOperationException("new lector");
     }
     
     
