@@ -6,7 +6,10 @@
 package cz.martlin.douckonline.business.data;
 
 import cz.martlin.douckonline.business.model.Lector;
+import cz.martlin.douckonline.business.model.Manager;
+import cz.martlin.douckonline.business.model.Student;
 import cz.martlin.douckonline.business.model.User;
+import cz.martlin.douckonline.business.tools.DbAccessor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,16 +18,24 @@ import java.util.List;
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Users {
+    private final Students students = new Students();
     private final Lectors lectors = new Lectors();
-
+    private final Managers managers = new Managers();
+    
     public Users() {
     }
     
     public List<User> listAllUsers() {
 	List<User> users = new ArrayList<>();
 	
+	for (Student student: students.listAllStudents()) {
+	    users.add(student);
+	}
 	for (Lector lector: lectors.listAllLectors()) {
 	    users.add(lector);
+	}
+	for (Manager manager: managers.listAllManagers()) {
+	    users.add(manager);
 	}
 	
 	return users;
@@ -39,6 +50,7 @@ public class Users {
 	
 	return null;
     }
+
 
     
 }

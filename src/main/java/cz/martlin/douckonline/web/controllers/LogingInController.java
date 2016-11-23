@@ -50,4 +50,8 @@ public class LogingInController {
     public void logInAs() {
 	session.logInAs(selectedUser);
     }
+    
+    public void logOut() {
+	session.logOut();
+    }
 }

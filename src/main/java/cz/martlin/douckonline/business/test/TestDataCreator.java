@@ -1,11 +1,16 @@
 package cz.martlin.douckonline.business.test;
 
 import cz.martlin.douckonline.business.data.Lectors;
+import cz.martlin.douckonline.business.data.Managers;
+import cz.martlin.douckonline.business.data.Students;
 import cz.martlin.douckonline.business.data.Subjects;
+import cz.martlin.douckonline.business.data.Users;
 import cz.martlin.douckonline.business.model.Certificate;
 import cz.martlin.douckonline.business.model.Education;
 import cz.martlin.douckonline.business.model.Lector;
+import cz.martlin.douckonline.business.model.Manager;
 import cz.martlin.douckonline.business.model.Practice;
+import cz.martlin.douckonline.business.model.Student;
 import cz.martlin.douckonline.business.model.Subject;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,6 +42,8 @@ public class TestDataCreator {
 	createSubjects();
 	createLectorsMeta();
 	createLectors();
+	createStudents();
+	createManagers();
     }
 
     
@@ -83,13 +90,38 @@ public class TestDataCreator {
 	
 	lectors.addLector(johny);
 	
-	/*
-	lectors.addLector(new Lector("John"));
-	lectors.addLector(new Lector("Jimmy"));
-	lectors.addLector(new Lector("Bill"));
-	lectors.addLector(new Lector("John"));
-	*/
 	
+    }
+    
+    
+    private void createStudents() {
+	Students students = new Students();
+
+	String loginName = "karllazy";
+	String passwordHash = "ThisIsAnotherPasswordHash";
+	String passwordSalt = "this-is-very-sweet-password-salt";
+	Calendar registeredAt = daysAgo(4);
+	Calendar lastLoginAt = daysAgo(2);
+	String registerName = "Karl's mom";
+	String studentName = "Karl Lazy";
+	int accountNumber = 123456;
+	
+	Student karl = new Student(registerName, studentName, accountNumber, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
+	students.addStudent(karl);
+    }
+
+    private void createManagers() {
+	Managers managers = new Managers();
+	
+	String loginName = "billbosyy";
+	String passwordHash = "ThisIsYetAnotherPasswordHash";
+	String passwordSalt = "this-is-very-hot-password-salt";
+	Calendar registeredAt = daysAgo(10);
+	Calendar lastLoginAt = daysAgo(0);
+	String fullName = "Bill Bossy";
+	
+	Manager bill = new Manager(fullName, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
+	managers.addManager(bill);
     }
     
     public static <T> List<T> list(T item) {
@@ -117,6 +149,7 @@ public class TestDataCreator {
 	
 	return calendar;
     }
+
 
 
 }

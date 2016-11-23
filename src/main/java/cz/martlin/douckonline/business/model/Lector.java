@@ -44,6 +44,8 @@ public class Lector extends User implements Serializable {
     @OneToMany
     private List<Practice> experiences;
     
+    //TODO account number
+    
     
     public Lector() {
 	super();

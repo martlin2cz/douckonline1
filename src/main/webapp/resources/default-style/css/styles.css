@@ -1,0 +1,42 @@
+/* 
+    Created on : 23.11.2016, 16:38:37
+    Author     : m@rtlin <martlin@seznam.cz>
+*/
+
+/* basic site structure */
+
+header {
+    background-color: khaki;
+}
+
+
+main {
+    background-color: gainsboro;
+}
+
+
+footer {
+    background-color: aquamarine;
+}
+
+/******************************************************************************/
+/* main menu formatting */
+#main-menu ul {
+    list-style: none;
+    display: inline;
+}
+#main-menu ul {
+    list-style: none;
+    display: inline;
+}
+
+#user-panel {
+    display: inline;
+}
+
+/******************************************************************************/
+/* site styles */
+
+table th, td {
+    border: 1px solid gray;
+}

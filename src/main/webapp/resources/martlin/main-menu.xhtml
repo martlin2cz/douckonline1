@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      >
+  
+    
+    <composite:interface displayName="User panel">			
+    </composite:interface>
+
+    <composite:implementation>
+	<nav id="main-menu">
+	    <ul>
+	    <c:choose>
+		<c:when test="#{loginSession.loggedAsStudent}">
+		    	<li><h:outputLink value="student/student-profile.xhtml">My profile</h:outputLink></li>
+		</c:when>
+		
+		<c:when test="#{loginSession.loggedAsLector}">
+		    	<li><h:outputLink value="lector/lector-profile.xhtml">My profile</h:outputLink></li>
+		</c:when>
+		
+		<c:when test="#{loginSession.loggedAsManager}">
+		    	<li><h:outputLink value="lectors.xhtml">Our lectors</h:outputLink></li>
+		</c:when>
+		
+		<c:when test="#{not loginSession.loggedIn}">
+		    	<li><h:outputLink value="index.xhtml">Login site</h:outputLink></li>
+		</c:when>
+	    </c:choose>
+	    </ul>
+	</nav>
+    </composite:implementation>
+</html>
+

@@ -6,12 +6,9 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     
-    <h:head>
-	<title>Lector</title>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    </h:head>
-    <h:body>
+  <ui:composition template="/WEB-INF/templates/main-template.xhtml">
+    <ui:define name="main-content">
+
 	<h1>Profile of lector</h1>
 	<h2>Basic info</h2>
 	<h:panelGrid columns="2">
@@ -62,7 +59,7 @@
 		<h:outputText value="#{certificate.name}" />
 	    </h:column>
 	    <h:column>
-		<f:facet name="header">subject</f:facet>
+		<f:facet name="header">Subject</f:facet>
 		<h:outputText value="#{certificate.subject.name}" />
 	    </h:column>
 	    <h:column>
@@ -83,5 +80,6 @@
 	    </h:column>
 	</h:dataTable>
 	
-    </h:body>
+    </ui:define>
+  </ui:composition>
 </html>
