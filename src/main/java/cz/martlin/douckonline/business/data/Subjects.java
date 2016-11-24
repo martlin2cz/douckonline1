@@ -1,7 +1,7 @@
 package cz.martlin.douckonline.business.data;
 
-import cz.martlin.douckonline.business.model.Lector;
-import cz.martlin.douckonline.business.model.Subject;
+import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.teaching.Subject;
 import cz.martlin.douckonline.business.tools.DbAccessor;
 import java.util.List;
 import org.slf4j.Logger;

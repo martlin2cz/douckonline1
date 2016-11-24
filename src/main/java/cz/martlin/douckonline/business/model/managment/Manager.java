@@ -1,5 +1,6 @@
-package cz.martlin.douckonline.business.model;
+package cz.martlin.douckonline.business.model.managment;
 
+import cz.martlin.douckonline.business.model.managment.User;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;

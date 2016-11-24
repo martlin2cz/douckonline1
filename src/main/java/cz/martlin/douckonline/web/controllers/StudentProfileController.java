@@ -6,8 +6,8 @@
  */
 package cz.martlin.douckonline.web.controllers;
 
-import cz.martlin.douckonline.business.model.Lector;
-import cz.martlin.douckonline.business.model.Student;
+import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.web.utils.LoginSession;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

@@ -1,4 +1,4 @@
-package cz.martlin.douckonline.business.model;
+package cz.martlin.douckonline.business.model.lector;
 
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -13,34 +13,33 @@ import javax.validation.constraints.Size;
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
-@Table(name = "education")
-public class Education  implements Serializable {
-    
+@Table(name = "practices")
+public class Practice implements Serializable {
+        
     @Id
     @GeneratedValue
     private long id;
     
+    
+    @Column(name = "work")
+    @Size(min = 1, max = 20)
+    private String work;
+    
     @Column(name = "institution")
-    @Size(min = 10, max = 80)
+    @Size(min = 0, max = 80)
     private String institution;
     
-    @Column(name = "subject")
-    @Size(min = 10, max = 80)
-    private String subject;
-    
-    @Column(name = "degree")
-    @Size(min = 1, max = 20)
-    private String degree;
 
-    public Education() {
+    public Practice() {
     }
 
-    public Education(long id, String institution, String subject, String degree) {
+    public Practice(long id, String work, String institution) {
 	this.id = id;
+	this.work = work;
 	this.institution = institution;
-	this.subject = subject;
-	this.degree = degree;
     }
+
+    
 
 
     public long getId() {
@@ -61,22 +60,15 @@ public class Education  implements Serializable {
 	this.institution = institution;
     }
 
-    public String getSubject() {
-	return subject;
+    public String getWork() {
+	return work;
     }
 
-    public void setSubject(String subject) {
-	this.subject = subject;
+    public void setWork(String work) {
+	this.work = work;
     }
 
-    public String getDegree() {
-	return degree;
-    }
-
-    public void setDegree(String degree) {
-	this.degree = degree;
-    }
-
+    
     @Override
     public int hashCode() {
 	int hash = 3;
@@ -95,7 +87,7 @@ public class Education  implements Serializable {
 	if (getClass() != obj.getClass()) {
 	    return false;
 	}
-	final Education other = (Education) obj;
+	final Practice other = (Practice) obj;
 	if (this.id != other.id) {
 	    return false;
 	}
@@ -104,7 +96,7 @@ public class Education  implements Serializable {
 
     @Override
     public String toString() {
-	return "Education{" + "id=" + id + ", institution=" + institution + ", subject=" + subject + ", degree=" + degree + '}';
+	return "Practice{" + "id=" + id + ", work=" + work + ", institution=" + institution + '}';
     }
 
     

@@ -1,9 +1,9 @@
 package cz.martlin.douckonline.web.utils;
 
-import cz.martlin.douckonline.business.model.Lector;
-import cz.martlin.douckonline.business.model.Manager;
-import cz.martlin.douckonline.business.model.Student;
-import cz.martlin.douckonline.business.model.User;
+import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.managment.Manager;
+import cz.martlin.douckonline.business.model.teaching.Student;
+import cz.martlin.douckonline.business.model.managment.User;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

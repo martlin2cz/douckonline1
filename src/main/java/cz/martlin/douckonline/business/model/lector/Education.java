@@ -1,11 +1,10 @@
-package cz.martlin.douckonline.business.model;
+package cz.martlin.douckonline.business.model.lector;
 
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -14,33 +13,35 @@ import javax.validation.constraints.Size;
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
-@Table(name = "certificates")
-public class Certificate implements  Serializable{
+@Table(name = "education")
+public class Education  implements Serializable {
     
     @Id
     @GeneratedValue
     private long id;
     
-    @Column(name = "name")
-    @Size(min = 1, max = 50)
-    private String name;
+    @Column(name = "institution")
+    @Size(min = 10, max = 80)
+    private String institution;
     
-    @OneToOne
-    private Subject subject;
+    @Column(name = "subject")
+    @Size(min = 10, max = 80)
+    private String subject;
     
     @Column(name = "degree")
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 20)
     private String degree;
 
-    public Certificate() {
+    public Education() {
     }
 
-    public Certificate(long id, String name, Subject subject, String degree) {
+    public Education(long id, String institution, String subject, String degree) {
 	this.id = id;
-	this.name = name;
+	this.institution = institution;
 	this.subject = subject;
 	this.degree = degree;
     }
+
 
     public long getId() {
 	return id;
@@ -50,19 +51,21 @@ public class Certificate implements  Serializable{
 	this.id = id;
     }
 
-    public String getName() {
-	return name;
+   
+
+    public String getInstitution() {
+	return institution;
     }
 
-    public void setName(String name) {
-	this.name = name;
+    public void setInstitution(String institution) {
+	this.institution = institution;
     }
 
-    public Subject getSubject() {
+    public String getSubject() {
 	return subject;
     }
 
-    public void setSubject(Subject subject) {
+    public void setSubject(String subject) {
 	this.subject = subject;
     }
 
@@ -92,7 +95,7 @@ public class Certificate implements  Serializable{
 	if (getClass() != obj.getClass()) {
 	    return false;
 	}
-	final Certificate other = (Certificate) obj;
+	final Education other = (Education) obj;
 	if (this.id != other.id) {
 	    return false;
 	}
@@ -101,9 +104,9 @@ public class Certificate implements  Serializable{
 
     @Override
     public String toString() {
-	return "Certificate{" + "id=" + id + ", name=" + name + ", subject=" + subject + ", degree=" + degree + '}';
+	return "Education{" + "id=" + id + ", institution=" + institution + ", subject=" + subject + ", degree=" + degree + '}';
     }
-    
+
     
     
 }

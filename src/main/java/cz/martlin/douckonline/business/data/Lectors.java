@@ -1,11 +1,11 @@
 package cz.martlin.douckonline.business.data;
 
-import cz.martlin.douckonline.business.model.Certificate;
-import cz.martlin.douckonline.business.model.Education;
-import cz.martlin.douckonline.business.model.Lector;
-import cz.martlin.douckonline.business.model.Practice;
+import cz.martlin.douckonline.business.model.lector.Certificate;
+import cz.martlin.douckonline.business.model.lector.Education;
+import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.lector.Practice;
+import cz.martlin.douckonline.business.model.lector.SubjTeachingSpec;
 import cz.martlin.douckonline.business.tools.DbAccessor;
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +50,15 @@ public class Lectors {
     public boolean addPractise(Practice practice) {
 	LOG.debug("Adding practise");
 	return db.insert(practice);
+    }
+
+    public boolean addSubjTeachSpec(SubjTeachingSpec spec) {
+	LOG.debug("Adding subject teaching spec");
+	return db.insert(spec);
+    }
+
+    public Lector getLector(String loginName) {
+	return db.getById(Lector.class, loginName);
     }
 }
 

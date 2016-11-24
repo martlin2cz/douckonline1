@@ -2,8 +2,8 @@ package cz.martlin.douckonline.web.controllers;
 
 import cz.martlin.douckonline.business.data.Lectors;
 import cz.martlin.douckonline.business.data.Users;
-import cz.martlin.douckonline.business.model.Lector;
-import cz.martlin.douckonline.business.model.User;
+import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.managment.User;
 import cz.martlin.douckonline.web.utils.LoginSession;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;

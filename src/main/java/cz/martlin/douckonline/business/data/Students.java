@@ -5,8 +5,8 @@
  */
 package cz.martlin.douckonline.business.data;
 
-import cz.martlin.douckonline.business.model.Lector;
-import cz.martlin.douckonline.business.model.Student;
+import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.tools.DbAccessor;
 import java.util.List;
 import org.slf4j.Logger;
@@ -36,5 +36,9 @@ public class Students {
     public boolean addStudent(Student student) {
 	LOG.debug("Adding student");
 	return db.insert(student);
+    }
+
+    public Student getStudent(String loginName) {
+	return db.getById(Student.class, loginName);
     }
 }

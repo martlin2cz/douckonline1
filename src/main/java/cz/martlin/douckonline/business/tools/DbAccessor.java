@@ -5,7 +5,7 @@
  */
 package cz.martlin.douckonline.business.tools;
 
-import cz.martlin.douckonline.business.model.Lector;
+import cz.martlin.douckonline.business.model.lector.Lector;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -31,6 +31,12 @@ public class DbAccessor {
 	List<T> list =  query.getResultList();
 	return list;
     }
+    
+    
+    public <T> T getById(Class<T> clazz, Object identificator) {
+	T item = entityManager.find(clazz, identificator);
+	return item;
+    }
 
     public <T> boolean insert(T item) {
 	try {
@@ -44,6 +50,8 @@ public class DbAccessor {
 	    return false;
 	} 
     }
+    
+    
     
     
 }

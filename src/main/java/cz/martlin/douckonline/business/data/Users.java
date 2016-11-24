@@ -5,10 +5,10 @@
  */
 package cz.martlin.douckonline.business.data;
 
-import cz.martlin.douckonline.business.model.Lector;
-import cz.martlin.douckonline.business.model.Manager;
-import cz.martlin.douckonline.business.model.Student;
-import cz.martlin.douckonline.business.model.User;
+import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.managment.Manager;
+import cz.martlin.douckonline.business.model.teaching.Student;
+import cz.martlin.douckonline.business.model.managment.User;
 import cz.martlin.douckonline.business.tools.DbAccessor;
 import java.util.ArrayList;
 import java.util.List;

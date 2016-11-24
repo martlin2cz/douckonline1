@@ -1,4 +1,4 @@
-package cz.martlin.douckonline.business.model;
+package cz.martlin.douckonline.business.model.managment;
 
 import java.io.Serializable;
 import java.util.Calendar;
