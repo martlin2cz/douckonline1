@@ -6,6 +6,7 @@
 package cz.martlin.douckonline.web.controllers;
 
 import cz.martlin.douckonline.business.test.TestDataCreator;
+import cz.martlin.douckonline.business.tools.DbAccessor;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -20,5 +21,10 @@ public class TestsController {
     public void generateTestDatabase() {
 	TestDataCreator creator = new TestDataCreator();
 	creator.create();
+    }
+    
+    public void closeFactory() {
+	DbAccessor db = new DbAccessor();
+	db.closeFactory();
     }
 }

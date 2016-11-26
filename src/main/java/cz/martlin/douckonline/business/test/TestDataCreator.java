@@ -2,6 +2,7 @@ package cz.martlin.douckonline.business.test;
 
 import cz.martlin.douckonline.business.data.Lectors;
 import cz.martlin.douckonline.business.data.Managers;
+import cz.martlin.douckonline.business.data.Moneys;
 import cz.martlin.douckonline.business.data.Students;
 import cz.martlin.douckonline.business.data.Subjects;
 import cz.martlin.douckonline.business.data.Teachings;
@@ -13,8 +14,10 @@ import cz.martlin.douckonline.business.model.lector.Practice;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.lector.SubjTeachingSpec;
 import cz.martlin.douckonline.business.model.lector.Suitability;
+import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
+import cz.martlin.douckonline.business.model.teaching.Teaching;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -29,6 +32,7 @@ public class TestDataCreator {
     private static final Students students = new Students();
     private static final Managers managers = new Managers();
     private static final Teachings teachings = new Teachings();
+    private static final Moneys moneys = new Moneys();
     
     private final String LECTOR_JOHNSMART_LOGIN = "johnsmart";
     private final String STUDENT_KARLLAZY_LOGIN = "karllazy";
@@ -59,6 +63,8 @@ public class TestDataCreator {
 	createManagers();
 
 	createTeaching1();
+	createLessons1();
+	createPayments1();
     }
 
     private void createSubjects() {
@@ -159,6 +165,17 @@ public class TestDataCreator {
 
 	return calendar;
     }
+    
+    
+    private Calendar time(int hours, int minutes) {
+	Calendar calendar = Calendar.getInstance();
+
+	calendar.set(Calendar.HOUR_OF_DAY, hours + 1);
+	calendar.set(Calendar.MINUTE, minutes);
+	calendar.set(Calendar.SECOND, 0);
+	
+	return calendar;
+    }
 
     private void createTeaching1() {
 
@@ -171,5 +188,27 @@ public class TestDataCreator {
 	teachings.startTeaching(lector, student, subject, level, cost);
 
     }
+
+    private void createLessons1() {
+	Lector lector = lectors.getLector(LECTOR_JOHNSMART_LOGIN);
+	Student student = students.getStudent(STUDENT_KARLLAZY_LOGIN);
+		
+	Subject subject = ENGLISH;
+	Calendar date = daysAgo(1);
+	Calendar duration = time(1, 30);
+	String description = "Past perfect";
+
+	teachings.addLesson(lector, student, subject, date, duration, description);
+    }
+
+    private void createPayments1() {
+	Student student = students.getStudent(STUDENT_KARLLAZY_LOGIN);
+	
+	Calendar date = daysAgo(1);
+	int amount = 500;
+	int discount = 5;
+	moneys.addPayment(student, date, amount, discount);
+    }
+
 
 }

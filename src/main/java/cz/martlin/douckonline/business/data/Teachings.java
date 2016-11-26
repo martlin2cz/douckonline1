@@ -1,6 +1,7 @@
 package cz.martlin.douckonline.business.data;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.managment.Payment;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Student;
@@ -59,5 +60,45 @@ public class Teachings {
 	
 	Teaching teaching = new Teaching(0, lector, student, subject, level, cost, lessons, startedAt, null, statusDescription);
 	return teaching;
+    }
+
+    public int getBallanceOfStudent(Student student) {
+	return 42;  //TODO
+	
+    }
+
+    public List<Lesson> getLessonsOf(Student student, Integer daysAgo) {
+	Class<?>[] froms = {Lesson.class, Student.class};
+	String[] attrs = {"student"};
+	String[] vars = {"student"};
+	Object[] values = { student };
+	//TODO daysAgo
+	//TODO WHERE lesson.teaching.student, not item.student (!)
+	return db.listBySimpleCond(Lesson.class, froms, attrs, vars, values);
+    }
+
+    public List<Payment> getPaymentsOfStudent(Student student, Integer daysAgo) {
+	Class<?>[] froms = {Payment.class, Student.class};
+	String[] attrs = {"student"};
+	String[] vars = {"student"};
+	Object[] values = { student };
+	//TODO daysAgo
+	return db.listBySimpleCond(Payment.class, froms, attrs, vars, values);
+    }
+
+    public List<Teaching> getTeachingsOf(Lector lector, Student student, Subject subject) {
+	Class<?>[] froms = {Teaching.class};
+	String[] attrs = {"teaching.student", "teaching.lector", "teaching.subject"};
+	String[] vars = {"student", "lector", "subject"};
+	Object[] values = { student, lector, subject };
+	//TODO if subject == null ...
+	return db.listBySimpleCond(Teaching.class, froms, attrs, vars, values);
+    
+    }
+
+    public boolean addLesson(Lector lector, Student student, Subject subject, Calendar date, Calendar duration, String description) {
+	Teaching teaching = getTeachingsOf(lector, student, subject).get(0);	//TODO if (.size() != 1)
+	Lesson lesson = new Lesson(0, teaching, date, duration, description);
+	return db.insert(lesson);
     }
 }

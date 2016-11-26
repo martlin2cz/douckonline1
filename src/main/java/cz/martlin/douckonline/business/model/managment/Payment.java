@@ -42,6 +42,14 @@ public class Payment implements Serializable {
     public Payment() {
     }
 
+    public Payment(int id, Student student, int amount, int discount, Calendar date) {
+	this.id = id;
+	this.student = student;
+	this.amount = amount;
+	this.discount = discount;
+	this.date = date;
+    }
+
     public int getId() {
 	return id;
     }
@@ -81,6 +89,9 @@ public class Payment implements Serializable {
     public void setDate(Calendar date) {
 	this.date = date;
     }
+
+    
+    
 
     @Override
     public int hashCode() {

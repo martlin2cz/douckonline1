@@ -16,6 +16,7 @@
 	    <ul>
 	    <c:choose>
 		<c:when test="#{loginSession.loggedAsStudent}">
+			<li><h:outputLink value="student/index.xhtml">Status</h:outputLink></li>
 		    	<li><h:outputLink value="student/student-profile.xhtml">My profile</h:outputLink></li>
 		</c:when>
 		

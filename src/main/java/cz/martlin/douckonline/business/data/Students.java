@@ -28,6 +28,7 @@ public class Students {
     
     public List<Student> listAllStudents() {
 	LOG.debug("Loading students");
+	
 	List<Student> students = db.listAll(Student.class);
 	return students;
     }
