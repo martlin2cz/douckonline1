@@ -3,8 +3,11 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Practice.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/tools/DbAccessor.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/test/TestDataCreator.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/utils/PathInfo.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/LectorProfileController.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/utils/JSFTools.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/StudentProfileController.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/rest/LoginSession.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/rest/EntityManagerContextListener.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/rest/LoginFilter.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Suitability.java
@@ -16,13 +19,11 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/teaching/Subject.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/data/Moneys.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/SubjTeachingSpec.java
-/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/utils/LoginSession.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/teaching/Student.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/teaching/Level.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Lector.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/data/Lectors.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/data/Subjects.java
-/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/rest/PathInfo.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Certificate.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/managment/Manager.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/data/Teachings.java

@@ -1,4 +1,4 @@
-package cz.martlin.douckonline.web.rest;
+package cz.martlin.douckonline.web.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

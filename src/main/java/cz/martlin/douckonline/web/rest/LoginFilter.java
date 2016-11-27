@@ -1,10 +1,10 @@
 package cz.martlin.douckonline.web.rest;
 
+import cz.martlin.douckonline.web.utils.PathInfo;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
 import cz.martlin.douckonline.business.model.managment.User;
 import cz.martlin.douckonline.business.model.teaching.Student;
-import cz.martlin.douckonline.web.utils.LoginSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,8 @@ import org.slf4j.LoggerFactory;
 @WebFilter("/*")
 public class LoginFilter implements Filter {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-   
+    
+    private static final String XHTML_FILE_PATTERN = "^(.+)\\.xhtml$";
     private static final Map<Class<?>, String> FOLDERS = initFolders();
     
     @Inject private LoginSession login;
@@ -52,40 +53,35 @@ public class LoginFilter implements Filter {
     }
 
     @Override
+    public void destroy() {
+    }
+    
+    @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-	String path = getPath(request);
-	String root = getContextRoot(request);
-	
-	PathInfo info = PathInfo.create(path, root, XHTML_FILE_PATTERN);
-	info.popFolder(); //context root
+	PathInfo info = getCurrentPathInfo(request);
 	
 	if (info.getFoldersCount() <= 1) {
-	    String newInfo = checkLoginAndGetRedirect(info);
-	    LOG.debug("Having site path " + info + " with login " + login + ", will redirect to " + newInfo);
-	    if (newInfo != null) {
-		redirectTo(newInfo, response);
-	    }
+	    String newPath = checkLoginAndGetRedirect(info, login);
+	    LOG.debug("Having site path " + info + " with login " + login + ", will redirect to " + newPath);
 	    
-	    /*
-	    LOG.debug("Having site path " + info + " with login " + login);
-	    boolean modified = modifyPath(info);
-	    if (modified) {
-		//info.pushFolder(root);
-		LOG.debug("Will redirect to " + info);
-		
-		String newPath = info.toPath(false);
+	    if (newPath != null) {
 		redirectTo(newPath, response);
-	    } 
-	    */
+		return;
+	    }
 	}	
 	
 	chain.doFilter(request, response);
     }
-    protected static final String XHTML_FILE_PATTERN = "^(.+)\\.xhtml$";
 
-    @Override
-    public void destroy() {
+    public static PathInfo getCurrentPathInfo(ServletRequest request) {
+	String path = getPath(request);
+	String root = getContextRoot(request);
+	PathInfo info = PathInfo.create(path, root, XHTML_FILE_PATTERN);
+	info.popFolder(); //context root
+	
+	return info;
     }
+    
 
     private static String getPath(ServletRequest request) {
 	HttpServletRequest req = (HttpServletRequest) request;
@@ -98,45 +94,12 @@ public class LoginFilter implements Filter {
 	return req.getContextPath();
     }
     
-    private boolean modifyPath(PathInfo info) {
-	User loggedUser = login.getLoggedUser();
-	String expectedFolder;
-	
-	if (loggedUser != null)  {
-	    expectedFolder = FOLDERS.get(loggedUser.getClass());
-	} else {
-	    expectedFolder = null;//FOLDERS.get(User.class);
-	}
-	
-	if (info.getFoldersCount() == 0 && expectedFolder == null) {
-	    return false;
-	}
-	if (info.getFoldersCount() == 1 && expectedFolder == null) {
-	    info.changeFolder(0, "..");
-	    return true;
-	}
-	if (info.getFoldersCount() == 0 && expectedFolder != null) {
-	    info.pushFolder(expectedFolder);
-	    return true;
-	}
-	if (info.getFoldersCount() == 1 && expectedFolder != null) {
-	    String realFolder = info.getFolder(0);
-	    if (!realFolder.equals(expectedFolder)) {
-		info.changeFolder(0, expectedFolder);
-		return true;
-	    } else {
-		return false;
-	    }
-	}
-	return false;
-    }
-
-    private void redirectTo(String newPath, ServletResponse response) throws IOException {
+    private static void redirectTo(String newPath, ServletResponse response) throws IOException {
 	HttpServletResponse res = (HttpServletResponse) response;
 	res.sendRedirect(newPath);
     }  
 
-    private String checkLoginAndGetRedirect(PathInfo info) {
+    public static String checkLoginAndGetRedirect(PathInfo info, LoginSession login) {
 	String currentFolder = info.getFoldersCount() == 0 ? null : info.getFolder(0);
 	String expectedFolder = getRequiredFolder(login);
 	
@@ -160,7 +123,7 @@ public class LoginFilter implements Filter {
 	return null;
     }
 
-    private String getRequiredFolder(LoginSession login) {
+    public static String getRequiredFolder(LoginSession login) {
 	User loggedUser = login.getLoggedUser();
 	if (loggedUser != null) {
 	    return FOLDERS.get(loggedUser.getClass());

@@ -10,7 +10,7 @@ import cz.martlin.douckonline.business.data.Teachings;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
-import cz.martlin.douckonline.web.utils.LoginSession;
+import cz.martlin.douckonline.web.rest.LoginSession;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

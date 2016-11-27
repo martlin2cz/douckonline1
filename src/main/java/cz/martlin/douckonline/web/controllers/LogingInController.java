@@ -4,7 +4,10 @@ import cz.martlin.douckonline.business.data.Lectors;
 import cz.martlin.douckonline.business.data.Users;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.User;
-import cz.martlin.douckonline.web.utils.LoginSession;
+import cz.martlin.douckonline.web.rest.LoginFilter;
+import cz.martlin.douckonline.web.rest.LoginSession;
+import cz.martlin.douckonline.web.utils.JSFTools;
+import cz.martlin.douckonline.web.utils.PathInfo;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -49,9 +52,24 @@ public class LogingInController {
     
     public void logInAs() {
 	session.logInAs(selectedUser);
+	
+	checkAndRedirect();
     }
+
+  
     
     public void logOut() {
 	session.logOut();
+	
+	checkAndRedirect();
+    }
+    
+    private void checkAndRedirect() {
+	PathInfo info = JSFTools.getCurrentPath();
+	String path = LoginFilter.checkLoginAndGetRedirect(info, session);
+
+	if (path != null) {
+	    JSFTools.redirectTo(path);
+	}
     }
 }

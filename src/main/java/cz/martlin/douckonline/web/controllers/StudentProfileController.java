@@ -11,7 +11,7 @@ import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Payment;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Student;
-import cz.martlin.douckonline.web.utils.LoginSession;
+import cz.martlin.douckonline.web.rest.LoginSession;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;

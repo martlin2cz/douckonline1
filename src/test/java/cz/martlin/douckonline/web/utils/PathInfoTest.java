@@ -1,5 +1,6 @@
-package cz.martlin.douckonline.web.rest;
+package cz.martlin.douckonline.web.utils;
 
+import cz.martlin.douckonline.web.utils.PathInfo;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package cz.martlin.douckonline.web.utils;
+package cz.martlin.douckonline.web.rest;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
