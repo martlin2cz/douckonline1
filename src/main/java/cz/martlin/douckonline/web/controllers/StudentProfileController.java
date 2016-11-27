@@ -6,7 +6,8 @@
  */
 package cz.martlin.douckonline.web.controllers;
 
-import cz.martlin.douckonline.business.data.Teachings;
+import cz.martlin.douckonline.business.logic.Moneys;
+import cz.martlin.douckonline.business.logic.Teachings;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Payment;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
@@ -28,6 +29,7 @@ public class StudentProfileController {
     private static final int SHOW_LESSONS_FOR_DAYS = 30;
     private static final int SHOW_PAYMENTS_FOR_DAYS = 60;
     
+    private final Moneys moneys = new Moneys();
     private final Teachings teachings = new Teachings();
     @Inject private LoginSession session;
 
@@ -39,7 +41,7 @@ public class StudentProfileController {
     }
     
     public int getBallance() {
-	return teachings.getBallanceOfStudent(getLoggedStudent());
+	return moneys.getBallanceOfStudent(getLoggedStudent());
     }
     
     
@@ -48,7 +50,7 @@ public class StudentProfileController {
     }
     
     public List<Payment> getActualPayments() {
-	return teachings.getPaymentsOfStudent(getLoggedStudent(), SHOW_PAYMENTS_FOR_DAYS);
+	return moneys.listPayments(getLoggedStudent(), SHOW_PAYMENTS_FOR_DAYS);
     }
     
     

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -21,13 +22,17 @@ public class Subject implements Serializable {
     @Size(min = 1, max = 30)
     private String name;
 
+    @Enumerated
+    private SubjectCategory category;
+    
     public Subject() {
     }
 
-    public Subject(String name) {
+    public Subject(String name, SubjectCategory category) {
 	this.name = name;
+	this.category = category;
     }
-    
+
     public String getName() {
 	return name;
     }
@@ -35,6 +40,17 @@ public class Subject implements Serializable {
     public void setName(String name) {
 	this.name = name;
     }
+
+    public SubjectCategory getCategory() {
+	return category;
+    }
+
+    public void setCategory(SubjectCategory category) {
+	this.category = category;
+    }
+    
+    
+    
 
     @Override
     public int hashCode() {

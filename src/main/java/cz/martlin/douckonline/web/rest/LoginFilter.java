@@ -3,7 +3,7 @@ package cz.martlin.douckonline.web.rest;
 import cz.martlin.douckonline.web.utils.PathInfo;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
-import cz.martlin.douckonline.business.model.managment.User;
+import cz.martlin.douckonline.business.model.base.User;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import java.io.IOException;
 import java.util.HashMap;

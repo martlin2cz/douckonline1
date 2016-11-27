@@ -1,11 +1,11 @@
 package cz.martlin.douckonline.business.test;
 
-import cz.martlin.douckonline.business.data.Lectors;
-import cz.martlin.douckonline.business.data.Managers;
-import cz.martlin.douckonline.business.data.Moneys;
-import cz.martlin.douckonline.business.data.Students;
-import cz.martlin.douckonline.business.data.Subjects;
-import cz.martlin.douckonline.business.data.Teachings;
+import cz.martlin.douckonline.business.logic.Lectors;
+import cz.martlin.douckonline.business.logic.Managers;
+import cz.martlin.douckonline.business.logic.Moneys;
+import cz.martlin.douckonline.business.logic.Students;
+import cz.martlin.douckonline.business.logic.Subjects;
+import cz.martlin.douckonline.business.logic.Teachings;
 import cz.martlin.douckonline.business.model.lector.Certificate;
 import cz.martlin.douckonline.business.model.lector.Education;
 import cz.martlin.douckonline.business.model.lector.Lector;
@@ -14,9 +14,9 @@ import cz.martlin.douckonline.business.model.lector.Practice;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.lector.SubjTeachingSpec;
 import cz.martlin.douckonline.business.model.lector.Suitability;
-import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
+import cz.martlin.douckonline.business.model.teaching.SubjectCategory;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,31 +34,31 @@ public class TestDataCreator {
     private static final Teachings teachings = new Teachings();
     private static final Moneys moneys = new Moneys();
     
-    private final String LECTOR_JOHNSMART_LOGIN = "johnsmart";
-    private final String STUDENT_KARLLAZY_LOGIN = "karllazy";
+    private final Subject ENGLISH = new Subject("english", SubjectCategory.FOREIGN_LANGUAGE);
+    private final Subject MATH = new Subject("math", SubjectCategory.SCIENCE);
+    private final Subject PHYSICS = new Subject("physics", SubjectCategory.SCIENCE);
+    private final Subject PIANO = new Subject("math", SubjectCategory.MUSIC);
     
-    private final Subject ENGLISH = new Subject("english");
-    private final Subject MATH = new Subject("math");
-
-    private final Certificate CERTIFICATE_1 = new Certificate(0, "FCE", ENGLISH, "C1");
-    private final Certificate CERTIFICATE_2 = new Certificate(0, "ASA", MATH, "poor");
-    private final Certificate CERTIFICATE_3 = new Certificate(0, "CCC", ENGLISH, "A1");
-
-    private final Education EDUCATION_1 = new Education(0, "Palacký university", "Metamathematics", "doc.");
-    private final Education EDUCATION_2 = new Education(0, "Charles University, Prague", "Just - nothing", "prof.");
-    private final Education EDUCATION_3 = new Education(0, "King's Colleage", "Computer Science", "PhD.");
-    private final Education EDUCATION_4 = new Education(0, "My high school", "engeneering", "grad");
-
-    private final Practice PRACTISE_1 = new Practice(0, "counter", "Local shop");
-    private final Practice PRACTISE_2 = new Practice(0, "doing nothing", "ahome");
-    private final Practice PRACTISE_3 = new Practice(0, "Erasmus", "U.S.A");
-
-    private final SubjTeachingSpec SUBJ_TEACH_1 = new SubjTeachingSpec(0, ENGLISH, Level.ALL, Suitability.PRIMARY_SUBJECT, "conversation", 150);
-
+    private Lector johnsmart;
+    private Lector jamiehydrogen;
+    private Lector petergeek;
+    private Lector janebach;
+    
+    private Student karllazy;
+    private Student mikenerd;
+    private Student evemilly;
+    
+    private Teaching bachMillyPiano;
+    private Teaching smartLazyEng;
+    private Teaching geekNerdMath;
+    private Teaching geekLazyPhys;
+    
     public void create() {
 	createSubjects();
-	createLectorsMeta();
+	
 	createLectors();
+	createLectorsMeta();
+	
 	createStudents();
 	createManagers();
 
@@ -68,79 +68,171 @@ public class TestDataCreator {
     }
 
     private void createSubjects() {
-
 	subjects.addSubject(ENGLISH);
 	subjects.addSubject(MATH);
+	subjects.addSubject(PHYSICS);
+	subjects.addSubject(PIANO);
     }
 
     private void createLectorsMeta() {
-	lectors.addCertificate(CERTIFICATE_1);
-	lectors.addCertificate(CERTIFICATE_2);
-	lectors.addCertificate(CERTIFICATE_3);
+	Certificate fce = new Certificate("FCE", ENGLISH, "C1");	
+	lectors.addCertificate(johnsmart, fce);
+	
+	Certificate piano1 = new Certificate("UFSKFMS", PIANO, "virtuos");	
+	lectors.addCertificate(janebach, piano1);
+	
+	Education mmath =  new Education("Palacký university", "Metamathematics", "doc.");
+	lectors.addEducation(petergeek, mmath);
+	
+	Education nothing1 =  new Education("Charles University, Prague", "Just - nothing", "prof.");
+	lectors.addEducation(janebach, nothing1);
+	
+	Education cs = new Education("King's Colleage", "Computer Science", "PhD.");
+	lectors.addEducation(johnsmart, cs);
+	
+	Education ing = new Education("My high school", "engeneering", "grad");
+	lectors.addEducation(jamiehydrogen, ing);
+	
+	Practice shop = new Practice("counter", "Local shop");
+	lectors.addPractise(petergeek, shop);
+	
+	Practice nothing2 = new Practice("doing nothing", "ahome");
+	lectors.addPractise(janebach, nothing2);
+	
+	Practice erasmus = new Practice("Erasmus", "U.S.A");
+	lectors.addPractise(johnsmart, erasmus);
 
-	lectors.addEducation(EDUCATION_1);
-	lectors.addEducation(EDUCATION_2);
-	lectors.addEducation(EDUCATION_3);
-	lectors.addEducation(EDUCATION_4);
-
-	lectors.addPractise(PRACTISE_1);
-	lectors.addPractise(PRACTISE_2);
-	lectors.addPractise(PRACTISE_3);
-
-	lectors.addSubjTeachSpec(SUBJ_TEACH_1);
+	Practice bells = new Practice("assistant", "Bell's labs");
+	lectors.addPractise(jamiehydrogen, bells);
+	
+	SubjTeachingSpec eng = new SubjTeachingSpec(ENGLISH, Level.ALL, Suitability.PRIMARY_SUBJECT, "conversation", 150);
+	lectors.addSubjTeachSpec(johnsmart, eng);
+	
+	SubjTeachingSpec piano2 = new SubjTeachingSpec(PIANO, Level.ALL, Suitability.PRIMARY_SUBJECT, "everything", 180);
+	lectors.addSubjTeachSpec(janebach, piano2);
+	
+	SubjTeachingSpec math1 = new SubjTeachingSpec(ENGLISH, Level.ONLY_BASIC, Suitability.SECONDARY_SUBJECT, "basics", 100);
+	lectors.addSubjTeachSpec(petergeek, math1);
+	
+	SubjTeachingSpec math2 = new SubjTeachingSpec(MATH, Level.BASIC_AND_INTERMIDIATE, Suitability.PRIMARY_SUBJECT, "infinity", 140);
+	lectors.addSubjTeachSpec(jamiehydrogen, math2);
+	
+	SubjTeachingSpec phys = new SubjTeachingSpec(PHYSICS, Level.ALL, Suitability.PRIMARY_SUBJECT, "science!", 180);
+	lectors.addSubjTeachSpec(petergeek, phys);
     }
 
     private void createLectors() {
-	String fullName = "John Smart";
-	String titleBeforeName = "Mrs. et Mgr.";
-	String titleAfterName = "PhD.";
-	String phone = "756 225 330";
-	String email = "johy@smarty.com";
-	String bankAccountNumber = "420-44556686/0110";
-	List<SubjTeachingSpec> subjects = list(SUBJ_TEACH_1);
-	List<Certificate> certificates = list(CERTIFICATE_1);
-	List<Education> educations = list(EDUCATION_1, EDUCATION_2);
-	List<Practice> experiences = list(PRACTISE_1);
-	String loginName = LECTOR_JOHNSMART_LOGIN;
-	String passwordHash = "ThisIsAPasswordHash";
-	String passwordSalt = "this-is-very-salt-password-salt";
-	Calendar registeredAt = daysAgo(7);
-	Calendar lastLoginAt = daysAgo(1);
-	Lector johny = new Lector(fullName, titleBeforeName, titleAfterName, phone, email, bankAccountNumber, subjects, certificates, educations, experiences, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
-
-	lectors.addLector(johny);
-
+	johnsmart = createLector("Mrs.", "John Smart", "PhD.", 
+		 "johns-super-password", "john@smart.com", "777 888 999", 
+		"+420/066655842/444", 28, 25, 15);
+	
+	jamiehydrogen = createLector("", "Jamie Hydrogen", "", 
+		 "H2-password", "jamie@gmail.com", "565 454 686", 
+		null, 19, 19, null);
+	
+	petergeek = createLector("Bc.", "Peter Geek", "", 
+		 "Star-somethin-Password", "peter@geekasm.org", "999 111 222", 
+		null, 21, 14, null);
+	
+	janebach = createLector("", "Jane Bach", "dis.", 
+		 "ThePianisimmo", "jane@bach.com", "343 787 000", 
+		"0101/4455667788-101", 20, 14, null);
+    }
+    
+    private Lector createLector(String titleBeforeName, String fullName, String titleAfterName, String password, String email, String phone, String bankAccountNumber, int registeredBefore, int lastLoginBefore, Integer endedBefore) {
+	List<SubjTeachingSpec> subjects = emptyList();
+	List<Certificate> certificates = emptyList();
+	List<Education> educations = emptyList();
+	List<Practice> practices = emptyList();
+	
+	Calendar registeredAt = daysAgo(registeredBefore);
+	Calendar lastLoginAt = daysAgo(lastLoginBefore);
+	Calendar endedAt = endedBefore != null ? daysAgo(endedBefore) : null;
+	
+	String passwordHash = null;
+	String passwordSalt = null;
+	String loginName = null;
+	
+	Lector lector = new Lector(fullName, titleBeforeName, titleAfterName, phone, email, bankAccountNumber, endedAt, subjects, certificates, educations, practices, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
+	lectors.addLector(lector, password);
+	return lector;
     }
 
     private void createStudents() {
-	String loginName = STUDENT_KARLLAZY_LOGIN;
-	String passwordHash = "ThisIsAnotherPasswordHash";
-	String passwordSalt = "this-is-very-sweet-password-salt";
-	Calendar registeredAt = daysAgo(4);
-	Calendar lastLoginAt = daysAgo(2);
-	String registerName = "Karl's mom";
-	String studentName = "Karl Lazy";
-	String phone = "756 225 330";
-	String email = "johy@smarty.com";
-	String bankAccountNumber = "420-44556686/0110";
-
-	Student karl = new Student(registerName, studentName, phone, email, bankAccountNumber, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
-	students.addStudent(karl);
+	karllazy = createStudent("Mary Lazy", "Karl", "the-password", 
+		"774 155 812", "mary@lazy.uk", null, 20, 18);
+	
+	mikenerd = createStudent("Mike Nerd", "Mike Nerd", "intergallactic-password", 
+		"196 804 0308", "mike@nerd.com", "1455-47778335/5555", 16, 4);
+	
+	evemilly = createStudent("Mom Milly", "Eve Milly", "123456", 
+		"112 233 455", "eve@millies.uk", "45522-44457775-1161", 20, 20);
+    }
+    
+    private Student createStudent(String registerName, String studentName, String password, String phone, String email, String bankAccountNumber, int regeristedBefore, int lastLoginBefore) {
+	String loginName = null;
+	String passwordHash = null;
+	String passwordSalt = null;
+	Calendar registeredAt = daysAgo(regeristedBefore);
+	Calendar lastLoginAt = daysAgo(lastLoginBefore);
+	
+	Student student = new Student(registerName, studentName, phone, email, bankAccountNumber, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
+	students.addStudent(student);
+	return student;
     }
 
     private void createManagers() {
 
-	String loginName = "billbosyy";
-	String passwordHash = "ThisIsYetAnotherPasswordHash";
-	String passwordSalt = "this-is-very-hot-password-salt";
-	Calendar registeredAt = daysAgo(10);
-	Calendar lastLoginAt = daysAgo(0);
+	String loginName = null;
+	String password = "ThisIsYetAnotherPassword";
+	String passwordHash = null;
+	String passwordSalt = null;
+	Calendar registeredAt = null;
+	Calendar lastLoginAt = null;
 	String fullName = "Bill Bossy";
 
 	Manager bill = new Manager(fullName, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
-	managers.addManager(bill);
+	managers.addManager(bill, password);
     }
 
+    
+
+    private void createTeaching1() {
+	bachMillyPiano = teachings.startTeaching(janebach, evemilly, PIANO, Level.ONLY_BASIC, 140);
+	smartLazyEng = teachings.startTeaching(johnsmart, karllazy, ENGLISH, Level.ONLY_INTERMIDIATE, 190);
+	geekNerdMath = 	teachings.startTeaching(petergeek, mikenerd, MATH, Level.ALL, 190);
+	geekLazyPhys = 	teachings.startTeaching(petergeek, karllazy, PHYSICS, Level.ONLY_BASIC, 120);
+    }
+
+    private void createLessons1() {
+	teachings.addLesson(bachMillyPiano, daysAgo(15), time(1, 30), "First look");
+	teachings.addLesson(bachMillyPiano, daysAgo(14), time(1, 30), "First listen");
+	teachings.addLesson(bachMillyPiano, daysAgo(3), time(1, 30), "First touch");
+
+	teachings.addLesson(smartLazyEng, daysAgo(21), time(0, 45), "Present perfect");
+	teachings.addLesson(smartLazyEng, daysAgo(14), time(0, 45), "Past perfect");
+	
+	teachings.addLesson(geekNerdMath, daysAgo(11), time(1, 0), "Linear equations");
+	teachings.addLesson(geekNerdMath, daysAgo(10), time(1, 0), "Nonliear equations");
+	
+	teachings.addLesson(geekLazyPhys, daysAgo(15), time(2, 0), "Newton's laws");
+    }
+
+    private void createPayments1() {
+	moneys.addPayment(evemilly, daysAgo(15), 500, 0);
+	moneys.addPayment(evemilly, daysAgo(10), 500, 5);
+	
+	moneys.addPayment(mikenerd, daysAgo(8), 400, 0);
+	
+    }
+
+    
+    
+     public static <T> List<T> emptyList() {
+	return new ArrayList<>();
+    }
+
+    
     public static <T> List<T> list(T item) {
 	List<T> list = new ArrayList<>();
 
@@ -158,15 +250,7 @@ public class TestDataCreator {
 	return list;
     }
 
-    public static Calendar daysAgo(int days) {
-	Calendar calendar = Calendar.getInstance();
-
-	calendar.add(Calendar.DAY_OF_MONTH, -days);
-
-	return calendar;
-    }
-    
-    
+        
     private Calendar time(int hours, int minutes) {
 	Calendar calendar = Calendar.getInstance();
 
@@ -177,38 +261,13 @@ public class TestDataCreator {
 	return calendar;
     }
 
-    private void createTeaching1() {
+    
+    public static Calendar daysAgo(int days) {
+	Calendar calendar = Calendar.getInstance();
 
-	Lector lector = lectors.getLector(LECTOR_JOHNSMART_LOGIN);
-	Student student = students.getStudent(STUDENT_KARLLAZY_LOGIN);
-	Subject subject = ENGLISH;
-	Level level = Level.ONLY_BASIC;
-	int cost = 145;
-	
-	teachings.startTeaching(lector, student, subject, level, cost);
+	calendar.add(Calendar.DAY_OF_MONTH, -days);
 
+	return calendar;
     }
-
-    private void createLessons1() {
-	Lector lector = lectors.getLector(LECTOR_JOHNSMART_LOGIN);
-	Student student = students.getStudent(STUDENT_KARLLAZY_LOGIN);
-		
-	Subject subject = ENGLISH;
-	Calendar date = daysAgo(1);
-	Calendar duration = time(1, 30);
-	String description = "Past perfect";
-
-	teachings.addLesson(lector, student, subject, date, duration, description);
-    }
-
-    private void createPayments1() {
-	Student student = students.getStudent(STUDENT_KARLLAZY_LOGIN);
-	
-	Calendar date = daysAgo(1);
-	int amount = 500;
-	int discount = 5;
-	moneys.addPayment(student, date, amount, discount);
-    }
-
 
 }

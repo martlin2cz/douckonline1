@@ -3,7 +3,7 @@ package cz.martlin.douckonline.web.rest;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
 import cz.martlin.douckonline.business.model.teaching.Student;
-import cz.martlin.douckonline.business.model.managment.User;
+import cz.martlin.douckonline.business.model.base.User;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;

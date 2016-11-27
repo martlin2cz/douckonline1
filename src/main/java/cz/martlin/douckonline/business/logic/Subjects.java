@@ -1,4 +1,4 @@
-package cz.martlin.douckonline.business.data;
+package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.teaching.Subject;
@@ -21,17 +21,31 @@ public class Subjects {
     
     
     
+//<editor-fold defaultstate="collapsed" desc="listing">
     
     public List<Subject> listAllSubjects() {
-	LOG.debug("Loading subjects");
+	LOG.trace("Loading all subjects");
+	
 	List<Subject> subjects = db.listAll(Subject.class);
 	return subjects;
     }
     
+    //TODO list numbers of students/teachings/lessons of each subject?
+    
+//</editor-fold>
+    
+//<editor-fold defaultstate="collapsed" desc="add, remove subject">
     
     public boolean addSubject(Subject subject) {
-	LOG.debug("Adding subject " + subject);
+	LOG.trace("Adding subject");
 	return db.insert(subject);
     }
     
+    
+    public boolean removeSubject(Subject subject) {
+	LOG.trace("Removing subject");
+	return db.remove(subject);
+    }
+    
+//</editor-fold>
 }

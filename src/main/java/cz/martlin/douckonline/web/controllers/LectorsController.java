@@ -5,7 +5,7 @@
  */
 package cz.martlin.douckonline.web.controllers;
 
-import cz.martlin.douckonline.business.data.Lectors;
+import cz.martlin.douckonline.business.logic.Lectors;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;

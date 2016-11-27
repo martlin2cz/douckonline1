@@ -1,9 +1,9 @@
 package cz.martlin.douckonline.web.controllers;
 
-import cz.martlin.douckonline.business.data.Lectors;
-import cz.martlin.douckonline.business.data.Users;
+import cz.martlin.douckonline.business.logic.Lectors;
+import cz.martlin.douckonline.business.logic.Users;
 import cz.martlin.douckonline.business.model.lector.Lector;
-import cz.martlin.douckonline.business.model.managment.User;
+import cz.martlin.douckonline.business.model.base.User;
 import cz.martlin.douckonline.web.rest.LoginFilter;
 import cz.martlin.douckonline.web.rest.LoginSession;
 import cz.martlin.douckonline.web.utils.JSFTools;

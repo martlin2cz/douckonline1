@@ -6,7 +6,7 @@
  */
 package cz.martlin.douckonline.web.controllers;
 
-import cz.martlin.douckonline.business.data.Teachings;
+import cz.martlin.douckonline.business.logic.Teachings;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Teaching;

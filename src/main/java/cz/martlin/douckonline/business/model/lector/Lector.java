@@ -1,6 +1,6 @@
 package cz.martlin.douckonline.business.model.lector;
 
-import cz.martlin.douckonline.business.model.managment.User;
+import cz.martlin.douckonline.business.model.base.User;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
@@ -44,6 +46,10 @@ public class Lector extends User implements Serializable {
     private String bankAccountNumber;
     
     
+    @Column(name = "ended_at")
+    @Temporal(TemporalType.DATE)
+    private Calendar endedAt;
+    
     @OneToMany
     private List<SubjTeachingSpec> subjects;
     
@@ -54,14 +60,14 @@ public class Lector extends User implements Serializable {
     private List<Education> educations;
 
     @OneToMany
-    private List<Practice> experiences;
+    private List<Practice> practices;
     
     
     public Lector() {
 	super();
     }
 
-    public Lector(String fullName, String titleBeforeName, String titleAfterName, String phone, String email, String bankAccountNumber, List<SubjTeachingSpec> subjects, List<Certificate> certificates, List<Education> educations, List<Practice> experiences, String loginName, String passwordHash, String passwordSalt, Calendar registeredAt, Calendar lastLoginAt) {
+    public Lector(String fullName, String titleBeforeName, String titleAfterName, String phone, String email, String bankAccountNumber, Calendar endedAt, List<SubjTeachingSpec> subjects, List<Certificate> certificates, List<Education> educations, List<Practice> practices, String loginName, String passwordHash, String passwordSalt, Calendar registeredAt, Calendar lastLoginAt) {
 	super(loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
 	this.fullName = fullName;
 	this.titleBeforeName = titleBeforeName;
@@ -69,10 +75,21 @@ public class Lector extends User implements Serializable {
 	this.phone = phone;
 	this.email = email;
 	this.bankAccountNumber = bankAccountNumber;
+	this.endedAt = endedAt;
 	this.subjects = subjects;
 	this.certificates = certificates;
 	this.educations = educations;
-	this.experiences = experiences;
+	this.practices = practices;
+    }
+
+    @Override
+    public String getDisplayName() {
+	return titleBeforeName + " " + fullName + ", " + titleAfterName;    //TODO outsource?
+    }
+
+    @Override
+    public String getReallName() {
+	return fullName;
     }
 
     public String getFullName() {
@@ -123,6 +140,14 @@ public class Lector extends User implements Serializable {
 	this.bankAccountNumber = bankAccountNumber;
     }
 
+    public Calendar getEndedAt() {
+	return endedAt;
+    }
+
+    public void setEndedAt(Calendar endedAt) {
+	this.endedAt = endedAt;
+    }
+    
     public List<SubjTeachingSpec> getSubjects() {
 	return subjects;
     }
@@ -147,17 +172,19 @@ public class Lector extends User implements Serializable {
 	this.educations = educations;
     }
 
-    public List<Practice> getExperiences() {
-	return experiences;
+    public List<Practice> getPractices() {
+	return practices;
     }
 
-    public void setExperiences(List<Practice> experiences) {
-	this.experiences = experiences;
+    public void setPractices(List<Practice> practices) {
+	this.practices = practices;
     }
- 
+  
     @Override
     public String toString() {
 	return "Lector{" + getLoginName() + "}";
     }
+
+    
         
 }

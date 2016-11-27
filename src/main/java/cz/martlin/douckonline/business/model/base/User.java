@@ -1,4 +1,4 @@
-package cz.martlin.douckonline.business.model.managment;
+package cz.martlin.douckonline.business.model.base;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
@@ -16,8 +17,7 @@ import javax.validation.constraints.Size;
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
-@Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public abstract class User implements Serializable {
 
     @Id
@@ -51,6 +51,9 @@ public abstract class User implements Serializable {
 	this.registeredAt = registeredAt;
 	this.lastLoginAt = lastLoginAt;
     }
+    
+    public abstract String getDisplayName();
+    public abstract String getReallName();
 
     public String getLoginName() {
 	return loginName;

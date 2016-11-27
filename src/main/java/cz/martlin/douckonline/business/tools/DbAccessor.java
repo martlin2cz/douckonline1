@@ -106,6 +106,35 @@ public class DbAccessor {
 	    return false;
 	} 
     }
+
+    public <T> boolean update(T item) {
+	try {
+	    EntityManager entityManager = entityManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    entityManager.persist(item);
+	    entityManager.getTransaction().commit();
+	    //entityManager.close();
+	    return true;
+	} catch (Exception e) {
+	    //entityManager.getTransaction().rollback();
+	    LOG.error("Cannot update " + item, e);
+	    return false;
+	} 
+    }
+    public <T> boolean remove(T item) {
+	try {
+	    EntityManager entityManager = entityManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    entityManager.remove(item);
+	    entityManager.getTransaction().commit();
+	    //entityManager.close();
+	    return true;
+	} catch (Exception e) {
+	    //entityManager.getTransaction().rollback();
+	    LOG.error("Cannot remove " + item, e);
+	    return false;
+	} 
+    }
     
     
     

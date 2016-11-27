@@ -1,14 +1,11 @@
 package cz.martlin.douckonline.business.model.lector;
 
+import cz.martlin.douckonline.business.model.base.EntityWithLongID;
 import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -19,24 +16,20 @@ import javax.validation.constraints.Size;
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
-@Table( name = "subject_teaching_specification")
-public class SubjTeachingSpec implements Serializable {
-
-    @Id
-    @GeneratedValue
-    private int id;
+@Table(name = "subject_teaching_specification")
+public class SubjTeachingSpec extends EntityWithLongID {
 
     @ManyToOne
     private Subject subject;
-    
+
     @Column(name = "level")
     @Enumerated
     private Level level;
-    
+
     @Column(name = "suitability")
     @Enumerated
     private Suitability suitabity;
-    
+
     @Column(name = "aditional_description")
     @Size(min = 0, max = 30)
     private String additionalDescription;
@@ -44,25 +37,20 @@ public class SubjTeachingSpec implements Serializable {
     @Column(name = "cost")
     @Min(0)
     private int cost;
-    
+
     public SubjTeachingSpec() {
+	super();
+
     }
 
-    public SubjTeachingSpec(int id, Subject subject, Level level, Suitability suitabity, String additionalDescription, int cost) {
-	this.id = id;
+    public SubjTeachingSpec(Subject subject, Level level, Suitability suitabity, String additionalDescription, int cost) {
+	super();
+
 	this.subject = subject;
 	this.level = level;
 	this.suitabity = suitabity;
 	this.additionalDescription = additionalDescription;
 	this.cost = cost;
-    }
-
-    public int getId() {
-	return id;
-    }
-
-    public void setId(int id) {
-	this.id = id;
     }
 
     public Subject getSubject() {
@@ -104,31 +92,10 @@ public class SubjTeachingSpec implements Serializable {
     public void setCost(int cost) {
 	this.cost = cost;
     }
-    
-    
-
-    @Override
-    public int hashCode() {
-	int hash = 0;
-	hash += id;
-	return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-	if (!(object instanceof SubjTeachingSpec)) {
-	    return false;
-	}
-	SubjTeachingSpec other = (SubjTeachingSpec) object;
-	if (this.id != other.id) {
-	    return false;
-	}
-	return true;
-    }
 
     @Override
     public String toString() {
 	return "SubjTeachingSpec{id=" + id + ", subj= " + subject + " }";
     }
-    
+
 }

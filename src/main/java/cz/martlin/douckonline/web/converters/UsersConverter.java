@@ -1,7 +1,7 @@
 package cz.martlin.douckonline.web.converters;
 
-import cz.martlin.douckonline.business.data.Users;
-import cz.martlin.douckonline.business.model.managment.User;
+import cz.martlin.douckonline.business.logic.Users;
+import cz.martlin.douckonline.business.model.base.User;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

@@ -1,11 +1,9 @@
 package cz.martlin.douckonline.business.model.lector;
 
+import cz.martlin.douckonline.business.model.base.EntityWithLongID;
 import cz.martlin.douckonline.business.model.teaching.Subject;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -16,39 +14,28 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "certificates")
-public class Certificate implements  Serializable{
-    
-    @Id
-    @GeneratedValue
-    private long id;
-    
+public class Certificate extends EntityWithLongID {
+
     @Column(name = "name")
     @Size(min = 1, max = 50)
     private String name;
-    
+
     @OneToOne
     private Subject subject;
-    
+
     @Column(name = "degree")
     @Size(min = 1, max = 50)
     private String degree;
 
     public Certificate() {
+	super();
     }
 
-    public Certificate(long id, String name, Subject subject, String degree) {
-	this.id = id;
+    public Certificate(String name, Subject subject, String degree) {
+	super();
 	this.name = name;
 	this.subject = subject;
 	this.degree = degree;
-    }
-
-    public long getId() {
-	return id;
-    }
-
-    public void setId(long id) {
-	this.id = id;
     }
 
     public String getName() {
@@ -76,35 +63,8 @@ public class Certificate implements  Serializable{
     }
 
     @Override
-    public int hashCode() {
-	int hash = 3;
-	hash = 79 * hash + (int) (this.id ^ (this.id >>> 32));
-	return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final Certificate other = (Certificate) obj;
-	if (this.id != other.id) {
-	    return false;
-	}
-	return true;
-    }
-
-    @Override
     public String toString() {
 	return "Certificate{" + "id=" + id + ", name=" + name + ", subject=" + subject + ", degree=" + degree + '}';
     }
-    
-    
-    
+
 }

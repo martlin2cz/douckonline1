@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.martlin.douckonline.business.data;
+package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
@@ -24,17 +24,43 @@ public class Managers {
     public Managers() {
     }
   
+//<editor-fold defaultstate="collapsed" desc="load managers">
     
-    
+    /**
+     * Lists all managers.
+     * @return
+     */
     public List<Manager> listAllManagers() {
 	LOG.debug("Loading managers");
 	List<Manager> managers = db.listAll(Manager.class);
 	return managers;
     }
+//</editor-fold>
     
+//<editor-fold defaultstate="collapsed" desc="add, update manager">
     
-    public boolean addManager(Manager manager) {
+    /**
+     * Adds specified manager with given password.
+     * @param manager
+     * @param password
+     * @return
+     */
+    public boolean addManager(Manager manager, String password) {
 	LOG.debug("Adding manager");
-	return db.insert(manager);
+	
+	final Users users = new Users();
+	return users.registerUser(manager, password);
     }
+    
+    /**
+     * Updates specified manager.
+     * @param manager
+     * @return
+     */
+    public boolean updateManager(Manager manager) {
+	LOG.debug("Updating manager");
+	
+	return db.update(manager);
+    }
+//</editor-fold>
 }

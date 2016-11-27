@@ -1,6 +1,6 @@
 package cz.martlin.douckonline.business.model.managment;
 
-import cz.martlin.douckonline.business.model.managment.User;
+import cz.martlin.douckonline.business.model.base.User;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
@@ -26,6 +26,19 @@ public class Manager extends User implements Serializable {
 	this.realName = realName;
     }
 
+    @Override
+    public String getDisplayName() {
+	return realName;
+    }
+
+    @Override
+    public String getReallName() {
+	return realName;
+    }
+
+    
+    
+    
     public String getRealName() {
 	return realName;
     }

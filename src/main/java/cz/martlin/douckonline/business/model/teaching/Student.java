@@ -1,7 +1,7 @@
 package cz.martlin.douckonline.business.model.teaching;
 
 
-import cz.martlin.douckonline.business.model.managment.User;
+import cz.martlin.douckonline.business.model.base.User;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Column;
@@ -50,6 +50,17 @@ public class Student extends User implements Serializable{
 	this.bankAccountNumber = bankAccountNumber;
     }
 
+    @Override
+    public String getDisplayName() {
+	return registerName;
+    }
+
+    @Override
+    public String getReallName() {
+	return registerName;
+    }
+    
+    
     public String getRegisterName() {
 	return registerName;
     }
