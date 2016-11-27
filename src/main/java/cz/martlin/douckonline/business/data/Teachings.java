@@ -29,14 +29,24 @@ public class Teachings {
     
     
     public List<Teaching> listTeachingsOfLector(Lector lector) {
-	// TODO 
-	throw new UnsupportedOperationException("teachings of lector");
+	//TODO current?
+	Class<?>[] froms = {Teaching.class, Lector.class};
+	String[] attrs = {"teaching.lector"};
+	String[] vars = {"lector"};
+	Object[] values = { lector };
+	
+	return db.listBySimpleCond(Teaching.class, froms, attrs, vars, values);
     }
     
     
     public List<Teaching> listTeachingsOfStudent(Student student) {
-	// TODO
-	throw new UnsupportedOperationException("teachings of student");
+	//TODO current?
+	Class<?>[] froms = {Teaching.class, Student.class};
+	String[] attrs = {"teaching.student"};
+	String[] vars = {"student"};
+	Object[] values = { student };
+	
+	return db.listBySimpleCond(Teaching.class, froms, attrs, vars, values);
     }
     
     
@@ -72,6 +82,16 @@ public class Teachings {
 	String[] attrs = {"student"};
 	String[] vars = {"student"};
 	Object[] values = { student };
+	//TODO daysAgo
+	//TODO WHERE lesson.teaching.student, not item.student (!)
+	return db.listBySimpleCond(Lesson.class, froms, attrs, vars, values);
+    }
+    
+    public List<Lesson> getLessonsOf(Lector lector, Integer daysAgo) {
+	Class<?>[] froms = {Lesson.class, Lector.class};
+	String[] attrs = {"lector"};
+	String[] vars = {"lector"};
+	Object[] values = { lector };
 	//TODO daysAgo
 	//TODO WHERE lesson.teaching.student, not item.student (!)
 	return db.listBySimpleCond(Lesson.class, froms, attrs, vars, values);

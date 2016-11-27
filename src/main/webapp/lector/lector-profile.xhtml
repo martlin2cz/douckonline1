@@ -30,9 +30,9 @@
 	</h:panelGrid>
 	
 	<h2>Subjects</h2>
-	<h:dataTable value="#{lectorsProfileController.loggedLector.subjects}" var="subject">
+	<h:dataTable value="#{lectorsProfileController.loggedLector.subjects}" var="subjSpec">
 	    <h:column>
-		<h:outputText value="#{subject.name}" />
+		<h:outputText value="#{subjSpec.subject.name}, #{subjSpec.level} (#{subjSpec.suitabity})" />
 	    </h:column>
 	</h:dataTable>
 	

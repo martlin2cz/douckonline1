@@ -42,7 +42,7 @@ public class DbAccessor {
 	String qlString = "SELECT item FROM " + clazz.getSimpleName() + " item";
 	Query query = entityManager.createQuery(qlString);
 	List<T> list =  query.getResultList();
-	entityManager.close();
+	//entityManager.close();
 	return list;
     }
     
@@ -80,7 +80,7 @@ public class DbAccessor {
 	}
 	
 	List<T> list =  query.getResultList();
-	entityManager.close();
+	//entityManager.close();
 	return list;
     }
     
@@ -98,7 +98,7 @@ public class DbAccessor {
 	    entityManager.getTransaction().begin();
 	    entityManager.persist(item);
 	    entityManager.getTransaction().commit();
-	    entityManager.close();
+	    //entityManager.close();
 	    return true;
 	} catch (Exception e) {
 	    //entityManager.getTransaction().rollback();

@@ -83,6 +83,12 @@ public class LoginSession implements Serializable {
     }
     
 //</editor-fold>
+
+    @Override
+    public String toString() {
+	return "LoginSession{" + loggedUser + "}";
+    }
+    
     
     
     
