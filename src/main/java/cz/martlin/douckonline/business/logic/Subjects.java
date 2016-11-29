@@ -30,6 +30,13 @@ public class Subjects {
 	return subjects;
     }
     
+    public Subject getSubject(String name) {
+	LOG.trace("Getting subject");
+	
+	Subject subject = db.getById(Subject.class, name);
+	return subject;
+    }
+    
     //TODO list numbers of students/teachings/lessons of each subject?
     
 //</editor-fold>
@@ -48,4 +55,6 @@ public class Subjects {
     }
     
 //</editor-fold>
+
+    
 }

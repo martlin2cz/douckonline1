@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -22,7 +23,8 @@ public class Subject implements Serializable {
     @Size(min = 1, max = 30)
     private String name;
 
-    @Enumerated
+    @Column(name = "category")
+    @Enumerated(EnumType.STRING)
     private SubjectCategory category;
     
     public Subject() {

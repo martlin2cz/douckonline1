@@ -6,9 +6,12 @@ import cz.martlin.douckonline.business.model.teaching.Subject;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
@@ -16,6 +19,7 @@ import javax.validation.constraints.Size;
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
+@Table(name = "teaching_request")
 public class TeachingRequest extends EntityWithLongID {
 
     @Column(name = "register_name")
@@ -35,9 +39,11 @@ public class TeachingRequest extends EntityWithLongID {
     private String phone;
 
     @ManyToOne
+    @JoinColumn(name = "subject_name")
     private Subject subject;
 
-    @Enumerated
+    @Column(name = "level")
+    @Enumerated(EnumType.STRING)
     private Level level;
 
     @Column(name = "description")
@@ -45,9 +51,11 @@ public class TeachingRequest extends EntityWithLongID {
     private String description;
 
     @OneToMany
+    @JoinColumn(name = "teaching_request_id")
     private List<RequestReaction> reactions;
 
-    @Enumerated
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private TeachingRequestStatus status;
 
     public TeachingRequest() {

@@ -38,13 +38,13 @@ public class Teachings {
     public List<Teaching> listTeachingsOfLector(Lector lector) {
 	LOG.trace("Listing teachings of lector");
 
-	//TODO current?
-	Class<?>[] froms = {Teaching.class, Lector.class};
-	String[] attrs = {"teaching.lector"};
-	String[] vars = {"lector"};
-	Object[] values = {lector};
-
-	return db.listBySimpleCond(Teaching.class, froms, attrs, vars, values);
+	List<Teaching> teachings = db.listByCond(Teaching.class, 
+		new Class<?>[] {Lector.class}, //
+		new String[] {"teaching.lector"}, //
+		new String[] {"lector"}, //
+		new Object[] {lector});
+	
+	return teachings;
     }
 
     /**
@@ -56,13 +56,13 @@ public class Teachings {
     public List<Teaching> listTeachingsOfStudent(Student student) {
 	LOG.trace("Listing teachings of student");
 
-	//TODO current?
-	Class<?>[] froms = {Teaching.class, Student.class};
-	String[] attrs = {"teaching.student"};
-	String[] vars = {"student"};
-	Object[] values = {student};
+	List<Teaching> teachings = db.listByCond(Teaching.class, 
+		new Class<?>[] {Student.class}, //
+		new String[] {"teaching.student"}, //
+		new String[] {"student"}, //
+		new Object[] {student});
 
-	return db.listBySimpleCond(Teaching.class, froms, attrs, vars, values);
+	return teachings;
     }
 
     /**
@@ -76,12 +76,18 @@ public class Teachings {
     public List<Teaching> getTeachingsOf(Lector lector, Student student, Subject subject) {
 	LOG.trace("Listing teachins of lector, student and subject");
 
-	Class<?>[] froms = {Teaching.class};
-	String[] attrs = {"teaching.student", "teaching.lector", "teaching.subject"};
-	String[] vars = {"student", "lector", "subject"};
-	Object[] values = {student, lector, subject};
-	//TODO if subject == null ...
-	return db.listBySimpleCond(Teaching.class, froms, attrs, vars, values);
+	LOG.warn("needs update in SimpleQuery, returning empty list");
+	return new ArrayList<>();
+	/*
+	// FIXME TODO
+	List<Teaching> teachings = db.listByCond(Teaching.class, 
+		new Class<?>[] {Lector.class, Student.class, Subject.class}, //
+		new String[] {"teaching.lector", "teaching.student", "teaching.subject"}, //
+		new String[] {"lector", "student", "subject"}, //
+		new Object[] {lector, student, subject});
+	
+	return teachings;
+	*/
     }
 
     /**
@@ -187,13 +193,14 @@ public class Teachings {
     public List<Lesson> getLessonsOf(Student student, Integer daysAgo) {
 	LOG.trace("Listing lessons of student and daysAgo");
 
-	Class<?>[] froms = {Lesson.class, Student.class};
-	String[] attrs = {"student"};
-	String[] vars = {"student"};
-	Object[] values = {student};
-	//TODO daysAgo
-	//TODO WHERE lesson.teaching.student, not item.student (!)
-	return db.listBySimpleCond(Lesson.class, froms, attrs, vars, values);
+	
+	List<Lesson> teachings = db.listByCond(Lesson.class, 
+		new Class<?>[] {Teaching.class, Student.class}, //
+		new String[] {"lesson.teaching.student"}, //
+		new String[] {"student"}, //
+		new Object[] {student});
+
+	return teachings;
     }
 
     /**
@@ -207,13 +214,14 @@ public class Teachings {
     public List<Lesson> getLessonsOf(Lector lector, Integer daysAgo) {
 	LOG.trace("Listing lessons of lector and daysAgo");
 
-	Class<?>[] froms = {Lesson.class, Lector.class};
-	String[] attrs = {"lector"};
-	String[] vars = {"lector"};
-	Object[] values = {lector};
-	//TODO daysAgo
-	//TODO WHERE lesson.teaching.student, not item.student (!)
-	return db.listBySimpleCond(Lesson.class, froms, attrs, vars, values);
+	
+	List<Lesson> teachings = db.listByCond(Lesson.class, 
+		new Class<?>[] {Teaching.class, Lector.class}, //
+		new String[] {"lesson.teaching.lector"}, //
+		new String[] {"lector"}, //
+		new Object[] {lector});
+
+	return teachings;
     }
 
     /**
@@ -228,7 +236,8 @@ public class Teachings {
     public Lesson addLesson(Teaching teaching, Calendar date, Calendar duration, String description) {
 	LOG.trace("Adding lesson");
 
-	Lesson lesson = new Lesson(teaching, date, duration, description);
+	Calendar addedAt = Calendar.getInstance();
+	Lesson lesson = new Lesson(teaching, addedAt, date, duration, description);
 	teaching.getLessons().add(lesson);
 
 	boolean success = db.insert(lesson);

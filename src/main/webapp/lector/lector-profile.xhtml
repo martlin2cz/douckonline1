@@ -68,15 +68,15 @@
 	    </h:column>
 	</h:dataTable>
 	
-	<h2>Experiences</h2>
-	<h:dataTable value="#{lectorsProfileController.loggedLector.experiences}" var="experience">
+	<h2>Practices</h2>
+	<h:dataTable value="#{lectorsProfileController.loggedLector.practices}" var="practise">
 	    <h:column>
 		<f:facet name="header">What</f:facet>
-		<h:outputText value="#{experience.work}" />
+		<h:outputText value="#{practise.work}" />
 	    </h:column>
 	    <h:column>
 		<f:facet name="header">Where</f:facet>
-		<h:outputText value="#{experience.institution}" />
+		<h:outputText value="#{practise.institution}" />
 	    </h:column>
 	</h:dataTable>
 	

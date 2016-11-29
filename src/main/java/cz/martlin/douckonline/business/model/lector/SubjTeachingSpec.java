@@ -5,7 +5,9 @@ import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
@@ -16,18 +18,23 @@ import javax.validation.constraints.Size;
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
-@Table(name = "subject_teaching_specification")
+@Table(name = "subject_teaching_specifications")
 public class SubjTeachingSpec extends EntityWithLongID {
 
     @ManyToOne
+    @JoinColumn(name = "lector_login_name")
+    private Lector lector;
+    
+    @ManyToOne
+    @JoinColumn(name = "subject_name")
     private Subject subject;
 
     @Column(name = "level")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Level level;
 
     @Column(name = "suitability")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Suitability suitabity;
 
     @Column(name = "aditional_description")
@@ -43,7 +50,7 @@ public class SubjTeachingSpec extends EntityWithLongID {
 
     }
 
-    public SubjTeachingSpec(Subject subject, Level level, Suitability suitabity, String additionalDescription, int cost) {
+    public SubjTeachingSpec(Subject subject, Level level, Suitability suitabity, String additionalDescription, int cost, Lector lector) {
 	super();
 
 	this.subject = subject;
@@ -51,8 +58,17 @@ public class SubjTeachingSpec extends EntityWithLongID {
 	this.suitabity = suitabity;
 	this.additionalDescription = additionalDescription;
 	this.cost = cost;
+	this.lector = lector;
     }
 
+    public Lector getLector() {
+	return lector;
+    }
+
+    public void setLector(Lector lector) {
+	this.lector = lector;
+    }
+    
     public Subject getSubject() {
 	return subject;
     }

@@ -4,6 +4,7 @@ import cz.martlin.douckonline.business.model.base.EntityWithLongID;
 import java.util.Calendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -19,18 +20,22 @@ import javax.validation.constraints.Size;
 public class Lesson extends EntityWithLongID {
 
     @ManyToOne
+    @JoinColumn(name = "teaching_id")
     private Teaching teaching;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "added_at")
+    @Temporal(TemporalType.DATE)
     private Calendar addedAt;
 
+    @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Calendar date;
 
+    @Column(name = "duration")
     @Temporal(TemporalType.TIME)
     private Calendar duration;
 
+    @Column(name = "description")
     @Size(min = 1, max = 200)
     private String description;
 
@@ -39,10 +44,9 @@ public class Lesson extends EntityWithLongID {
 
     }
 
-    public Lesson(Teaching teaching, Calendar date, Calendar duration, String description) {
-	super();
-
+    public Lesson(Teaching teaching, Calendar addedAt, Calendar date, Calendar duration, String description) {
 	this.teaching = teaching;
+	this.addedAt = addedAt;
 	this.date = date;
 	this.duration = duration;
 	this.description = description;
@@ -54,6 +58,14 @@ public class Lesson extends EntityWithLongID {
 
     public void setTeaching(Teaching teaching) {
 	this.teaching = teaching;
+    }
+
+    public Calendar getAddedAt() {
+	return addedAt;
+    }
+
+    public void setAddedAt(Calendar addedAt) {
+	this.addedAt = addedAt;
     }
 
     public Calendar getDate() {
@@ -82,7 +94,7 @@ public class Lesson extends EntityWithLongID {
 
     @Override
     public String toString() {
-	return "Lesson{id = " + id + ", teaching = " + teaching.getId() + ", date = " + date.getTime() + "}";
+	return "Lesson{id=" + id + ", teaching=" + teaching.getId() + ", date=" + date.getTime() + ", description=" + description + "}";
     }
 
 }

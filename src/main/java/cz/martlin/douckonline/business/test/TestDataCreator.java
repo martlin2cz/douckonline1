@@ -37,7 +37,7 @@ public class TestDataCreator {
     private final Subject ENGLISH = new Subject("english", SubjectCategory.FOREIGN_LANGUAGE);
     private final Subject MATH = new Subject("math", SubjectCategory.SCIENCE);
     private final Subject PHYSICS = new Subject("physics", SubjectCategory.SCIENCE);
-    private final Subject PIANO = new Subject("math", SubjectCategory.MUSIC);
+    private final Subject PIANO = new Subject("piano", SubjectCategory.MUSIC);
     
     private Lector johnsmart;
     private Lector jamiehydrogen;
@@ -75,49 +75,49 @@ public class TestDataCreator {
     }
 
     private void createLectorsMeta() {
-	Certificate fce = new Certificate("FCE", ENGLISH, "C1");	
+	Certificate fce = new Certificate("FCE", ENGLISH, "C1", null);	
 	lectors.addCertificate(johnsmart, fce);
 	
-	Certificate piano1 = new Certificate("UFSKFMS", PIANO, "virtuos");	
+	Certificate piano1 = new Certificate("UFSKFMS", PIANO, "virtuos", null);	
 	lectors.addCertificate(janebach, piano1);
 	
-	Education mmath =  new Education("Palacký university", "Metamathematics", "doc.");
+	Education mmath =  new Education("Palacký university", "Metamathematics", "doc.", null);
 	lectors.addEducation(petergeek, mmath);
 	
-	Education nothing1 =  new Education("Charles University, Prague", "Just - nothing", "prof.");
+	Education nothing1 =  new Education("Charles University, Prague", "Just - nothing", "prof.", null);
 	lectors.addEducation(janebach, nothing1);
 	
-	Education cs = new Education("King's Colleage", "Computer Science", "PhD.");
+	Education cs = new Education("King's Colleage", "Computer Science", "PhD.", null);
 	lectors.addEducation(johnsmart, cs);
 	
-	Education ing = new Education("My high school", "engeneering", "grad");
+	Education ing = new Education("My high school", "engeneering", "grad", null);
 	lectors.addEducation(jamiehydrogen, ing);
 	
-	Practice shop = new Practice("counter", "Local shop");
+	Practice shop = new Practice("counter", "Local shop", null);
 	lectors.addPractise(petergeek, shop);
 	
-	Practice nothing2 = new Practice("doing nothing", "ahome");
+	Practice nothing2 = new Practice("doing nothing", "ahome", null);
 	lectors.addPractise(janebach, nothing2);
 	
-	Practice erasmus = new Practice("Erasmus", "U.S.A");
+	Practice erasmus = new Practice("Erasmus", "U.S.A", null);
 	lectors.addPractise(johnsmart, erasmus);
 
-	Practice bells = new Practice("assistant", "Bell's labs");
+	Practice bells = new Practice("assistant", "Bell's labs", null);
 	lectors.addPractise(jamiehydrogen, bells);
 	
-	SubjTeachingSpec eng = new SubjTeachingSpec(ENGLISH, Level.ALL, Suitability.PRIMARY_SUBJECT, "conversation", 150);
+	SubjTeachingSpec eng = new SubjTeachingSpec(ENGLISH, Level.ALL, Suitability.PRIMARY_SUBJECT, "conversation", 150, null);
 	lectors.addSubjTeachSpec(johnsmart, eng);
 	
-	SubjTeachingSpec piano2 = new SubjTeachingSpec(PIANO, Level.ALL, Suitability.PRIMARY_SUBJECT, "everything", 180);
+	SubjTeachingSpec piano2 = new SubjTeachingSpec(PIANO, Level.ALL, Suitability.PRIMARY_SUBJECT, "everything", 180, null);
 	lectors.addSubjTeachSpec(janebach, piano2);
 	
-	SubjTeachingSpec math1 = new SubjTeachingSpec(ENGLISH, Level.ONLY_BASIC, Suitability.SECONDARY_SUBJECT, "basics", 100);
+	SubjTeachingSpec math1 = new SubjTeachingSpec(MATH, Level.ONLY_BASIC, Suitability.SECONDARY_SUBJECT, "basics", 100, null);
 	lectors.addSubjTeachSpec(petergeek, math1);
 	
-	SubjTeachingSpec math2 = new SubjTeachingSpec(MATH, Level.BASIC_AND_INTERMIDIATE, Suitability.PRIMARY_SUBJECT, "infinity", 140);
+	SubjTeachingSpec math2 = new SubjTeachingSpec(MATH, Level.BASIC_AND_INTERMIDIATE, Suitability.PRIMARY_SUBJECT, "infinity", 140, null);
 	lectors.addSubjTeachSpec(jamiehydrogen, math2);
 	
-	SubjTeachingSpec phys = new SubjTeachingSpec(PHYSICS, Level.ALL, Suitability.PRIMARY_SUBJECT, "science!", 180);
+	SubjTeachingSpec phys = new SubjTeachingSpec(PHYSICS, Level.ALL, Suitability.PRIMARY_SUBJECT, "science!", 180, null);
 	lectors.addSubjTeachSpec(petergeek, phys);
     }
 
@@ -198,6 +198,7 @@ public class TestDataCreator {
     
 
     private void createTeaching1() {
+	//TODO edit statusDescription, some make endedAt ...
 	bachMillyPiano = teachings.startTeaching(janebach, evemilly, PIANO, Level.ONLY_BASIC, 140);
 	smartLazyEng = teachings.startTeaching(johnsmart, karllazy, ENGLISH, Level.ONLY_INTERMIDIATE, 190);
 	geekNerdMath = 	teachings.startTeaching(petergeek, mikenerd, MATH, Level.ALL, 190);

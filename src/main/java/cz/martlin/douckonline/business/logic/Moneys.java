@@ -42,13 +42,13 @@ public class Moneys {
     public List<Payment> listPayments(Student student, int daysAgo) {
 	LOG.trace("Loading payments of student for last days");
 	
-	Class<?>[] froms = {Payment.class, Student.class,};
-	String[] attrs = {"payment.student",  };
-	String[] vars = { "student", };
-	Object[] values = { student};
-	//TODO daysAgo
+	List<Payment> payments = db.listByCond(Payment.class, //
+		new Class<?>[] {Student.class}, //
+		new String[]{"payment.student"}, //
+		new String[]{"student"}, // 
+		new Object[] {student});
 	
-	return db.listBySimpleCond(Payment.class, froms, attrs, vars, values);
+	return payments;
     }
     
     /**

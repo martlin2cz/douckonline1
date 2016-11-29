@@ -42,12 +42,12 @@ public class Lectors {
      */
     public List<Lector> listLectorsOfSubject(Subject subject) {
 	LOG.trace("Loading lectors of subject");
-	Class<?> froms[] = {Lector.class, SubjTeachingSpec.class, Subject.class};
-	String attrs[] = { "subjTeachingSpec.subject" };
-	String vars[] = { "subject" };
-	Object values[] = { subject };
 	
-	List<Lector> lectors = db.listBySimpleCond(Lector.class, froms, attrs, vars, values);
+	List<Lector> lectors = db.listByCond(Lector.class, //
+		new Class<?>[]{SubjTeachingSpec.class, Subject.class}, //
+		new String[]{"subjTeachingSpec.subject"}, //
+		new String[]{"subject"}, //
+		new Object[]{subject});
 	return lectors;
     }
     
@@ -115,7 +115,9 @@ public class Lectors {
     public boolean addCertificate(Lector lector, Certificate certificate) {
 	LOG.trace("Adding certificate");
 	
+	certificate.setLector(lector);
 	lector.getCertificates().add(certificate);
+	
 	return db.insert(certificate);
     }
     
@@ -128,7 +130,9 @@ public class Lectors {
     public boolean removeCertificate(Lector lector, Certificate certificate) {
 	LOG.trace("Removing certificate");
 	
+	certificate.setLector(null);
 	lector.getCertificates().remove(certificate);
+	
 	return db.remove(certificate);
     }
     
@@ -141,7 +145,9 @@ public class Lectors {
     public boolean addEducation(Lector lector, Education education) {
 	LOG.trace("Adding education");
 	
+	education.setLector(lector);
 	lector.getEducations().add(education);
+	
 	return db.insert(education);
     }
     
@@ -154,7 +160,9 @@ public class Lectors {
     public boolean removeEducation(Lector lector, Education education) {
 	LOG.trace("Removing education");
 	
+	education.setLector(null);
 	lector.getEducations().remove(education);
+	
 	return db.remove(education);
     }
     
@@ -167,7 +175,9 @@ public class Lectors {
     public boolean addPractise(Lector lector, Practice practice) {
 	LOG.trace("Adding practice");
 	
+	practice.setLector(lector);
 	lector.getPractices().add(practice);
+	
 	return db.insert(practice);
     }
     
@@ -180,7 +190,9 @@ public class Lectors {
      public boolean removePractise(Lector lector, Practice practice) {
 	LOG.trace("Removing practice");
 	
+	practice.setLector(null);
 	lector.getPractices().remove(practice);
+	
 	return db.remove(practice);
     }
     
@@ -193,7 +205,9 @@ public class Lectors {
     public boolean addSubjTeachSpec(Lector lector, SubjTeachingSpec spec) {
 	LOG.trace("Adding subject teaching specification");
 	
+	spec.setLector(lector);
 	lector.getSubjects().add(spec);
+	
 	return db.insert(spec);
     }
     
@@ -206,7 +220,9 @@ public class Lectors {
     public boolean removeSubjTeachSpec(Lector lector, SubjTeachingSpec spec) {
 	LOG.trace("Removing subject teaching specification");
 	
+	spec.setLector(null);
 	lector.getSubjects().remove(spec);
+	
 	return db.remove(spec);
     }
 //</editor-fold>

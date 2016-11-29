@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,9 +41,8 @@ public class Lector extends User implements Serializable {
     @Size(min = 0, max = 20)
     private String email;
     
-    @Column(name = "bank_account_number")
+    @Column(name = "bank_account_number", nullable = true)
     @Size(min = 8, max = 20)
-    //@Nullable
     private String bankAccountNumber;
     
     
@@ -50,16 +50,20 @@ public class Lector extends User implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar endedAt;
     
-    @OneToMany
+    @OneToMany(mappedBy = "lector")
+    @JoinColumn(name = "lector_login_name")
     private List<SubjTeachingSpec> subjects;
     
-    @OneToMany
+    @OneToMany(mappedBy = "lector")
+    @JoinColumn(name = "lector_login_name")
     private List<Certificate> certificates;
     
-    @OneToMany
+    @OneToMany(mappedBy = "lector")
+    @JoinColumn(name = "lector_login_name")
     private List<Education> educations;
 
-    @OneToMany
+    @OneToMany(mappedBy = "lector")
+    @JoinColumn(name = "lector_login_name")
     private List<Practice> practices;
     
     

@@ -80,7 +80,7 @@ public class Payment extends EntityWithLongID {
 
     @Override
     public String toString() {
-	return "Payment{id=" + id + "}";
+	return "Payment{id=" + id + ", amount=" + amount + ", student=" + student + "}";
     }
 
 }

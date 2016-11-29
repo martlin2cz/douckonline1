@@ -65,7 +65,7 @@ public class Users {
     public User findUser(String loginName) {
 	LOG.trace("Finding user by loginName");
 	
-	//TODO FIXME optimize me!
+	//TODO FIXME optimize me! use Map<loginName, User> ?
 	
 	for (User user: listAllUsers()) {
 	    if (user.getLoginName().equals(loginName)) {
