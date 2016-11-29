@@ -6,10 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -35,22 +31,34 @@ public class SimpleQueryTest {
     public void testJoined() {
 	String expected0 = "SELECT jFrame FROM JFrame jFrame INNER JOIN JMenu jMenu ON jFrame.menu = jMenu";
 	
-	SimpleQuery query0 = new SimpleQuery(relations(), JFrame.class, JMenu.class );
+	SimpleQuery query0 = new SimpleQuery(relations(), false, JFrame.class, JMenu.class );
 	String actual0 = query0.toJPQL();
 	
 	assertEquals(expected0, actual0);
     }
     
-     @Test
-    public void testMultiJoined() {
+    @Test
+    public void testMultiJoinedChained() {
 	String expected0 = 
 		"SELECT jFrame FROM JFrame jFrame INNER JOIN JPanel jPanel ON jFrame.root_pane = jPanel INNER JOIN JLabel jLabel ON jPanel.label = jLabel";
 	
-	SimpleQuery query0 = new SimpleQuery(relations(), JFrame.class, JPanel.class, JLabel.class);
+	SimpleQuery query0 = new SimpleQuery(relations(), false, JFrame.class, JPanel.class, JLabel.class);
 	String actual0 = query0.toJPQL();
 	
 	assertEquals(expected0, actual0);
     }
+    
+    @Test
+    public void testMultiJoinedStar() {
+	String expected0 = 
+		"SELECT jPanel FROM JPanel jPanel INNER JOIN JFrame jFrame ON jFrame.root_pane = jPanel INNER JOIN JLabel jLabel ON jPanel.label = jLabel";
+	
+	SimpleQuery query0 = new SimpleQuery(relations(), true, JPanel.class, JFrame.class, JLabel.class);
+	String actual0 = query0.toJPQL();
+	
+	assertEquals(expected0, actual0);
+    }
+    
     
 //</editor-fold>
 

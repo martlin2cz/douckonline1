@@ -10,6 +10,7 @@ import cz.martlin.douckonline.business.model.teaching.Teaching;
 import cz.martlin.douckonline.business.tools.DbAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +39,7 @@ public class Teachings {
     public List<Teaching> listTeachingsOfLector(Lector lector) {
 	LOG.trace("Listing teachings of lector");
 
-	List<Teaching> teachings = db.listByCond(Teaching.class, 
+	List<Teaching> teachings = db.listByCond(Teaching.class, false, //
 		new Class<?>[] {Lector.class}, //
 		new String[] {"teaching.lector"}, //
 		new String[] {"lector"}, //
@@ -56,7 +57,7 @@ public class Teachings {
     public List<Teaching> listTeachingsOfStudent(Student student) {
 	LOG.trace("Listing teachings of student");
 
-	List<Teaching> teachings = db.listByCond(Teaching.class, 
+	List<Teaching> teachings = db.listByCond(Teaching.class, false, // 
 		new Class<?>[] {Student.class}, //
 		new String[] {"teaching.student"}, //
 		new String[] {"student"}, //
@@ -75,19 +76,15 @@ public class Teachings {
      */
     public List<Teaching> getTeachingsOf(Lector lector, Student student, Subject subject) {
 	LOG.trace("Listing teachins of lector, student and subject");
-
-	LOG.warn("needs update in SimpleQuery, returning empty list");
-	return new ArrayList<>();
-	/*
-	// FIXME TODO
-	List<Teaching> teachings = db.listByCond(Teaching.class, 
+	
+	List<Teaching> teachings = db.listByCond(Teaching.class, true, //
 		new Class<?>[] {Lector.class, Student.class, Subject.class}, //
 		new String[] {"teaching.lector", "teaching.student", "teaching.subject"}, //
 		new String[] {"lector", "student", "subject"}, //
 		new Object[] {lector, student, subject});
 	
 	return teachings;
-	*/
+	
     }
 
     /**
@@ -194,7 +191,7 @@ public class Teachings {
 	LOG.trace("Listing lessons of student and daysAgo");
 
 	
-	List<Lesson> teachings = db.listByCond(Lesson.class, 
+	List<Lesson> teachings = db.listByCond(Lesson.class, false, //
 		new Class<?>[] {Teaching.class, Student.class}, //
 		new String[] {"lesson.teaching.student"}, //
 		new String[] {"student"}, //
@@ -215,7 +212,7 @@ public class Teachings {
 	LOG.trace("Listing lessons of lector and daysAgo");
 
 	
-	List<Lesson> teachings = db.listByCond(Lesson.class, 
+	List<Lesson> teachings = db.listByCond(Lesson.class, false, //
 		new Class<?>[] {Teaching.class, Lector.class}, //
 		new String[] {"lesson.teaching.lector"}, //
 		new String[] {"lector"}, //

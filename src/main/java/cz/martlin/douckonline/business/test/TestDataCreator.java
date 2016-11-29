@@ -18,6 +18,7 @@ import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
 import cz.martlin.douckonline.business.model.teaching.SubjectCategory;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
+import cz.martlin.douckonline.business.utils.Tools;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -206,22 +207,22 @@ public class TestDataCreator {
     }
 
     private void createLessons1() {
-	teachings.addLesson(bachMillyPiano, daysAgo(15), time(1, 30), "First look");
-	teachings.addLesson(bachMillyPiano, daysAgo(14), time(1, 30), "First listen");
-	teachings.addLesson(bachMillyPiano, daysAgo(3), time(1, 30), "First touch");
+	teachings.addLesson(bachMillyPiano, daysAgo(15), Tools.time(1, 30), "First look");
+	teachings.addLesson(bachMillyPiano, daysAgo(14), Tools.time(1, 30), "First listen");
+	teachings.addLesson(bachMillyPiano, daysAgo(3), Tools.time(1, 30), "First touch");
 
-	teachings.addLesson(smartLazyEng, daysAgo(21), time(0, 45), "Present perfect");
-	teachings.addLesson(smartLazyEng, daysAgo(14), time(0, 45), "Past perfect");
+	teachings.addLesson(smartLazyEng, daysAgo(21), Tools.time(0, 45), "Present perfect");
+	teachings.addLesson(smartLazyEng, daysAgo(14), Tools.time(0, 45), "Past perfect");
 	
-	teachings.addLesson(geekNerdMath, daysAgo(11), time(1, 0), "Linear equations");
-	teachings.addLesson(geekNerdMath, daysAgo(10), time(1, 0), "Nonliear equations");
+	teachings.addLesson(geekNerdMath, daysAgo(11), Tools.time(1, 0), "Linear equations");
+	teachings.addLesson(geekNerdMath, daysAgo(10), Tools.time(1, 0), "Nonliear equations");
 	
-	teachings.addLesson(geekLazyPhys, daysAgo(15), time(2, 0), "Newton's laws");
+	teachings.addLesson(geekLazyPhys, daysAgo(15), Tools.time(2, 0), "Newton's laws");
     }
 
     private void createPayments1() {
 	moneys.addPayment(evemilly, daysAgo(15), 500, 0);
-	moneys.addPayment(evemilly, daysAgo(10), 500, 5);
+	moneys.addPayment(evemilly, daysAgo(10), 500, 10);
 	
 	moneys.addPayment(mikenerd, daysAgo(8), 400, 0);
 	
@@ -252,15 +253,7 @@ public class TestDataCreator {
     }
 
         
-    private Calendar time(int hours, int minutes) {
-	Calendar calendar = Calendar.getInstance();
-
-	calendar.set(Calendar.HOUR_OF_DAY, hours + 1);
-	calendar.set(Calendar.MINUTE, minutes);
-	calendar.set(Calendar.SECOND, 0);
-	
-	return calendar;
-    }
+   
 
     
     public static Calendar daysAgo(int days) {

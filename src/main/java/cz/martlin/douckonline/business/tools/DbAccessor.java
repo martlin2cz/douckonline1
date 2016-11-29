@@ -90,55 +90,39 @@ public class DbAccessor {
 	return list;
     }
 
-    public <T> List<T> listByCond(Class<T> clazz, Class<?>[] classes, String attrs[], String[] vars, Object values[]) {
-	SimpleQuery<T> simple = createQuery(clazz, classes);
+    /**
+     * Lists by given condition. 
+     * @param <T>
+     * @param clazz
+     * @param isStar
+     * @param classes
+     * @param attrs
+     * @param vars
+     * @param values
+     * @return 
+     */
+    public <T> List<T> listByCond(Class<T> clazz, boolean isStar, Class<?>[] classes, String attrs[], String[] vars, Object values[]) {
+	SimpleQuery<T> simple = createQuery(clazz, isStar, classes);
 	for (int i = 0; i < attrs.length; i++) {
 	    simple.addWhereVariable(attrs[i], false, vars[i]);
 	}
 
 	return runSimpleQuery(simple, vars, values);
     }
-
-    @Deprecated
-    public <T> List<T> listBySimpleCond(Class<T> clazz, Class<?>[] froms, String attrs[], String vars[], Object values[]) {
-	EntityManager entityManager = entityManagerFactory.createEntityManager();
-	StringBuilder qlString = new StringBuilder();
-	qlString.append("SELECT ");
-	qlString.append(clazz.getSimpleName().toLowerCase());
-	qlString.append(" FROM ");
-	for (int i = 0; i < froms.length; i++) {
-	    Class<?> fromClazz = froms[i];
-	    qlString.append(fromClazz.getSimpleName());
-	    qlString.append(" ");
-	    qlString.append(fromClazz.getSimpleName().toLowerCase());
-
-	    if ((i + 1) < froms.length) {
-		qlString.append(", ");
-	    }
-	}
-
-	qlString.append(" WHERE ");
-
-	for (int i = 0; i < attrs.length; i++) {
-	    qlString.append(attrs[i]);
-	    qlString.append(" = :");
-	    qlString.append(vars[i]);
-	    if ((i + 1) < attrs.length) {
-		qlString.append(" AND ");
-	    }
-	}
-
-	Query query = entityManager.createQuery(qlString.toString());
-	for (int i = 0; i < attrs.length; i++) {
-	    query.setParameter(vars[i], values[i]);
-	}
-
-	List<T> list = query.getResultList();
-	//entityManager.close();
-	return list;
-    }
-
 //</editor-fold>
+    
+    /**
+     * 
+     * @param jpql
+     * @param vars
+     * @param vals
+     * @return 
+     */
+    public <T> T runNativeJPQL(String jpql, String[] vars, Object[] vals) {
+	Query query = toJPAQuery(jpql, vars, vals);
+	Object result = query.getSingleResult();
+	return (T) result;
+    }
 //<editor-fold defaultstate="collapsed" desc="insert, update, delete">
     public <T> boolean insert(T item) {
 	return save(item, "insert");
@@ -180,22 +164,26 @@ public class DbAccessor {
 	return new SimpleQuery<>(clazz);
     }
 
-    public <T> SimpleQuery<T> createQuery(Class<T> clazz, Class<?>... from) {
-	return new SimpleQuery<>(relations(), clazz, from);
+    public <T> SimpleQuery<T> createQuery(Class<T> clazz, boolean isStar, Class<?>... from) {
+	return new SimpleQuery<>(relations(), isStar, clazz, from);
     }
 
     private <T> Query toJPAquery(SimpleQuery<T> query, String[] variables, Object[] values) {
 	String jpql = query.toJPQL();
+	return toJPAQuery(jpql, variables, values);
+    }
+
+    private Query toJPAQuery(String jpql, String[] variables, Object[] values) {
 	EntityManager entityManager = entityManagerFactory.createEntityManager();
-	Query q = entityManager.createQuery(jpql);
+	Query query = entityManager.createQuery(jpql);
 
 	if (variables != null) {
 	    for (int i = 0; i < values.length; i++) {
-		q.setParameter(variables[i], values[i]);
+		query.setParameter(variables[i], values[i]);
 	    }
 	}
 
-	return q;
+	return query;
     }
 
     private <T> List<T> runSimpleQuery(SimpleQuery<T> simple, String[] attrs, Object[] values) {

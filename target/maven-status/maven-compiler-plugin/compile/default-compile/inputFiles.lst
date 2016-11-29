@@ -37,6 +37,7 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/managment/Payment.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/tools/SimpleQuery.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/logic/Moneys.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/utils/Tools.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/converters/UsersConverter.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/managment/TeachingRequest.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/TestsController.java

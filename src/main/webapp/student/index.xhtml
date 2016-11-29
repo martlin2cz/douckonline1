@@ -12,7 +12,8 @@
 	<h1>Student</h1>
 	<h:panelGrid columns="2">
 	    <h:outputLabel value="Account ballance" />
-	    <h:outputText value="#{studentsProfileController.ballance}" />
+	    <h:outputText value="#{studentsProfileController.ballance}" 
+			title="Payments total: #{studentsProfileController.incomes}, Lessons total: #{studentsProfileController.outcomes} "/>
 	</h:panelGrid>
 	    
 	<h2>Lectures</h2>
@@ -47,12 +48,17 @@
 	<h2>Payments</h2>
 	<c:forEach items="#{studentsProfileController.actualPayments}" var="payment">
 	    
-	    <h:panelGrid columns="4">
+	    <h:panelGrid columns="6">
 		<h:outputLabel value="When:" />
 		<h:outputText value="#{payment.date.time}" />
 
 		<h:outputLabel value="Amount:" />
 		<h:outputText value="#{payment.amount}" />
+		
+		<c:if test="#{payment.discount > 0}">
+		    <h:outputLabel value="Discount:" />
+		    <h:outputText value="#{payment.discount}" />
+		</c:if>
 	    </h:panelGrid>
 	    
 	</c:forEach>

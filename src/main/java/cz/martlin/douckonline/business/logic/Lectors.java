@@ -43,7 +43,7 @@ public class Lectors {
     public List<Lector> listLectorsOfSubject(Subject subject) {
 	LOG.trace("Loading lectors of subject");
 	
-	List<Lector> lectors = db.listByCond(Lector.class, //
+	List<Lector> lectors = db.listByCond(Lector.class, false, //
 		new Class<?>[]{SubjTeachingSpec.class, Subject.class}, //
 		new String[]{"subjTeachingSpec.subject"}, //
 		new String[]{"subject"}, //

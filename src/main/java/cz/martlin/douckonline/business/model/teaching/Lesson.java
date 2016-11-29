@@ -2,6 +2,7 @@ package cz.martlin.douckonline.business.model.teaching;
 
 import cz.martlin.douckonline.business.model.base.EntityWithLongID;
 import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -94,7 +95,7 @@ public class Lesson extends EntityWithLongID {
 
     @Override
     public String toString() {
-	return "Lesson{id=" + id + ", teaching=" + teaching.getId() + ", date=" + date.getTime() + ", description=" + description + "}";
+	return "Lesson{id=" + id + ", teaching=" + teaching.getId() + ", date=" + date.getTime() + ", duration=" + duration.getTime() + ", description=" + description + "}";
     }
 
 }

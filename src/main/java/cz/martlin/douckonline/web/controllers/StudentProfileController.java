@@ -13,6 +13,7 @@ import cz.martlin.douckonline.business.model.managment.Payment;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.web.rest.LoginSession;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.enterprise.context.RequestScoped;
@@ -40,10 +41,17 @@ public class StudentProfileController {
 	return session.getLoggedStudent();
     }
     
-    public int getBallance() {
+    public BigDecimal getBallance() {
 	return moneys.getBallanceOfStudent(getLoggedStudent());
     }
     
+    public BigDecimal getIncomes() {
+	return moneys.getPaymentsOfStudent(getLoggedStudent());
+    }
+    
+    public BigDecimal getOutcomes() {
+	return moneys.getOutcomesOfStudent(getLoggedStudent()).negate();
+    }
     
     public List<Lesson> getActualLessons() {
 	return teachings.getLessonsOf(getLoggedStudent(), SHOW_LESSONS_FOR_DAYS);

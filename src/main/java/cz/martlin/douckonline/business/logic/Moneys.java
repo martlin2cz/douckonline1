@@ -1,9 +1,12 @@
 package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.managment.Payment;
+import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
 import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.utils.Tools;
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 import org.slf4j.Logger;
@@ -39,10 +42,10 @@ public class Moneys {
      * @param daysAgo
      * @return 
      */
-    public List<Payment> listPayments(Student student, int daysAgo) {
+    public List<Payment> listPayments(Student student, Integer daysAgo) {
 	LOG.trace("Loading payments of student for last days");
 	
-	List<Payment> payments = db.listByCond(Payment.class, //
+	List<Payment> payments = db.listByCond(Payment.class, false, //
 		new Class<?>[] {Student.class}, //
 		new String[]{"payment.student"}, //
 		new String[]{"student"}, // 
@@ -86,12 +89,58 @@ public class Moneys {
      * @param student
      * @return 
      */
-    public int getBallanceOfStudent(Student student) {
+    public BigDecimal getBallanceOfStudent(Student student) {
 	LOG.trace("Getting ballance of student");
-	LOG.warn("not implemented, returns 42");
 	
-	return 42;  //TODO FIXME
+	/*
+	//TODO payment.discount
+	String paymentsJPQL = "SELECT SUM(payment.amount) FROM Payment payment WHERE payment.student = :student";
+	//TODO lesson.duration
+	String outcomesJPQL = "SELECT SUM(t.cost) FROM Teaching t INNER JOIN Lesson l ON t.lesson = l WHERE t.student = :student";
+	String[] vars = new String[]{"student"};
+	Object[] vals = new Object[]{student};
 	
+	Long payments = db.runNativeJPQL(paymentsJPQL, vars, vals);
+	Long outcomes = db.runNativeJPQL(outcomesJPQL, vars, vals);
+	
+	int ballance = (int) (payments - outcomes);
+	return ballance;
+	*/
+
+	BigDecimal outcomes = getOutcomesOfStudent(student);
+	BigDecimal payments = getPaymentsOfStudent(student);
+	BigDecimal sum = outcomes.add(payments);
+	return sum;
     }
 //</editor-fold>
+
+    public BigDecimal getPaymentsOfStudent(Student student) {
+	BigDecimal sum = BigDecimal.ZERO;
+	
+	for (Payment payment: listPayments(student, null)) {
+	    BigDecimal amount = new BigDecimal(payment.getAmount());
+	    BigDecimal steal = Tools.toPercentMultiplier(payment.getDiscount());
+	    BigDecimal value = amount.multiply(steal);
+	    sum = sum.add(value);
+	}
+	
+	return sum;
+    }
+
+    public BigDecimal getOutcomesOfStudent(Student student) {
+	final Teachings teachings = new Teachings();
+	
+	BigDecimal sum = BigDecimal.ZERO;
+	
+	for (Lesson lesson: teachings.getLessonsOf(student, null)) {
+	    BigDecimal unitCost = new BigDecimal(lesson.getTeaching().getCost());
+	    BigDecimal duration = Tools.durationToHours(lesson.getDuration());
+	    BigDecimal cost = unitCost.multiply(duration);
+	    sum = sum.subtract(cost);
+	}
+	
+	return sum;
+    }
 }
+
+

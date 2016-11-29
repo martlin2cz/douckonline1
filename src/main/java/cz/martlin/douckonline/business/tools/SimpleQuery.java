@@ -17,10 +17,10 @@ public class SimpleQuery<T> {
     private StringBuilder order;
 
 //<editor-fold defaultstate="collapsed" desc="constructing">
-    
     /**
      * Creates query over one entity table (given by its class).
-     * @param clazz 
+     *
+     * @param clazz
      */
     public SimpleQuery(Class<T> clazz) {
 	this.clazz = clazz;
@@ -28,22 +28,33 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * Creates query with result of type clazz over other tables given by entities froms. The relations between entities is specified by relations object.
+     * Creates query with result of type clazz over other tables given by
+     * entities froms. The relations between entities is specified by relations
+     * object. Param isStar specifies whether given froms should be joined like
+     * star (<code>x JOIN b ON x=b JOIN c ON x=c JOIN d ON x=d</code>) or like
+     * chain (<code>a JOIN b ON a=b JOIN c ON b=c JOIN d ON c=d</code>).
+     *
      * @param relations
+     * @param isStar
      * @param clazz
-     * @param froms 
+     * @param froms
      */
-    public SimpleQuery(Relations relations, Class<T> clazz, Class<?>... froms) {
+    public SimpleQuery(Relations relations, boolean isStar, Class<T> clazz, Class<?>... froms) {
 	this.clazz = clazz;
-	this.from = createJoinedFrom(clazz, froms, relations);
+	if (isStar) {
+	    this.from = createJoinedStarFrom(clazz, froms, relations);
+	} else {
+	    this.from = createJoinedChainedFrom(clazz, froms, relations);
+	}
     }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="adding WHERE clausules">
-    
     /**
-     * Adds simple where condition, like: <code>q.addWhereCondition("entity.description != null")</code>.
-     * @param condition 
+     * Adds simple where condition, like:
+     * <code>q.addWhereCondition("entity.description != null")</code>.
+     *
+     * @param condition
      */
     public void addWhereCondition(String condition) {
 	this.where = prepare(this.where, " AND ");
@@ -51,8 +62,10 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * Adds test for attribute value, so <code>q.addWhereAttribute("foo")</code> will output to <code>"entity.foo = :foo"</code>.
-     * @param attrAndVar 
+     * Adds test for attribute value, so <code>q.addWhereAttribute("foo")</code>
+     * will output to <code>"entity.foo = :foo"</code>.
+     *
+     * @param attrAndVar
      */
     public void addWhereAttribute(String attrAndVar) {
 	this.where = prepare(this.where, " AND ");
@@ -63,10 +76,13 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * Adds test for attribute value (with explicit variable), so <code>q.addWhereVariable("foo", "bar")</code> will output to <code>"entity.foo = :bar"</code>.
+     * Adds test for attribute value (with explicit variable), so
+     * <code>q.addWhereVariable("foo", "bar")</code> will output to
+     * <code>"entity.foo = :bar"</code>.
+     *
      * @param attribute
      * @param attrOfEntity
-     * @param variable 
+     * @param variable
      */
     public void addWhereVariable(String attribute, boolean attrOfEntity, String variable) {
 	this.where = prepare(this.where, " AND ");
@@ -76,10 +92,13 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * Adds test for attribute value (with explicit value to equal to), so <code>q.addWhereValue("foo", true, 42)</code> will output to <code>"entity.foo = 42"</code>.
+     * Adds test for attribute value (with explicit value to equal to), so
+     * <code>q.addWhereValue("foo", true, 42)</code> will output to
+     * <code>"entity.foo = 42"</code>.
+     *
      * @param attribute
      * @param attrOfEntity
-     * @param value 
+     * @param value
      */
     public void addWhereValue(String attribute, boolean attrOfEntity, Object value) {
 	this.where = prepare(this.where, " AND ");
@@ -89,10 +108,13 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * Adds test for attribute value (with whatever done with it), so <code>q.addWhereWhatever("foo", true, " != null")</code> will output to <code>"entity.foo != null"</code>.
+     * Adds test for attribute value (with whatever done with it), so
+     * <code>q.addWhereWhatever("foo", true, " != null")</code> will output to
+     * <code>"entity.foo != null"</code>.
+     *
      * @param attribute
      * @param attrOfEntity
-     * @param whatever 
+     * @param whatever
      */
     public void addWhereWhatever(String attribute, boolean attrOfEntity, String whatever) {
 	this.where = prepare(this.where, " AND ");
@@ -105,8 +127,9 @@ public class SimpleQuery<T> {
 //<editor-fold defaultstate="collapsed" desc="adding ORDER clausule">
     /**
      * Adds order specification.
+     *
      * @param attribute
-     * @param onlyOnEntity 
+     * @param onlyOnEntity
      */
     public void addOrder(String attribute, boolean onlyOnEntity) {
 	this.order = prepare(this.order, ", ");
@@ -117,9 +140,11 @@ public class SimpleQuery<T> {
     
 //<editor-fold defaultstate="collapsed" desc="creating FROM clausule">
     /**
-     * Creates simple from clausule (only for one entity, class), returns: <code>FooBar fooBar</code>
+     * Creates simple from clausule (only for one entity, class), returns:
+     * <code>FooBar fooBar</code>
+     *
      * @param clazz
-     * @return 
+     * @return
      */
     private StringBuilder createSimpleFrom(Class<?> clazz) {
 	StringBuilder stb = new StringBuilder();
@@ -132,57 +157,85 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * Creates from clausule using join. over given froms.
+     * Creates from clausule using chaining join (i.e. like
+     * <code>"FROM Foo foo INNER JOIN Bar bar ON foo.attr = bar INNER JOIN Baz baz ON bar.attr = baz"</code>).
+     *
      * @param clazz
      * @param froms
      * @param relations
-     * @return 
+     * @return
      */
-    private StringBuilder createJoinedFrom(Class<T> clazz, Class<?> froms[], Relations relations) {
+    private StringBuilder createJoinedChainedFrom(Class<T> clazz, Class<?> froms[], Relations relations) {
 	StringBuilder stb = createSimpleFrom(clazz);
 
 	for (int i = -1; i < froms.length - 1; i++) {
 	    Class<?> from = i != -1 ? froms[i] : clazz;
 	    Class<?> to = froms[i + 1];
-	    String attr = relations.get(from, to);
-	    
-	    boolean isReverse = false;
+
+	    String attr;
+	    Class<?> joinFrom, joinTo;
+
+	    attr = relations.get(from, to);
+	    joinFrom = from;
+	    joinTo = to;
+
 	    if (attr == null) {
 		attr = relations.get(to, from);
-		isReverse = true;
+		joinFrom = to;
+		joinTo = from;
 	    }
 
-	    stb.append(createJoinClausule(to, from, attr, isReverse));
+	    stb.append(createJoinCriteria(to, joinFrom, joinTo, attr));
 	}
 
 	return stb;
     }
 
-    private StringBuilder createJoinClausule(Class<?> to, Class<?> from, String attr, boolean isReverse) {
-	StringBuilder stb = new StringBuilder();
-	
-	stb.append(" INNER JOIN ");
-	stb.append(createSimpleFrom(to));
-	stb.append(" ON ");
-	if (!isReverse) {
-	    stb.append(createAttribute(from, attr, true));
-	    stb.append(" = ");
-	    stb.append(toObject(to));
-	} else {
-	    stb.append(toObject(from));
-	    stb.append(" = ");
-	    stb.append(createAttribute(to, attr, true));
+    private StringBuilder createJoinedStarFrom(Class<T> clazz, Class<?> froms[], Relations relations) {
+	StringBuilder stb = createSimpleFrom(clazz);
+
+	for (int i = 0; i < froms.length; i++) {
+	    Class<?> to = froms[i];
+	    String attr;
+	    Class<?> joinFrom, joinTo;
+
+	    attr = relations.get(clazz, to);
+	    joinFrom = clazz;
+	    joinTo = to;
+
+	    if (attr == null) {
+		attr = relations.get(to, clazz);
+		joinFrom = to;
+		joinTo = clazz;
+	    }
+	    
+	    stb.append(createJoinCriteria(to, joinFrom, joinTo, attr));
 	}
-	
+
+	return stb;
+    }
+
+    private StringBuilder createJoinCriteria(Class<?> destClass, Class<?> attrClass, Class<?> objClass, String attr) {
+	StringBuilder stb = new StringBuilder();
+
+	stb.append(" INNER JOIN ");
+	stb.append(createSimpleFrom(destClass));
+	stb.append(" ON ");
+
+	stb.append(createAttribute(attrClass, attr, true));
+	stb.append(" = ");
+	stb.append(toObject(objClass));
+
 	return stb;
     }
 
 //</editor-fold>
     
-//<editor-fold defaultstate="collapsed" desc="core implementation">
+//<editor-fold defaultstate="collapsed" desc="converting to JPQL">
     /**
      * Renders query to JPQL (or how it's called (: ).
-     * @return 
+     *
+     * @return
      */
     public String toJPQL() {
 	StringBuilder stb = new StringBuilder();
@@ -212,13 +265,15 @@ public class SimpleQuery<T> {
 	return stb.toString();
     }
 //</editor-fold>
-    
+
 //<editor-fold defaultstate="collapsed" desc="utilities methods">
     /**
-     * If given string builder is not initialized (is null), creates one, else just appends glue.
+     * If given string builder is not initialized (is null), creates one, else
+     * just appends glue.
+     *
      * @param stb
      * @param glue
-     * @return 
+     * @return
      */
     private StringBuilder prepare(StringBuilder stb, String glue) {
 	if (stb == null) {
@@ -231,11 +286,13 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * Creates attribute specifier. In format <code>"entity.attr"</code> if onlyOnEntity is true, <code>"attr"</code> otherwise.
+     * Creates attribute specifier. In format <code>"entity.attr"</code> if
+     * onlyOnEntity is true, <code>"attr"</code> otherwise.
+     *
      * @param clazz
      * @param attr
      * @param onlyOnEntity
-     * @return 
+     * @return
      */
     private CharSequence createAttribute(Class<?> clazz, String attr, boolean onlyOnEntity) {
 	StringBuilder stb = new StringBuilder();
@@ -252,8 +309,9 @@ public class SimpleQuery<T> {
 
     /**
      * Creates variable. It is just simply string <code>":variable"</code>.
+     *
      * @param variable
-     * @return 
+     * @return
      */
     private StringBuilder createVariable(String variable) {
 	StringBuilder stb = new StringBuilder();
@@ -265,9 +323,11 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * For given entity class creates item name. For class <code>FooBar</code> returns <code>fooBar</code> (only lowercases first char).
+     * For given entity class creates item name. For class <code>FooBar</code>
+     * returns <code>fooBar</code> (only lowercases first char).
+     *
      * @param clazz
-     * @return 
+     * @return
      */
     private String toObject(Class<?> clazz) {
 	String name = clazz.getSimpleName();
@@ -275,9 +335,11 @@ public class SimpleQuery<T> {
     }
 
     /**
-     * For given entity class creates "table" specifier. In fact, only returns entity class name.
+     * For given entity class creates "table" specifier. In fact, only returns
+     * entity class name.
+     *
      * @param clazz
-     * @return 
+     * @return
      */
     private String toTable(Class<?> clazz) {
 	return clazz.getSimpleName();
@@ -294,7 +356,7 @@ public class SimpleQuery<T> {
 	hash = 73 * hash + Objects.hashCode(this.order);
 	return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
 	if (this == obj) {
@@ -321,7 +383,7 @@ public class SimpleQuery<T> {
 	}
 	return true;
     }
-    
+
     @Override
     public String toString() {
 	return "SimpleQuery{" + "clazz=" + clazz + ", from=" + from + ", where=" + where + ", order=" + order + '}';
