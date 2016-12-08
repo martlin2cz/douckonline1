@@ -29,7 +29,7 @@ public class SubjTeachingSpec extends EntityWithLongID {
     @JoinColumn(name = "subject_name")
     private Subject subject;
 
-    @Column(name = "level")
+    @Column(name = "`level`")
     @Enumerated(EnumType.STRING)
     private Level level;
 

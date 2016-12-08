@@ -3,6 +3,7 @@ package cz.martlin.douckonline.business.test;
 import cz.martlin.douckonline.business.logic.Lectors;
 import cz.martlin.douckonline.business.logic.Managers;
 import cz.martlin.douckonline.business.logic.Moneys;
+import cz.martlin.douckonline.business.logic.Requests;
 import cz.martlin.douckonline.business.logic.Students;
 import cz.martlin.douckonline.business.logic.Subjects;
 import cz.martlin.douckonline.business.logic.Teachings;
@@ -14,6 +15,10 @@ import cz.martlin.douckonline.business.model.lector.Practice;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.lector.SubjTeachingSpec;
 import cz.martlin.douckonline.business.model.lector.Suitability;
+import cz.martlin.douckonline.business.model.managment.RequestReaction;
+import cz.martlin.douckonline.business.model.managment.RequestReactionStatus;
+import cz.martlin.douckonline.business.model.managment.TeachingRequest;
+import cz.martlin.douckonline.business.model.managment.TeachingRequestStatus;
 import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
 import cz.martlin.douckonline.business.model.teaching.SubjectCategory;
@@ -34,6 +39,7 @@ public class TestDataCreator {
     private static final Managers managers = new Managers();
     private static final Teachings teachings = new Teachings();
     private static final Moneys moneys = new Moneys();
+    private static final Requests requests = new Requests();
     
     private final Subject ENGLISH = new Subject("english", SubjectCategory.FOREIGN_LANGUAGE);
     private final Subject MATH = new Subject("math", SubjectCategory.SCIENCE);
@@ -54,6 +60,11 @@ public class TestDataCreator {
     private Teaching geekNerdMath;
     private Teaching geekLazyPhys;
     
+    private TeachingRequest allPiano;
+    private TeachingRequest elemMath;
+    private TeachingRequest middEng;
+    
+    
     public void create() {
 	createSubjects();
 	
@@ -66,6 +77,9 @@ public class TestDataCreator {
 	createTeaching1();
 	createLessons1();
 	createPayments1();
+	
+	createRequests();
+	createRequestsReactions();
     }
 
     private void createSubjects() {
@@ -262,6 +276,28 @@ public class TestDataCreator {
 	calendar.add(Calendar.DAY_OF_MONTH, -days);
 
 	return calendar;
+    }
+
+    private void createRequests() {
+	allPiano = new TeachingRequest("Miss Flute", "Kate Flute", "we@flute.com", "77554589566", PIANO, Level.ONLY_BASIC, "Piano for daughter", null, new ArrayList<RequestReaction>(), TeachingRequestStatus.WAITING_FOR_REACTIONS);
+	requests.addRequest(allPiano);
+	
+	elemMath = new TeachingRequest("Pete Square", "Pete Square", "ptr@sq.com", "7551212662", MATH, Level.BASIC_AND_INTERMIDIATE, "Help!", null, new ArrayList<RequestReaction>(), TeachingRequestStatus.WAITING_FOR_REACTIONS);
+	requests.addRequest(elemMath);
+	
+	middEng = new TeachingRequest("Anne Czech", "Lily Czech", "ann@cz.cz", "48722666688", ENGLISH, Level.ONLY_BASIC, "Bonjour, hilfe!", null, new ArrayList<RequestReaction>(), TeachingRequestStatus.WAITING_FOR_REACTIONS);
+	requests.addRequest(middEng);
+    }
+
+    private void createRequestsReactions() {
+	RequestReaction reaction1 = new RequestReaction(null, jamiehydrogen, RequestReactionStatus.YES, daysAgo(4), "Yes! I'm totally in!");
+	requests.react(elemMath, reaction1);
+	
+	RequestReaction reaction2 = new RequestReaction(null, petergeek, RequestReactionStatus.IF_NO_ONE_ELSE, daysAgo(3), "Okay..!");
+	requests.react(elemMath, reaction2);
+	
+	RequestReaction reaction3 = new RequestReaction(null, johnsmart, RequestReactionStatus.NO, daysAgo(5), "No time, sorry...");
+	requests.react(middEng, reaction3);
     }
 
 }

@@ -28,6 +28,7 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/base/EntityWithLongID.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/teaching/Student.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/teaching/Level.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/logic/Requests.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Lector.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/logic/Users.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Certificate.java

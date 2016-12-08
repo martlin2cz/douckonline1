@@ -18,7 +18,7 @@ public class SimpleQueryTest {
 //<editor-fold defaultstate="collapsed" desc="from">
     @Test
     public void testPrimitive() {
-	String expected0 = "SELECT jButton FROM JButton jButton";
+	String expected0 = "SELECT DISTINCT jButton FROM JButton jButton";
 	
 	SimpleQuery query0 = new SimpleQuery(JButton.class);
 	String actual0 = query0.toJPQL();
@@ -29,7 +29,7 @@ public class SimpleQueryTest {
     
     @Test
     public void testJoined() {
-	String expected0 = "SELECT jFrame FROM JFrame jFrame INNER JOIN JMenu jMenu ON jFrame.menu = jMenu";
+	String expected0 = "SELECT DISTINCT jFrame FROM JFrame jFrame INNER JOIN JMenu jMenu ON jFrame.menu = jMenu";
 	
 	SimpleQuery query0 = new SimpleQuery(relations(), false, JFrame.class, JMenu.class );
 	String actual0 = query0.toJPQL();
@@ -40,7 +40,7 @@ public class SimpleQueryTest {
     @Test
     public void testMultiJoinedChained() {
 	String expected0 = 
-		"SELECT jFrame FROM JFrame jFrame INNER JOIN JPanel jPanel ON jFrame.root_pane = jPanel INNER JOIN JLabel jLabel ON jPanel.label = jLabel";
+		"SELECT DISTINCT jFrame FROM JFrame jFrame INNER JOIN JPanel jPanel ON jFrame.root_pane = jPanel INNER JOIN JLabel jLabel ON jPanel.label = jLabel";
 	
 	SimpleQuery query0 = new SimpleQuery(relations(), false, JFrame.class, JPanel.class, JLabel.class);
 	String actual0 = query0.toJPQL();
@@ -51,7 +51,7 @@ public class SimpleQueryTest {
     @Test
     public void testMultiJoinedStar() {
 	String expected0 = 
-		"SELECT jPanel FROM JPanel jPanel INNER JOIN JFrame jFrame ON jFrame.root_pane = jPanel INNER JOIN JLabel jLabel ON jPanel.label = jLabel";
+		"SELECT DISTINCT jPanel FROM JPanel jPanel INNER JOIN JFrame jFrame ON jFrame.root_pane = jPanel INNER JOIN JLabel jLabel ON jPanel.label = jLabel";
 	
 	SimpleQuery query0 = new SimpleQuery(relations(), true, JPanel.class, JFrame.class, JLabel.class);
 	String actual0 = query0.toJPQL();
@@ -67,7 +67,7 @@ public class SimpleQueryTest {
     
     @Test
     public void testWithOrder() {
-	String expected0 = "SELECT jButton FROM JButton jButton ORDER BY jButton.height, jButton.width";
+	String expected0 = "SELECT DISTINCT jButton FROM JButton jButton ORDER BY jButton.height, jButton.width";
 	
 	SimpleQuery query0 = new SimpleQuery(JButton.class);
 	query0.addOrder("height", true);
@@ -82,7 +82,7 @@ public class SimpleQueryTest {
 //<editor-fold defaultstate="collapsed" desc="where">
     @Test
     public void testWithWhereCondition() {
-	String expected0 = "SELECT jButton FROM JButton jButton WHERE jButton.height > 10";
+	String expected0 = "SELECT DISTINCT jButton FROM JButton jButton WHERE jButton.height > 10";
 	
 	SimpleQuery query0 = new SimpleQuery(JButton.class);
 	query0.addWhereCondition("jButton.height > 10");
@@ -93,7 +93,7 @@ public class SimpleQueryTest {
 
     @Test
     public void testWithWhereAttribute() {
-	String expected0 = "SELECT jButton FROM JButton jButton WHERE jButton.height = :height AND jButton.width = :width";
+	String expected0 = "SELECT DISTINCT jButton FROM JButton jButton WHERE jButton.height = :height AND jButton.width = :width";
 	
 	SimpleQuery query0 = new SimpleQuery(JButton.class);
 	query0.addWhereAttribute("height");
@@ -105,7 +105,7 @@ public class SimpleQueryTest {
     
     @Test
     public void testWithWhereVariable() {
-	String expected0 = "SELECT jButton FROM JButton jButton WHERE jButton.height = :size AND jButton.width = :size";
+	String expected0 = "SELECT DISTINCT jButton FROM JButton jButton WHERE jButton.height = :size AND jButton.width = :size";
 	
 	SimpleQuery query0 = new SimpleQuery(JButton.class);
 	query0.addWhereVariable("height", true, "size");
@@ -118,7 +118,7 @@ public class SimpleQueryTest {
     
       @Test
     public void testWithWhereValue() {
-	String expected0 = "SELECT jButton FROM JButton jButton WHERE jButton.height = 20 AND jButton.width = 10";
+	String expected0 = "SELECT DISTINCT jButton FROM JButton jButton WHERE jButton.height = 20 AND jButton.width = 10";
 	
 	SimpleQuery query0 = new SimpleQuery(JButton.class);
 	query0.addWhereValue("height", true, 20);
@@ -131,7 +131,7 @@ public class SimpleQueryTest {
     
       @Test
     public void testWithWhereWhatever() {
-	String expected0 = "SELECT jButton FROM JButton jButton WHERE jButton.height > 10 AND jButton.width <= 20";
+	String expected0 = "SELECT DISTINCT jButton FROM JButton jButton WHERE jButton.height > 10 AND jButton.width <= 20";
 	
 	SimpleQuery query0 = new SimpleQuery(JButton.class);
 	query0.addWhereWhatever("height", true, "> 10");

@@ -19,9 +19,14 @@ import javax.validation.constraints.Size;
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
-@Table(name = "request_reaction")
+@Table(name = "request_reactions")
 public class RequestReaction extends EntityWithLongID {
 
+    
+    @ManyToOne
+    @JoinColumn(name = "teaching_request_id")
+    private TeachingRequest request;
+    
     @ManyToOne
     @JoinColumn(name = "lector_name")
     private Lector lector;
@@ -30,7 +35,7 @@ public class RequestReaction extends EntityWithLongID {
     @Enumerated(EnumType.STRING)
     private RequestReactionStatus status;
 
-    @Column(name = "when")
+    @Column(name = "`when`")
     @Temporal(TemporalType.TIME)
     private Calendar when;
 
@@ -43,15 +48,26 @@ public class RequestReaction extends EntityWithLongID {
 
     }
 
-    public RequestReaction(Lector lector, RequestReactionStatus status, Calendar when, String description) {
+    public RequestReaction(TeachingRequest request, Lector lector, RequestReactionStatus status, Calendar when, String description) {
 	super();
-
+	
+	this.request = request;
 	this.lector = lector;
 	this.status = status;
 	this.when = when;
 	this.description = description;
     }
 
+    public TeachingRequest getRequest() {
+	return request;
+    }
+
+    public void setRequest(TeachingRequest request) {
+	this.request = request;
+    }
+
+    
+    
     public Lector getLector() {
 	return lector;
     }
@@ -86,7 +102,7 @@ public class RequestReaction extends EntityWithLongID {
 
     @Override
     public String toString() {
-	return "cz.martlin.douckonline.business.model.managment.RequestReaction[ id=" + id + " ]";
+	return "RequestReaction{id=" + id + ", lector=" + lector.getLoginName() + ", request=" + request.getId() + ", description=" + description + "}";
     }
 
 }

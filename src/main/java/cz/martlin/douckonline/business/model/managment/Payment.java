@@ -3,7 +3,9 @@ package cz.martlin.douckonline.business.model.managment;
 import cz.martlin.douckonline.business.model.base.EntityWithLongID;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import java.util.Calendar;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,15 +22,19 @@ import javax.validation.constraints.Min;
 public class Payment extends EntityWithLongID {
 
     @ManyToOne
+    @JoinColumn(name = "student_login_name")
     private Student student;
 
+    @Column(name = "amount")
     @Min(0)
     private int amount;
 
+    @Column(name = "discount")
     @Min(0)
     @Max(100)
     private int discount;
 
+    @Column(name = "`date`")
     @Temporal(TemporalType.DATE)
     private Calendar date;
 

@@ -2,7 +2,6 @@ package cz.martlin.douckonline.business.model.teaching;
 
 import cz.martlin.douckonline.business.model.base.EntityWithLongID;
 import java.util.Calendar;
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -28,7 +27,7 @@ public class Lesson extends EntityWithLongID {
     @Temporal(TemporalType.DATE)
     private Calendar addedAt;
 
-    @Column(name = "date")
+    @Column(name = "`date`")
     @Temporal(TemporalType.DATE)
     private Calendar date;
 

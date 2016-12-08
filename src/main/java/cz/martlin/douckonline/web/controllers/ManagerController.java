@@ -2,11 +2,13 @@ package cz.martlin.douckonline.web.controllers;
 
 import cz.martlin.douckonline.business.logic.Lectors;
 import cz.martlin.douckonline.business.logic.Moneys;
+import cz.martlin.douckonline.business.logic.Requests;
 import cz.martlin.douckonline.business.logic.Students;
 import cz.martlin.douckonline.business.logic.Subjects;
 import cz.martlin.douckonline.business.logic.Teachings;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Payment;
+import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.teaching.Subject;
@@ -29,6 +31,7 @@ public class ManagerController {
     private final Students students = new Students();
     
     private final Teachings teachings = new Teachings();
+    private final Requests requests = new Requests();
     private final Moneys moneys = new Moneys();
     
     private Subject getSubject(String name) {
@@ -100,6 +103,13 @@ public class ManagerController {
     public List<Lesson> getLessonsOfLazy() {
 	return teachings.getLessonsOf(getStudent("MaryLazy"), -1);
     }
+    
+    
+    public List<TeachingRequest> getCurrentRequests() {
+	return requests.listAllPending();
+    }
+    
+    
     
     //TODO ?
     

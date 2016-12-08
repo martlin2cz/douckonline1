@@ -227,6 +227,18 @@ public class Lectors {
     }
 //</editor-fold>
     
- 
+//<editor-fold defaultstate="collapsed" desc="other (non-db querying)">
+    
+    public SubjTeachingSpec getSubjOfLector(Lector lector, Subject subject) {
+	for (SubjTeachingSpec spec: lector.getSubjects()) {
+	    if (spec.getSubject().equals(subject)) {
+		return spec;
+	    }
+	}
+	
+	return null;
+    }
+//</editor-fold>
+
 }
 

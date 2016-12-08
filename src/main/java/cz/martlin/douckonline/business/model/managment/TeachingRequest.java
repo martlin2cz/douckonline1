@@ -3,6 +3,7 @@ package cz.martlin.douckonline.business.model.managment;
 import cz.martlin.douckonline.business.model.base.EntityWithLongID;
 import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
@@ -19,7 +22,7 @@ import javax.validation.constraints.Size;
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
-@Table(name = "teaching_request")
+@Table(name = "teaching_requests")
 public class TeachingRequest extends EntityWithLongID {
 
     @Column(name = "register_name")
@@ -27,7 +30,7 @@ public class TeachingRequest extends EntityWithLongID {
     private String registerName;
 
     @Column(name = "student_name")
-    @Size(min = 2, max = 10)
+    @Size(min = 2, max = 50)
     private String studentName;
 
     @Column(name = "email")
@@ -42,7 +45,7 @@ public class TeachingRequest extends EntityWithLongID {
     @JoinColumn(name = "subject_name")
     private Subject subject;
 
-    @Column(name = "level")
+    @Column(name = "`level`")
     @Enumerated(EnumType.STRING)
     private Level level;
 
@@ -50,6 +53,11 @@ public class TeachingRequest extends EntityWithLongID {
     @Size(min = 0, max = 200)
     private String description;
 
+    @Column(name = "added_at")
+    @Temporal(TemporalType.DATE)
+    private Calendar addedAt;
+
+    
     @OneToMany
     @JoinColumn(name = "teaching_request_id")
     private List<RequestReaction> reactions;
@@ -58,14 +66,14 @@ public class TeachingRequest extends EntityWithLongID {
     @Enumerated(EnumType.STRING)
     private TeachingRequestStatus status;
 
+    
+    
     public TeachingRequest() {
 	super();
 
     }
 
-    public TeachingRequest(String registerName, String studentName, String email, String phone, Subject subject, Level level, String description, List<RequestReaction> reactions, TeachingRequestStatus status) {
-	super();
-
+    public TeachingRequest(String registerName, String studentName, String email, String phone, Subject subject, Level level, String description, Calendar addedAt, List<RequestReaction> reactions, TeachingRequestStatus status) {
 	this.registerName = registerName;
 	this.studentName = studentName;
 	this.email = email;
@@ -73,9 +81,11 @@ public class TeachingRequest extends EntityWithLongID {
 	this.subject = subject;
 	this.level = level;
 	this.description = description;
+	this.addedAt = addedAt;
 	this.reactions = reactions;
 	this.status = status;
     }
+
 
     public String getRegisterName() {
 	return registerName;
@@ -133,6 +143,14 @@ public class TeachingRequest extends EntityWithLongID {
 	this.description = description;
     }
 
+    public Calendar getAddedAt() {
+	return addedAt;
+    }
+
+    public void setAddedAt(Calendar addedAt) {
+	this.addedAt = addedAt;
+    }
+    
     public List<RequestReaction> getReactions() {
 	return reactions;
     }
@@ -151,7 +169,7 @@ public class TeachingRequest extends EntityWithLongID {
 
     @Override
     public String toString() {
-	return "TeachingRequest{id=" + id + ", subject=" + subject + ", ...}";
+	return "TeachingRequest{id=" + id + ", subject=" + subject.getName() + ", name=" + registerName + "}";
     }
 
 }

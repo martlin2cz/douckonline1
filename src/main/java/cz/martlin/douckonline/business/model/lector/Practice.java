@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Table(name = "practices")
 public class Practice extends EntityWithLongID {
 
-    @Column(name = "work")
+    @Column(name = "`work`")
     @Size(min = 1, max = 20)
     private String work;
 

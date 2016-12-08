@@ -240,7 +240,7 @@ public class SimpleQuery<T> {
     public String toJPQL() {
 	StringBuilder stb = new StringBuilder();
 
-	stb.append("SELECT");
+	stb.append("SELECT DISTINCT");
 	stb.append(' ');
 	stb.append(toObject(clazz));
 	stb.append(' ');

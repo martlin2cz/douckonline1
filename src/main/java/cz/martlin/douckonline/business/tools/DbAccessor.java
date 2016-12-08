@@ -5,6 +5,8 @@ import cz.martlin.douckonline.business.model.lector.Education;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.lector.SubjTeachingSpec;
 import cz.martlin.douckonline.business.model.managment.Payment;
+import cz.martlin.douckonline.business.model.managment.RequestReaction;
+import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.teaching.Subject;
@@ -213,6 +215,13 @@ public class DbAccessor {
 	
 	relations.addRelation(//
 		Lesson.class, Teaching.class, "teaching");
+	
+	relations.addRelation(//
+		TeachingRequest.class, Subject.class, "subject");
+	relations.addRelation(//
+		RequestReaction.class, TeachingRequest.class, "request");
+	relations.addRelation(//
+		RequestReaction.class, Lector.class, "lector");
 	
 	
 	

@@ -11,7 +11,16 @@
 
 	<h1>Lector</h1>
 	<h2>Teaching requests</h2>
-	TODO...
+	<c:forEach items="#{lectorsProfileController.currentRequests}" var="teaching_request">
+	    <h:panelGrid columns="5">
+		<h:outputLabel value="Subject:" />
+		<h:outputText value="#{teaching_request.subject}" />
+		<h:outputLabel value="Level:" />
+		<h:outputText value="#{teaching_request.level}" />
+		
+		<h:outputText value="#{teaching_request.description}" />
+	    </h:panelGrid>
+	</c:forEach>
 	
 	<h2>Students</h2>
 	<ul>

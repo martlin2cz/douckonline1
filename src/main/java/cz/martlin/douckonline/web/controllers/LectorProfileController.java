@@ -1,13 +1,9 @@
-/*
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.martlin.douckonline.web.controllers;
 
+import cz.martlin.douckonline.business.logic.Requests;
 import cz.martlin.douckonline.business.logic.Teachings;
 import cz.martlin.douckonline.business.model.lector.Lector;
+import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
 import cz.martlin.douckonline.web.rest.LoginSession;
@@ -25,6 +21,7 @@ import javax.inject.Named;
 public class LectorProfileController {
     private static final int SHOW_LESSONS_DAYS_AGO = 30;
     private final Teachings teachings = new Teachings();
+    private final Requests requests = new Requests();
     
     @Inject private LoginSession session;
     
@@ -33,6 +30,10 @@ public class LectorProfileController {
     
     public Lector getLoggedLector() {
 	return session.getLoggedLector();
+    }
+    
+    public List<TeachingRequest> getCurrentRequests() {
+	return requests.listPendingForLector(getLoggedLector());
     }
     
     public List<Teaching> getCurrentTeachings() {
