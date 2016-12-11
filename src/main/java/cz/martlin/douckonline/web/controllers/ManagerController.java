@@ -47,6 +47,21 @@ public class ManagerController {
 	return lectors.getLector(loginName);
     }
     
+    
+    //<editor-fold defaultstate="collapsed" desc="public api or something like that">
+    
+    
+    public List<TeachingRequest> getCurrentRequests() {
+	return requests.listAllPending();
+    }
+    
+    public List<Teaching> getCurrentTeachings() {
+	return teachings.listCurrentTeachings();
+    }
+    
+    
+//</editor-fold>
+    
     public List<Lector> getEnglishLectors() {
 	return lectors.listLectorsOfSubject(getSubject("english"));
     }
@@ -105,9 +120,6 @@ public class ManagerController {
     }
     
     
-    public List<TeachingRequest> getCurrentRequests() {
-	return requests.listAllPending();
-    }
     
     
     

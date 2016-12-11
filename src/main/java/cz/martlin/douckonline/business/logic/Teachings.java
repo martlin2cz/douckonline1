@@ -260,5 +260,5 @@ public class Teachings {
     }
 //</editor-fold>
 
-    //TODO TeachingRequests
+
 }

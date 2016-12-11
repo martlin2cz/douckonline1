@@ -33,21 +33,25 @@ public class Student extends User implements Serializable{
     @Size(min = 9, max = 15)
     private String phone;
     
-    @Column(name = "bank_account_number")
+    @Column(name = "bank_account_number", nullable = true)
     @Size(min = 8, max = 20)
-    //@Nullable
     private String bankAccountNumber;
+    
+    @Column(name = "adress", nullable = true)
+    @Size(min = 5, max = 50)
+    private String adress;
     
     public Student() {
     }
 
-    public Student(String registerName, String studentName, String email, String phone, String bankAccountNumber, String loginName, String passwordHash, String passwordSalt, Calendar registeredAt, Calendar lastLoginAt) {
+    public Student(String registerName, String studentName, String email, String phone, String bankAccountNumber, String adress, String loginName, String passwordHash, String passwordSalt, Calendar registeredAt, Calendar lastLoginAt) {
 	super(loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
 	this.registerName = registerName;
 	this.studentName = studentName;
 	this.email = email;
 	this.phone = phone;
 	this.bankAccountNumber = bankAccountNumber;
+	this.adress = adress;
     }
 
     @Override
@@ -99,6 +103,14 @@ public class Student extends User implements Serializable{
 
     public void setBankAccountNumber(String bankAccountNumber) {
 	this.bankAccountNumber = bankAccountNumber;
+    }
+
+    public String getAdress() {
+	return adress;
+    }
+
+    public void setAdress(String adress) {
+	this.adress = adress;
     }
     
     @Override

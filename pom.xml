@@ -55,7 +55,7 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-<!--	
+	
 	<dependency>  
 	    <groupId>org.primefaces</groupId>  
 	    <artifactId>primefaces</artifactId>  
@@ -67,7 +67,7 @@
 	    <artifactId>ui-lightness</artifactId>  
 	    <version>1.0.10</version>  
 	</dependency>
--->
+	
     </dependencies>
 
     <build>

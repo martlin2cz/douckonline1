@@ -30,7 +30,7 @@ public class Lectors {
      * @return
      */
     public List<Lector> listAllLectors() {
-	LOG.trace("Loading lectors");
+	LOG.trace("Loading all lectors");
 	List<Lector> lectors = db.listAll(Lector.class);
 	return lectors;
     }

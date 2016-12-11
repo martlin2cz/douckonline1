@@ -174,24 +174,27 @@ public class TestDataCreator {
     }
 
     private void createStudents() {
-	karllazy = createStudent("Mary Lazy", "Karl", "the-password", 
-		"774 155 812", "mary@lazy.uk", null, 20, 18);
+	karllazy = createStudent("Mary Lazy", "Karl", 
+		"774 155 812", "mary@lazy.uk", "15 42th Ave NYC", 
+		null, 20, 18);
 	
-	mikenerd = createStudent("Mike Nerd", "Mike Nerd", "intergallactic-password", 
-		"196 804 0308", "mike@nerd.com", "1455-47778335/5555", 16, 4);
+	mikenerd = createStudent("Mike Nerd", "Mike Nerd", 
+		"196 804 0308", "mike@nerd.com", "42 Geektown", 
+		"1455-47778335/5555", 16, 4);
 	
-	evemilly = createStudent("Mom Milly", "Eve Milly", "123456", 
-		"112 233 455", "eve@millies.uk", "45522-44457775-1161", 20, 20);
+	evemilly = createStudent("Mom Milly", "Eve Milly", 
+		"112 233 455", "eve@millies.uk", "The Millies 1, L.A.", 
+		"45522-44457775-1161",  20, 20);
     }
     
-    private Student createStudent(String registerName, String studentName, String password, String phone, String email, String bankAccountNumber, int regeristedBefore, int lastLoginBefore) {
+    private Student createStudent(String registerName, String studentName, String phone, String email, String adress, String bankAccountNumber, int regeristedBefore, int lastLoginBefore) {
 	String loginName = null;
 	String passwordHash = null;
 	String passwordSalt = null;
 	Calendar registeredAt = daysAgo(regeristedBefore);
 	Calendar lastLoginAt = daysAgo(lastLoginBefore);
 	
-	Student student = new Student(registerName, studentName, phone, email, bankAccountNumber, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
+	Student student = new Student(registerName, studentName, phone, email, bankAccountNumber, adress, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
 	students.addStudent(student);
 	return student;
     }

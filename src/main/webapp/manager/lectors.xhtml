@@ -1,34 +1,17 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
     
 
 <ui:composition template="/WEB-INF/templates/main-template.xhtml">
-	<ui:define name="main-content">
-
-	<h1>Our lectors (not really)</h1>
-	<h:dataTable value="#{lectorsController.lectors}" var="lector">
-	    <h:column>
-		<f:facet name="header">Login</f:facet>
-		
-		<h:outputText value="#{lector.loginName}" />
-	    </h:column>
-	    <h:column>
-		<f:facet name="header">Real name</f:facet>
-		
-		<h:outputText value="#{lector.titleBeforeName}" />
-		<h:outputText value="#{lector.fullName}" />,
-		<h:outputText value="#{lector.titleAfterName}" />
-	    </h:column>
-	</h:dataTable> 
-	<h:form>
-	    <h:inputText value="#{lectorsController.newLectorName}" />
-	    <h:commandButton value="Add lector" action="#{lectorsController.addLector()}" />
-	</h:form>
+    <ui:define name="title">Lectors</ui:define>
+    
+    <ui:define name="main-content">
+	<martlin:lectors-pane items="#{lectorsController.lectors}" />
 	</ui:define>
 </ui:composition>
 </html>

@@ -105,13 +105,14 @@ public class Requests {
 	String email = request.getEmail();
 	String phone = request.getPhone();
 	String bankAccountNumber = null;
+	String adress = null;
 	String loginName = null;
 	String passwordHash = null;
 	String passwordSalt = null;
 	Calendar registeredAt = null;
 	Calendar lastLoginAt = null;
 
-	Student student = new Student(registerName, studentName, email, phone, bankAccountNumber, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
+	Student student = new Student(registerName, studentName, email, phone, bankAccountNumber, adress, loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
 
 	boolean success = students.addStudent(student);
 	if (success) {

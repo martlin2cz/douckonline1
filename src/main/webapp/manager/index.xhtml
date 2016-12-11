@@ -1,28 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:martlin="http://java.sun.com/jsf/composite/martlin"
+      >
     
   <ui:composition template="/WEB-INF/templates/main-template.xhtml">
-    <ui:define name="main-content">
-
-	<h1>Manager</h1>
-	TODO
-	<h2>Teaching requests</h2>
-	<c:forEach items="#{managerController.currentRequests}" var="teaching_request">
-	    <h:panelGrid columns="6">
-		<h:outputLabel value="Subject:" />
-		<h:outputText value="#{teaching_request.subject.name}" />
-		<h:outputLabel value="Level:" />
-		<h:outputText value="#{teaching_request.level}" />
-		<h:outputLabel value="Description:" />
-		<h:outputText value="#{teaching_request.description}" />
-	    </h:panelGrid>
-	</c:forEach>
-	
+      <ui:define name="title">Manager</ui:define>
+      
+      <ui:define name="main-content">
+	   
+	  <martlin:teaching-requests-pane items="#{managerController.currentRequests}" displayAll="true" />
+	  
+	  <martlin:teachings-pane items="#{managerController.currentTeachings}" />
+	  
 	<pre>
 Some data queried from db:
     English lectors: #{managerController.englishLectors}

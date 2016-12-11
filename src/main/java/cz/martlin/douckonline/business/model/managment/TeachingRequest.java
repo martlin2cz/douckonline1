@@ -57,7 +57,6 @@ public class TeachingRequest extends EntityWithLongID {
     @Temporal(TemporalType.DATE)
     private Calendar addedAt;
 
-    
     @OneToMany
     @JoinColumn(name = "teaching_request_id")
     private List<RequestReaction> reactions;

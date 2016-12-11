@@ -30,6 +30,7 @@ public class LoginFilter implements Filter {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
     
     private static final String XHTML_FILE_PATTERN = "^(.+)\\.xhtml$";
+    private static final String RESOURCE_DIR = "javax.faces.resource";
     private static final Map<Class<?>, String> FOLDERS = initFolders();
     
     @Inject private LoginSession login;
@@ -102,6 +103,9 @@ public class LoginFilter implements Filter {
     public static String checkLoginAndGetRedirect(PathInfo info, LoginSession login) {
 	String currentFolder = info.getFoldersCount() == 0 ? null : info.getFolder(0);
 	String expectedFolder = getRequiredFolder(login);
+	if (RESOURCE_DIR.equals(currentFolder)) {
+	    return null;
+	}
 	
 	if (currentFolder == null && expectedFolder != null) {
 	    return expectedFolder;
