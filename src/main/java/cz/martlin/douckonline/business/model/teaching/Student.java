@@ -22,7 +22,7 @@ public class Student extends User implements Serializable{
     private String registerName;
     
     @Column(name = "student_name")
-    @Size(min = 2, max = 10)
+    @Size(min = 2, max = 50)
     private String studentName;
     
     @Column(name = "email")

@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      >
+  
+    <composite:interface displayName="Panel with teaching requests' reactions">
+	<composite:attribute name="items"  required="true" type="java.util.List" />
+	<composite:attribute name="withRequest"  required="false" type="boolean" default="#{false}" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+	<composite:attribute name="withActionButtons" required="false" type="boolean" default="#{false}" />
+	
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="teaching-requests-reactions-pane">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+	    
+	    <h:form id="requests-reactions-table-form">
+	    <p:dataTable value="#{cc.attrs.items}" var="requestReaction" emptyMessage="No current teaching requests' reactions for given request">
+		<c:if test="#{cc.attrs.withRequest}">
+		    <p:column headerText="Subject">
+			<h:outputText value="#{requestReaction.request.subject.name}" />
+		    </p:column>
+
+		    <p:column headerText="Level">
+			<h:outputText value="#{requestReaction.request.level}" />
+		    </p:column>
+		</c:if>
+
+		<p:column headerText="Lector">
+		    <h:outputText value="#{requestReaction.lector.displayName}" />
+		</p:column>
+
+		<p:column headerText="Date">
+		    <h:outputText value="#{requestReaction.when.time}" />
+		</p:column>
+
+		<p:column headerText="Status">
+		    <h:outputText value="#{requestReaction.status}" />
+		</p:column>
+
+		<p:column headerText="Description">
+		    <h:outputText value="#{requestReaction.description}" />
+		</p:column>
+		
+		<c:if test="#{cc.attrs.withActionButtons}">
+		    <p:column headerText="">
+			<p:commandButton value="Assign" update="@all"
+					action="#{requestReactionsController.assignToLector(requestReaction)}" />
+		    </p:column>
+		</c:if>
+	    </p:dataTable>
+		
+	    </h:form>
+	    
+	</section>
+    </composite:implementation>
+</html>
+

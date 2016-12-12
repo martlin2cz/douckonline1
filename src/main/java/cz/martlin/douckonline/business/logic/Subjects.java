@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class Subjects {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private final DbAccessor db = new DbAccessor();
+    private final DbAccessor db = DbAccessor.get();
     
     public Subjects() {
     }

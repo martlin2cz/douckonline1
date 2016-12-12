@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+    <composite:interface displayName="Panel with teaching requests">
+	<composite:attribute name="items"  required="true" type="java.util.List" />
+	<composite:attribute name="displayAll" default="false" required="false" type="boolean" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="teaching-requests-pane">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+
+
+	    <h:form id="teaching-requests-form">
+
+		<p:commandButton value="Add request" action="#{teachingRequestsController.openNewRequest}"
+				 oncomplete="PF('teachingRequestDialog').show()" />
+
+
+		<p:dataGrid value="#{cc.attrs.items}" var="teaching_request" 
+			    layout="grid" columns="2"
+			    emptyMessage="No current teaching requests">
+
+		    <h:panelGrid columns="4">
+
+			<h:outputLabel value="Subject:" />
+			<h:outputText value="#{teaching_request.subject.name}" />
+
+			<h:outputLabel value="Level:" />
+			<h:outputText value="#{teaching_request.level}" />
+
+			<c:if test="#{cc.attrs.displayAll}">
+			    <h:outputLabel value="Registered to:" />
+			    <h:outputText value="#{teaching_request.registerName}" />
+
+			    <h:outputLabel value="Student name:" />
+			    <h:outputText value="#{teaching_request.studentName}" />
+
+
+			    <h:outputLabel value="Email:" />
+			    <h:outputText value="#{teaching_request.email}" />
+
+			    <h:outputLabel value="Phone:" />
+			    <h:outputText value="#{teaching_request.phone}" />
+
+
+			    <h:outputLabel value="Added at:" />
+			    <h:outputText value="#{teaching_request.addedAt.time}" />
+
+			    <h:outputLabel value="Reactions:" />
+			    <h:panelGroup>
+				<h:outputText value="#{teaching_request.reactions.size()}" />
+				<p:commandButton value="Show" 
+						 action="#{teachingRequestsController.loadReactions(teaching_request)}" 
+						 oncomplete="PF('reactionsDialog').show()"
+						 update="@widgetVar(reactionsDialog)" />			    
+			    </h:panelGroup>
+			</c:if>
+
+			<h:outputLabel value="Description:" />		   
+			
+			<p:commandButton value="Edit" 
+					 action="#{teachingRequestsController.openRequest(teaching_request)}"
+					 update="@widgetVar(teachingRequestDialog)"
+					 oncomplete="PF('teachingRequestDialog').show()" />
+
+			<p:commandButton value="Dismiss" />
+			
+			<p:commandButton value="Assign to..." />
+
+		    </h:panelGrid>
+		    <h:outputText value="#{teaching_request.description}" />
+		</p:dataGrid>
+	    </h:form>
+
+	    <p:dialog header="Reactions" widgetVar="reactionsDialog" id="reactionsDialog">
+		<martlin:requests-reactions-table 
+		    items="#{teachingRequestsController.currentReactions}"
+		    withActionButtons="true" withRequest="false" />
+	    </p:dialog>
+
+
+	    <p:dialog header="Add teaching request" widgetVar="teachingRequestDialog" id="teachingRequestDialog">
+		<martlin:teaching-request-detail
+		    item="#{teachingRequestsController.currentRequest}" 
+		    onSaved="hideOnSuccess(xhr, status, args, 'teachingRequestDialog');" />
+	    </p:dialog>
+
+	</section>
+
+
+
+
+
+    </composite:implementation>
+</html>
+

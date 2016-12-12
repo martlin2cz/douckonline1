@@ -11,10 +11,12 @@
       <ui:define name="title">Manager</ui:define>
       
       <ui:define name="main-content">
-	   
-	  <martlin:teaching-requests-pane items="#{managerController.currentRequests}" displayAll="true" />
 	  
-	  <martlin:teachings-pane items="#{managerController.currentTeachings}" />
+	  <martlin:teaching-requests-table items="#{managerController.currentRequests}" displayAll="true" 
+					   title="Current teaching requests" />
+	  
+	  <martlin:teachings-table items="#{managerController.currentTeachings}" 
+				   title="Currently running teachings" />
 	  
 	<pre>
 Some data queried from db:
@@ -39,6 +41,7 @@ Some data queried from db:
 	</pre>
 	
 
+	  
     </ui:define>
   </ui:composition>
 </html>

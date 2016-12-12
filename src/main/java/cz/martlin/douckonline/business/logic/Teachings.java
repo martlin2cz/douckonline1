@@ -24,7 +24,7 @@ public class Teachings {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
     private static final String STARTED_TEACHING_DESCRIPTION = "Just started";
 
-    private final DbAccessor db = new DbAccessor();
+    private final DbAccessor db = DbAccessor.get();
 
     public Teachings() {
     }

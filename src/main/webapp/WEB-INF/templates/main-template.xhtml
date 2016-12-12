@@ -9,6 +9,8 @@
       >
     <h:head>	
 	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
 	<title>
 	    <ui:insert name="title">
 		douckonline
@@ -16,8 +18,8 @@
 	    | douckonline
 	</title>
 	
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<h:outputStylesheet library="default-style" name="css/styles.css" />
+	<h:outputScript library="default-style" name="js/common.js" />
     </h:head>
     <h:body>
 	<header>
@@ -40,7 +42,7 @@
 	
 	<footer>
 	    <h:form>
-		<p:commandButton value="Generate test database" 
+		<p:commandButton value="Generate test database" update="@all" 
 				 action="#{testsController.generateTestDatabase()}" 
 				 />
 		
@@ -60,7 +62,16 @@
 		LOADING
 	    </p:dialog>
 	   
-	    <!-- ... -->
+	    <!-- notifications messages -->
+	    
+	    <p:growl id="growl" showSummary="true" showDetail="true" sticky="true" />
+	    <!-- life="10000" --> 
+	    
+	    <!-- dynamic update -->
+	    <h:form id="update-whole-page-remote-comand-form">
+		<p:remoteCommand name="updateWholePage"
+		    	     action="#{miscController.doNothing()}" update="@all" />
+	    </h:form>
 	</section>
     </h:body>
 </html>

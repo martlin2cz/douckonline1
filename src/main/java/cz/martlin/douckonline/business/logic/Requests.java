@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class Requests {
 
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-    private final DbAccessor db = new DbAccessor();
+    private final DbAccessor db = DbAccessor.get();
     private final Teachings teachings = new Teachings();
     private final Lectors lectors = new Lectors();
     private final Students students = new Students();
@@ -81,7 +81,38 @@ public class Requests {
 	Calendar addedAt = Calendar.getInstance();
 	request.setAddedAt(addedAt);
 	
-	return db.insert(request);
+	TeachingRequestStatus status = TeachingRequestStatus.WAITING_FOR_REACTIONS;
+	request.setStatus(status);
+	
+	return db.insertSingle(request);
+    }
+    
+    
+    private boolean updateRequestStatus(TeachingRequest request) {
+	LOG.trace("Updating request's status");
+	
+	return db.updateSingle(request);
+	
+    }
+    
+    public Teaching reactionToTeaching(RequestReaction reaction) {
+	LOG.trace("Making teaching from lector's reaction");
+	
+	db.startBulkModification();
+	
+	TeachingRequest request = reaction.getRequest();
+	request.setStatus(TeachingRequestStatus.TEACHING_RUNNING);
+	updateRequestStatus(request);
+	/*
+	FIXME TODO uncomenme
+	Lector lector = reaction.getLector();
+	
+	Teaching t = requestToTeaching(request, lector);
+	*/
+	db.finishBulkModification();
+
+	return null;	//FIXME XXX
+	//return t;
     }
 
     public Teaching requestToTeaching(TeachingRequest request, Lector lector) {
@@ -93,8 +124,16 @@ public class Requests {
 	int cost = lectors.getSubjOfLector(lector, subject).getCost();
 
 	Teaching teaching = teachings.startTeaching(lector, student, subject, level, cost);
-	return teaching;
-
+	
+	if (teaching != null) {
+	    request.setStatus(TeachingRequestStatus.TEACHING_RUNNING);
+	    boolean succ = updateRequestStatus(request);
+	    if (succ) {
+		return teaching;
+	    }
+	}
+	
+	return null;
     }
 
     private Student requestToStudent(TeachingRequest request) {
@@ -122,4 +161,5 @@ public class Requests {
 	}
     }
 //</editor-fold>
+
 }

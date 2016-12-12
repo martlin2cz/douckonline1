@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public class Managers {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private final DbAccessor db = new DbAccessor();
+    private final DbAccessor db = DbAccessor.get();
 
     public Managers() {
     }

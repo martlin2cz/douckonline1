@@ -32,6 +32,10 @@ public abstract class EntityWithLongID implements Serializable {
 	this.id = id;
     }
     
+    public boolean isPersisted() {
+	return this.id != 0;
+    }
+    
     @Override
     public int hashCode() {
 	int hash = 0;

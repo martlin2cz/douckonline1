@@ -11,7 +11,8 @@
     <ui:define name="title">Lectors</ui:define>
     
     <ui:define name="main-content">
-	<martlin:lectors-pane items="#{lectorsController.lectors}" />
-	</ui:define>
+	<martlin:lectors-table items="#{lectorsController.lectors}" title="Our lectors" />
+	
+    </ui:define>
 </ui:composition>
 </html>

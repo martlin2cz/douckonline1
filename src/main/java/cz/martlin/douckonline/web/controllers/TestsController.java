@@ -24,7 +24,7 @@ public class TestsController {
     }
     
     public void closeFactory() {
-	DbAccessor db = new DbAccessor();
+	DbAccessor db = DbAccessor.get();
 	db.closeFactory();
     }
 }

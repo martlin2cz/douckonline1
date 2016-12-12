@@ -14,10 +14,15 @@ import cz.martlin.douckonline.business.model.teaching.Teaching;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import org.eclipse.persistence.exceptions.DatabaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +36,21 @@ public class DbAccessor {
     private final static Logger LOG = LoggerFactory.getLogger(DbAccessor.class);
     private final static String PERSISTENCE_UNIT_NAME = "pu_douckonline_1";
 
-    private static EntityManagerFactory entityManagerFactory;
+    private static final DbAccessor INSTANCE = new DbAccessor();
 
-    public DbAccessor() {
+    private static EntityManagerFactory entityManagerFactory;
+    private EntityManager entityManager;
+
+//<editor-fold defaultstate="collapsed" desc="singleton">
+    private DbAccessor() {
+
     }
 
+    public static DbAccessor get() {
+	return INSTANCE;
+    }
+
+//</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="start and finish of whole db mechanism">
     public static void createFactory() {
 	LOG.debug("Starting entity manager factory");
@@ -93,7 +108,8 @@ public class DbAccessor {
     }
 
     /**
-     * Lists by given condition. 
+     * Lists by given condition.
+     *
      * @param <T>
      * @param clazz
      * @param isStar
@@ -101,7 +117,7 @@ public class DbAccessor {
      * @param attrs
      * @param vars
      * @param values
-     * @return 
+     * @return
      */
     public <T> List<T> listByCond(Class<T> clazz, boolean isStar, Class<?>[] classes, String attrs[], String[] vars, Object values[]) {
 	SimpleQuery<T> simple = createQuery(clazz, isStar, classes);
@@ -112,34 +128,97 @@ public class DbAccessor {
 	return runSimpleQuery(simple, vars, values);
     }
 //</editor-fold>
-    
+
     /**
-     * 
+     *
      * @param jpql
      * @param vars
      * @param vals
-     * @return 
+     * @return
      */
     public <T> T runNativeJPQL(String jpql, String[] vars, Object[] vals) {
 	Query query = toJPAQuery(jpql, vars, vals);
 	Object result = query.getSingleResult();
 	return (T) result;
     }
-//<editor-fold defaultstate="collapsed" desc="insert, update, delete">
-    public <T> boolean insert(T item) {
-	return save(item, "insert");
+
+//<editor-fold defaultstate="collapsed" desc="bulk of modifications start and finish">
+    public boolean startBulkModification() {
+	try {
+	    entityManager = entityManagerFactory.createEntityManager();
+	    entityManager.getTransaction().begin();
+	    return true;
+	} catch (Exception e) {
+	    LOG.error("Cannot start bulk modifications", e);
+	    entityManager = null;
+	    return false;
+	}
     }
 
+    public boolean finishBulkModification() {
+	try {
+	    entityManager.getTransaction().commit();
+	    entityManager = null;
+	    return true;
+	} catch (Exception e) {
+	    LOG.error("Cannot finish bulk modifications", e);
+	    entityManager = null;
+	    return false;
+	}
+    }
+
+    public boolean isBulkModificationReady(String operation) {
+	boolean ready = (entityManager != null);
+
+	if (!ready) {
+	    LOG.error("Cannot perform " + operation + ", bulk modification not ready");
+	}
+
+	return ready;
+    }
+//</editor-fold>
+
+//<editor-fold defaultstate="collapsed" desc="insert, update, delete">
+    
+    
+    public <T> boolean insert(T item) {
+	if (!isBulkModificationReady("insert")) {
+	    return false;
+	}
+
+	try {
+	    validate(item);
+	    entityManager.persist(item);
+	    return true;
+	} catch (Exception e) {
+	    LOG.error("Cannot insert " + item, e);
+	    return false;
+	}
+    }
+    
     public <T> boolean update(T item) {
-	return save(item, "update");
+	if (!isBulkModificationReady("update")) {
+	    return false;
+	}
+
+	try {
+	    validate(item);
+	    entityManager.merge(item);	//TODO returnval?
+	    return true;
+	} catch (Exception e) {
+	    LOG.error("Cannot update " + item, e);
+	    return false;
+	}
+
     }
 
     public <T> boolean remove(T item) {
+	if (!isBulkModificationReady("remove")) {
+	    return false;
+	}
+
 	try {
-	    EntityManager entityManager = entityManagerFactory.createEntityManager();
-	    entityManager.getTransaction().begin();
 	    entityManager.remove(item);
-	    entityManager.getTransaction().commit();
 	    return true;
 	} catch (Exception e) {
 	    LOG.error("Cannot remove " + item, e);
@@ -147,19 +226,52 @@ public class DbAccessor {
 	}
     }
 
-    private <T> boolean save(T item, String operation) {
-	try {
-	    EntityManager entityManager = entityManagerFactory.createEntityManager();
-	    entityManager.getTransaction().begin();
-	    entityManager.persist(item);
-	    entityManager.getTransaction().commit();
-	    return true;
-	} catch (Exception e) {
-	    LOG.error("Cannot " + operation + " " + item, e);
-	    return false;
-	}
+    
+    //TODO FIXME: return start && insert && finish? or how to handle errors?
+    
+    public <T> boolean insertSingle(T item) {
+	startBulkModification();
+	insert(item);
+	return finishBulkModification();
+    }
+    
+    public <T> boolean updateSingle(T item) {
+	startBulkModification();
+	update(item);
+	return finishBulkModification();
+    }
+    
+    public <T> boolean removeSingle(T item) {
+	startBulkModification();
+	remove(item);
+	return finishBulkModification();
     }
 //</editor-fold>
+
+    /**
+     * https://coderanch.com/t/589060/java/bean-validation-error-JPA-persist
+     *
+     * @param <T>
+     * @param entity
+     * @return
+     */
+    private <T> boolean validate(T entity) {
+	LOG.info("Validating entity: " + entity);
+
+	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	Validator validator = factory.getValidator();
+	Set<ConstraintViolation<T>> constraintViolations = validator.validate(entity);
+
+	if (!constraintViolations.isEmpty()) {
+	    for (ConstraintViolation<T> cv : constraintViolations) {
+		LOG.error("Validation error: on " + cv.getPropertyPath() + " value " + cv.getInvalidValue() + ", because: " + cv.getMessage());
+	    }
+	} else {
+	    LOG.info("Validation successfull!");
+	}
+
+	return constraintViolations.isEmpty();
+    }
 
 //<editor-fold defaultstate="collapsed" desc="helping methods (creating of queries)">
     public <T> SimpleQuery<T> createQuery(Class<T> clazz) {
@@ -202,36 +314,33 @@ public class DbAccessor {
 		SubjTeachingSpec.class, Lector.class, "lector");
 	relations.addRelation(//
 		SubjTeachingSpec.class, Subject.class, "subject");
-	
+
 	relations.addRelation(//
 		Payment.class, Student.class, "student");
-	
+
 	relations.addRelation(//
 		Teaching.class, Student.class, "student");
 	relations.addRelation(//
 		Teaching.class, Lector.class, "lector");
 	relations.addRelation(//
 		Teaching.class, Subject.class, "subject");
-	
+
 	relations.addRelation(//
 		Lesson.class, Teaching.class, "teaching");
-	
+
 	relations.addRelation(//
 		TeachingRequest.class, Subject.class, "subject");
 	relations.addRelation(//
 		RequestReaction.class, TeachingRequest.class, "request");
 	relations.addRelation(//
 		RequestReaction.class, Lector.class, "lector");
-	
-	
-	
+
 	/*
 	relations.addRelation(//
 		Certificate.class, Lector.class, "lector");
 	relations.addRelation(//
 		Certificate.class, Lector.class, "lector");
-	*/
-	
+	 */
 	return relations;
     }
 

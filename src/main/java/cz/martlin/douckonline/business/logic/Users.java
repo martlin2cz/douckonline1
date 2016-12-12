@@ -27,7 +27,7 @@ public class Users {
     private final Lectors lectors = new Lectors();
     private final Managers managers = new Managers();
     
-    private final DbAccessor db = new DbAccessor();
+    private final DbAccessor db = DbAccessor.get();
     
     public Users() {
     }

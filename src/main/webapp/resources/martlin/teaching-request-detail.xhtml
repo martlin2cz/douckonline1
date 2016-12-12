@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+    <composite:interface displayName="Panel with teaching requests">
+	<composite:attribute name="item"  required="true" type="cz.martlin.douckonline.business.model.managment.TeachingRequest" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+	<composite:attribute name="onSaved" required="false" type="java.lang.String" default="" />
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="teaching-request-detail">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+
+	    <h:form id="teaching-request-detail-form">
+		<h:panelGrid columns="2">
+		    <h:outputLabel value="Subject:" />
+		    <martlin:subjects-list value="#{cc.attrs.item.subject}" />	 
+		    
+		    <h:outputLabel value="Level:" />
+		    <p:selectOneMenu value="#{cc.attrs.item.level}">
+			<f:selectItems value="#{teachingRequestsController.allLevels}" />
+		    </p:selectOneMenu>
+
+		    <h:outputLabel value="Registered to:" />
+		    <h:inputText value="#{cc.attrs.item.registerName}" />
+
+		    <h:outputLabel value="Student name:" />
+		    <h:inputText value="#{cc.attrs.item.studentName}" />
+
+		    <h:outputLabel value="Email:" />
+		    <h:inputText value="#{cc.attrs.item.email}" />
+
+		    <h:outputLabel value="Phone:" />
+		    <h:inputText value="#{cc.attrs.item.phone}" />
+
+
+		    <h:outputLabel value="Added at:" />
+		    <h:outputText value="#{cc.attrs.item.addedAt.time}" />
+
+		    <h:outputLabel value="Description:" />		   
+		    <h:inputTextarea value="#{cc.attrs.item.description}" />
+		</h:panelGrid>
+		
+		<p:messages />
+
+		<p:commandButton value="Save" 
+				 action="#{teachingRequestsController.saveRequest(cc.attrs.item)}"
+				 oncomplete="#{cc.attrs.onSaved}"
+				 update="@form"
+				 />
+
+	    </h:form>
+
+
+	</section>
+
+
+
+    </composite:implementation>
+</html>
+
