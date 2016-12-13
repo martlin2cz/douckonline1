@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      >
+  
+    
+    <composite:interface displayName="Lectors dropdown list">
+	<composite:attribute name="value" type="cz.martlin.douckonline.business.model.lector.Lector" required="true" />
+	<composite:attribute name="withSubjects" type="boolean" required="true" />
+    </composite:interface>
+
+    <composite:implementation>
+	<p:selectOneMenu value="#{cc.attrs.value}" converter="#{usersConverter}" id="lectors-dropdown"
+			 var="lector" filter="true" filterMatchMode="contains">
+	    
+	    <f:selectItems value="#{lectorsController.lectors}" var="lector" 
+			   itemValue="#{lector}" itemLabel="#{lector.displayName}" />
+	    
+	    <p:column>
+		<h:outputText value="#{lector.displayName}" />
+	    </p:column>
+
+	    <c:if test="#{cc.attrs.withSubjects}">
+		<p:column>
+		    <ui:repeat var="spec" value="#{lector.subjects}">
+			<h:outputText value="#{spec.subject.name}" />
+		    </ui:repeat>
+		</p:column>
+	    </c:if>
+	</p:selectOneMenu>	    
+    </composite:implementation>
+</html>
+

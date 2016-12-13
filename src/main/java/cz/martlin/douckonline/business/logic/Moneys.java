@@ -4,7 +4,8 @@ import cz.martlin.douckonline.business.model.managment.Payment;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import cz.martlin.douckonline.business.utils.Tools;
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -19,8 +20,9 @@ import org.slf4j.LoggerFactory;
 public class Moneys {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private final DbAccessor db = DbAccessor.get();
-
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
+    
     public Moneys() {
     }
     
@@ -32,7 +34,7 @@ public class Moneys {
      */
     public List<Payment> listAllPayments() {
 	LOG.trace("Loading all payments");
-	List<Payment> payments = db.listAll(Payment.class);
+	List<Payment> payments = dbl.listAll(Payment.class);
 	return payments;
     }
     
@@ -45,7 +47,7 @@ public class Moneys {
     public List<Payment> listPayments(Student student, Integer daysAgo) {
 	LOG.trace("Loading payments of student for last days");
 	
-	List<Payment> payments = db.listByCond(Payment.class, false, //
+	List<Payment> payments = dbl.listByCond(Payment.class, false, //
 		new Class<?>[] {Student.class}, //
 		new String[]{"payment.student"}, //
 		new String[]{"student"}, // 
@@ -66,7 +68,7 @@ public class Moneys {
 	LOG.trace("Adds payment");
 	
 	Payment payment = new Payment(student, amount, discount, date);
-	return db.insert(payment);
+	return dbm.insert(payment);
     }
     
     /**
@@ -77,7 +79,7 @@ public class Moneys {
     public boolean removePayment(Payment payment) {
 	LOG.trace("Removes payment");
 	
-	return db.remove(payment);
+	return dbm.remove(payment);
     }
     
 //</editor-fold>

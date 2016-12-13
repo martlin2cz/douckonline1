@@ -7,7 +7,8 @@ import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.teaching.Subject;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,7 +25,8 @@ public class Teachings {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
     private static final String STARTED_TEACHING_DESCRIPTION = "Just started";
 
-    private final DbAccessor db = DbAccessor.get();
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
 
     public Teachings() {
     }
@@ -39,7 +41,7 @@ public class Teachings {
     public List<Teaching> listTeachingsOfLector(Lector lector) {
 	LOG.trace("Listing teachings of lector");
 
-	List<Teaching> teachings = db.listByCond(Teaching.class, false, //
+	List<Teaching> teachings = dbl.listByCond(Teaching.class, false, //
 		new Class<?>[] {Lector.class}, //
 		new String[] {"teaching.lector"}, //
 		new String[] {"lector"}, //
@@ -57,7 +59,7 @@ public class Teachings {
     public List<Teaching> listTeachingsOfStudent(Student student) {
 	LOG.trace("Listing teachings of student");
 
-	List<Teaching> teachings = db.listByCond(Teaching.class, false, // 
+	List<Teaching> teachings = dbl.listByCond(Teaching.class, false, // 
 		new Class<?>[] {Student.class}, //
 		new String[] {"teaching.student"}, //
 		new String[] {"student"}, //
@@ -77,7 +79,7 @@ public class Teachings {
     public List<Teaching> getTeachingsOf(Lector lector, Student student, Subject subject) {
 	LOG.trace("Listing teachins of lector, student and subject");
 	
-	List<Teaching> teachings = db.listByCond(Teaching.class, true, //
+	List<Teaching> teachings = dbl.listByCond(Teaching.class, true, //
 		new Class<?>[] {Lector.class, Student.class, Subject.class}, //
 		new String[] {"teaching.lector", "teaching.student", "teaching.subject"}, //
 		new String[] {"lector", "student", "subject"}, //
@@ -98,7 +100,7 @@ public class Teachings {
 	//TODO FIXME
 	LOG.warn("not yet implemented, returns all teachings instead");
 
-	return db.listAll(Teaching.class);
+	return dbl.listAll(Teaching.class);
     }
 
 //</editor-fold>
@@ -118,7 +120,7 @@ public class Teachings {
 	LOG.trace("Starting of teaching");
 
 	Teaching teaching = createTeaching(lector, student, subject, level, cost);
-	boolean success = db.insert(teaching);
+	boolean success = dbm.insert(teaching);
 	if (success) {
 	    return teaching;
 	} else {
@@ -142,7 +144,7 @@ public class Teachings {
 	teaching.setStatusDescription(statusDescription);
 	teaching.setEndedAt(when);
 
-	return db.update(teaching);
+	return dbm.update(teaching);
     }
 
     /**
@@ -154,7 +156,7 @@ public class Teachings {
     public boolean updateTeaching(Teaching teaching) {
 	LOG.trace("Updating teaching");
 
-	return db.update(teaching);
+	return dbm.update(teaching);
     }
 
     /**
@@ -191,7 +193,7 @@ public class Teachings {
 	LOG.trace("Listing lessons of student and daysAgo");
 
 	
-	List<Lesson> teachings = db.listByCond(Lesson.class, false, //
+	List<Lesson> teachings = dbl.listByCond(Lesson.class, false, //
 		new Class<?>[] {Teaching.class, Student.class}, //
 		new String[] {"lesson.teaching.student"}, //
 		new String[] {"student"}, //
@@ -212,7 +214,7 @@ public class Teachings {
 	LOG.trace("Listing lessons of lector and daysAgo");
 
 	
-	List<Lesson> teachings = db.listByCond(Lesson.class, false, //
+	List<Lesson> teachings = dbl.listByCond(Lesson.class, false, //
 		new Class<?>[] {Teaching.class, Lector.class}, //
 		new String[] {"lesson.teaching.lector"}, //
 		new String[] {"lector"}, //
@@ -237,7 +239,7 @@ public class Teachings {
 	Lesson lesson = new Lesson(teaching, addedAt, date, duration, description);
 	teaching.getLessons().add(lesson);
 
-	boolean success = db.insert(lesson);
+	boolean success = dbm.insert(lesson);
 	if (success) {
 	    return lesson;
 	} else {
@@ -256,7 +258,7 @@ public class Teachings {
 	LOG.trace("Removing lesson");
 
 	teaching.getLessons().remove(lesson);
-	return db.remove(lesson);
+	return dbm.remove(lesson);
     }
 //</editor-fold>
 

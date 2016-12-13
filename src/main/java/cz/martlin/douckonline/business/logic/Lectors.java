@@ -6,7 +6,8 @@ import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.lector.Practice;
 import cz.martlin.douckonline.business.model.lector.SubjTeachingSpec;
 import cz.martlin.douckonline.business.model.teaching.Subject;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import java.util.Calendar;
 import java.util.List;
 import org.slf4j.Logger;
@@ -19,7 +20,9 @@ import org.slf4j.LoggerFactory;
 public class Lectors {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private final DbAccessor db = DbAccessor.get();
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
+    
     
     public Lectors() {
     }
@@ -31,7 +34,7 @@ public class Lectors {
      */
     public List<Lector> listAllLectors() {
 	LOG.trace("Loading all lectors");
-	List<Lector> lectors = db.listAll(Lector.class);
+	List<Lector> lectors = dbl.listAll(Lector.class);
 	return lectors;
     }
     
@@ -43,7 +46,7 @@ public class Lectors {
     public List<Lector> listLectorsOfSubject(Subject subject) {
 	LOG.trace("Loading lectors of subject");
 	
-	List<Lector> lectors = db.listByCond(Lector.class, false, //
+	List<Lector> lectors = dbl.listByCond(Lector.class, false, //
 		new Class<?>[]{SubjTeachingSpec.class, Subject.class}, //
 		new String[]{"subjTeachingSpec.subject"}, //
 		new String[]{"subject"}, //
@@ -53,7 +56,7 @@ public class Lectors {
     
     public Lector getLector(String loginName) {
 	LOG.trace("Loading lector by loginName");
-	return db.getById(Lector.class, loginName);
+	return dbl.getById(Lector.class, loginName);
     }
 //</editor-fold>
     
@@ -78,7 +81,7 @@ public class Lectors {
      */
     public boolean updateLector(Lector lector) {
 	LOG.trace("Updating lector");
-	return db.update(lector);
+	return dbm.update(lector);
     }
     
     /**
@@ -90,7 +93,7 @@ public class Lectors {
 	LOG.trace("Making lector inactive");
 	Calendar when = Calendar.getInstance();
 	lector.setEndedAt(when);
-	return db.update(lector);
+	return dbm.update(lector);
     }
     
     /**
@@ -101,7 +104,7 @@ public class Lectors {
     public boolean makeLectorActiveAgain(Lector lector) {
 	LOG.trace("Making lector active again");
 	lector.setEndedAt(null);
-	return db.update(lector);
+	return dbm.update(lector);
     }
 //</editor-fold>
     
@@ -118,7 +121,7 @@ public class Lectors {
 	certificate.setLector(lector);
 	lector.getCertificates().add(certificate);
 	
-	return db.insert(certificate);
+	return dbm.insert(certificate);
     }
     
     /**
@@ -133,7 +136,7 @@ public class Lectors {
 	certificate.setLector(null);
 	lector.getCertificates().remove(certificate);
 	
-	return db.remove(certificate);
+	return dbm.remove(certificate);
     }
     
     /**
@@ -148,7 +151,7 @@ public class Lectors {
 	education.setLector(lector);
 	lector.getEducations().add(education);
 	
-	return db.insert(education);
+	return dbm.insert(education);
     }
     
     /**
@@ -163,7 +166,7 @@ public class Lectors {
 	education.setLector(null);
 	lector.getEducations().remove(education);
 	
-	return db.remove(education);
+	return dbm.remove(education);
     }
     
     /**
@@ -178,7 +181,7 @@ public class Lectors {
 	practice.setLector(lector);
 	lector.getPractices().add(practice);
 	
-	return db.insert(practice);
+	return dbm.insert(practice);
     }
     
     /**
@@ -193,7 +196,7 @@ public class Lectors {
 	practice.setLector(null);
 	lector.getPractices().remove(practice);
 	
-	return db.remove(practice);
+	return dbm.remove(practice);
     }
     
     /**
@@ -208,7 +211,7 @@ public class Lectors {
 	spec.setLector(lector);
 	lector.getSubjects().add(spec);
 	
-	return db.insert(spec);
+	return dbm.insert(spec);
     }
     
     /**
@@ -223,7 +226,7 @@ public class Lectors {
 	spec.setLector(null);
 	lector.getSubjects().remove(spec);
 	
-	return db.remove(spec);
+	return dbm.remove(spec);
     }
 //</editor-fold>
     

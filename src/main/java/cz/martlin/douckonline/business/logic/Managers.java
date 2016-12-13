@@ -7,7 +7,8 @@ package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,8 @@ import org.slf4j.LoggerFactory;
 public class Managers {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private final DbAccessor db = DbAccessor.get();
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
 
     public Managers() {
     }
@@ -32,7 +34,7 @@ public class Managers {
      */
     public List<Manager> listAllManagers() {
 	LOG.debug("Loading managers");
-	List<Manager> managers = db.listAll(Manager.class);
+	List<Manager> managers = dbl.listAll(Manager.class);
 	return managers;
     }
 //</editor-fold>
@@ -60,7 +62,7 @@ public class Managers {
     public boolean updateManager(Manager manager) {
 	LOG.debug("Updating manager");
 	
-	return db.update(manager);
+	return dbm.update(manager);
     }
 //</editor-fold>
 }

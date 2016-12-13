@@ -24,6 +24,7 @@
 	    <h:form id="teaching-requests-form">
 
 		<p:commandButton value="Add request" action="#{teachingRequestsController.openNewRequest}"
+				 update="@widgetVar(teachingRequestDialog)"
 				 oncomplete="PF('teachingRequestDialog').show()" />
 
 
@@ -76,7 +77,11 @@
 
 			<p:commandButton value="Dismiss" />
 			
-			<p:commandButton value="Assign to..." />
+			<p:commandButton value="Assign to..." 
+					 action="#{teachingRequestsController.openRequest(teaching_request)}"
+					 update="@widgetVar(assignToLectorDialog)"
+					 oncomplete="PF('assignToLectorDialog').show()"
+					 />
 
 		    </h:panelGrid>
 		    <h:outputText value="#{teaching_request.description}" />
@@ -96,6 +101,12 @@
 		    onSaved="hideOnSuccess(xhr, status, args, 'teachingRequestDialog');" />
 	    </p:dialog>
 
+	    <p:dialog header="Assign to lector" widgetVar="assignToLectorDialog" id="assignToLectorDialog">
+		<martlin:assign-teaching-request-detail
+		    item="#{teachingRequestsController.currentRequest}" 
+		    onSaved="hideOnSuccess(xhr, status, args, 'assignToLectorDialog');" />
+	    </p:dialog>
+	    
 	</section>
 
 

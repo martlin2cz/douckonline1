@@ -1,7 +1,9 @@
 package cz.martlin.douckonline.web.utils;
 
+import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import cz.martlin.douckonline.web.rest.LoginFilter;
 import java.io.IOException;
+import java.util.Map;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletRequest;
@@ -54,10 +56,18 @@ public class JSFTools {
     }
     
     
+    public static String getRequestParam(String name) {
+	ExternalContext context = externalContext();
+	Map<String, String> params = context.getRequestParameterMap();
+	String value = params.get(name);
+	return value;
+    }
+    
     private static ExternalContext externalContext() {
 	FacesContext context = FacesContext.getCurrentInstance();
 	ExternalContext external = context.getExternalContext();
 	
 	return external;
     }
+
 }

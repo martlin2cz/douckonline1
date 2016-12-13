@@ -2,7 +2,8 @@ package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.teaching.Subject;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,8 @@ import org.slf4j.LoggerFactory;
 public class Subjects {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
-    private final DbAccessor db = DbAccessor.get();
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
     
     public Subjects() {
     }
@@ -26,14 +28,14 @@ public class Subjects {
     public List<Subject> listAllSubjects() {
 	LOG.trace("Loading all subjects");
 	
-	List<Subject> subjects = db.listAll(Subject.class);
+	List<Subject> subjects = dbl.listAll(Subject.class);
 	return subjects;
     }
     
     public Subject getSubject(String name) {
 	LOG.trace("Getting subject");
 	
-	Subject subject = db.getById(Subject.class, name);
+	Subject subject = dbl.getById(Subject.class, name);
 	return subject;
     }
     
@@ -45,13 +47,13 @@ public class Subjects {
     
     public boolean addSubject(Subject subject) {
 	LOG.trace("Adding subject");
-	return db.insert(subject);
+	return dbm.insertSingle(subject);
     }
     
     
     public boolean removeSubject(Subject subject) {
 	LOG.trace("Removing subject");
-	return db.remove(subject);
+	return dbm.removeSingle(subject);
     }
     
 //</editor-fold>

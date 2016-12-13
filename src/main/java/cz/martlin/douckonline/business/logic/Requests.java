@@ -9,7 +9,8 @@ import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.teaching.Subject;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import java.util.Calendar;
 import java.util.List;
 import org.slf4j.Logger;
@@ -20,21 +21,33 @@ import org.slf4j.LoggerFactory;
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Requests {
-
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-    private final DbAccessor db = DbAccessor.get();
+    
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
+    
     private final Teachings teachings = new Teachings();
     private final Lectors lectors = new Lectors();
     private final Students students = new Students();
 
     public Requests() {
     }
+//<editor-fold defaultstate="collapsed" desc="finding (by id)">
+    
+    public TeachingRequest getRequestById(long id) {
+	LOG.trace("Getting teaching requst by id");
+	
+	return dbl.getById(TeachingRequest.class, id);
+    }
+    
+//</editor-fold>
+    
 //<editor-fold defaultstate="collapsed" desc="listing of requests">
 
     public List<TeachingRequest> listAllPending() {
 	LOG.trace("Listing all peding requests");
 
-	return db.listByCond(TeachingRequest.class,
+	return dbl.listByCond(TeachingRequest.class,
 		new String[]{"status"},
 		new Object[]{TeachingRequestStatus.WAITING_FOR_REACTIONS});
     }
@@ -42,7 +55,7 @@ public class Requests {
     public List<TeachingRequest> listPendingOfSubject(Subject subject) {
 	LOG.trace("Listing all peding requests of subject");
 
-	return db.listByCond(TeachingRequest.class,
+	return dbl.listByCond(TeachingRequest.class,
 		new String[]{"subject", "status"},
 		new Object[]{subject, TeachingRequestStatus.WAITING_FOR_REACTIONS});
     }
@@ -50,7 +63,7 @@ public class Requests {
     public List<TeachingRequest> listPendingForLector(Lector lector) {
 	LOG.trace("Listing all pending requests for lector");
 
-	return db.listByCond(TeachingRequest.class, false,
+	return dbl.listByCond(TeachingRequest.class, false,
 		new Class<?>[]{Subject.class, SubjTeachingSpec.class, Lector.class},
 		new String[]{"lector", "teachingRequest.status"},
 		new String[]{"lector", "status"},
@@ -69,8 +82,7 @@ public class Requests {
 	request.getReactions().add(reaction);
 	reaction.setRequest(request);
 	
-	
-	return db.insert(reaction);
+	return dbm.insert(reaction);
     }
 //</editor-fold>
 
@@ -84,56 +96,53 @@ public class Requests {
 	TeachingRequestStatus status = TeachingRequestStatus.WAITING_FOR_REACTIONS;
 	request.setStatus(status);
 	
-	return db.insertSingle(request);
+	return dbm.insertSingle(request);
     }
     
     
     private boolean updateRequestStatus(TeachingRequest request) {
 	LOG.trace("Updating request's status");
-	
-	return db.updateSingle(request);
+
+	return dbm.updateSingle(request);
 	
     }
     
     public Teaching reactionToTeaching(RequestReaction reaction) {
 	LOG.trace("Making teaching from lector's reaction");
 	
-	db.startBulkModification();
+	dbm.startBulk();
 	
 	TeachingRequest request = reaction.getRequest();
 	request.setStatus(TeachingRequestStatus.TEACHING_RUNNING);
 	updateRequestStatus(request);
-	/*
-	FIXME TODO uncomenme
-	Lector lector = reaction.getLector();
 	
-	Teaching t = requestToTeaching(request, lector);
-	*/
-	db.finishBulkModification();
-
-	return null;	//FIXME XXX
-	//return t;
+	Lector lector = reaction.getLector();
+	String description = "Okay, let's go";	//TODO description
+	int cost = 42;	//TODO 42
+	Teaching t = requestToTeaching(request, lector, description, cost);
+	
+	dbm.finishBulk();
+	return t;
     }
 
-    public Teaching requestToTeaching(TeachingRequest request, Lector lector) {
+    public Teaching requestToTeaching(TeachingRequest request, Lector lector, String description, int cost) {
 	LOG.trace("Making teaching from request");
+	
+	dbm.startBulk();
 
 	Student student = requestToStudent(request);
 	Subject subject = request.getSubject();
 	Level level = request.getLevel();
-	int cost = lectors.getSubjOfLector(lector, subject).getCost();
-
+	//TODO description
+	
 	Teaching teaching = teachings.startTeaching(lector, student, subject, level, cost);
 	
-	if (teaching != null) {
-	    request.setStatus(TeachingRequestStatus.TEACHING_RUNNING);
-	    boolean succ = updateRequestStatus(request);
-	    if (succ) {
-		return teaching;
-	    }
-	}
+	request.setStatus(TeachingRequestStatus.TEACHING_RUNNING);
+	updateRequestStatus(request);
 	
-	return null;
+	dbm.finishBulk();
+	
+	return teaching;
     }
 
     private Student requestToStudent(TeachingRequest request) {
@@ -161,5 +170,6 @@ public class Requests {
 	}
     }
 //</editor-fold>
+
 
 }

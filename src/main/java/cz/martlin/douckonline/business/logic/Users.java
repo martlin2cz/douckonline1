@@ -9,7 +9,8 @@ import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.base.User;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,7 +28,8 @@ public class Users {
     private final Lectors lectors = new Lectors();
     private final Managers managers = new Managers();
     
-    private final DbAccessor db = DbAccessor.get();
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
     
     public Users() {
     }
@@ -111,7 +113,7 @@ public class Users {
 	user.setPasswordHash(passwordHash);
 	user.setLoginName(loginName);
 	
-	return db.insert(user);
+	return dbm.insert(user);
     }
     
     /**
@@ -130,7 +132,7 @@ public class Users {
 	user.setPasswordSalt(passwordSalt);
 	user.setPasswordHash(passwordHash);
 	
-	return db.update(user);
+	return dbm.update(user);
     }
     
     /**
@@ -138,13 +140,13 @@ public class Users {
      * @param user
      * @return
      */
-    public boolean userLoggedIn(User user) {
+    public boolean userLoggedIn(User user) {	//TODO use me!
 	LOG.trace("User logged in");
 	
 	Calendar lastLoginAt = Calendar.getInstance();
 	user.setLastLoginAt(lastLoginAt);
 	
-	return db.update(user);
+	return dbm.update(user);
     }
 //</editor-fold>
     

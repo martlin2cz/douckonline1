@@ -168,7 +168,7 @@ public class TeachingRequest extends EntityWithLongID {
 
     @Override
     public String toString() {
-	return "TeachingRequest{id=" + id + ", subject=" + subject.getName() + ", name=" + registerName + "}";
+	return "TeachingRequest{id=" + id + ", subject=" + (subject != null ? subject.getName() : "-") + ", name=" + registerName + "}";
     }
 
 }

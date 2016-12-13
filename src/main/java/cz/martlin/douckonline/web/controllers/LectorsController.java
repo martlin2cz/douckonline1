@@ -23,6 +23,7 @@ public class LectorsController {
     private final Subjects subjects = new Subjects();
 
     private List<Lector> currentLectors;
+    @Deprecated
     private List<Subject> allSubjects;
 
     private Subject selectedSubject;
@@ -53,6 +54,12 @@ public class LectorsController {
 	return currentLectors;
     }
     
+    /**
+     * See SubjectsController#getAllSubjects()
+     * @return
+     * @deprecated
+     */
+    @Deprecated()
     public List<Subject> getAllSubjects() {
 	return allSubjects;
     }

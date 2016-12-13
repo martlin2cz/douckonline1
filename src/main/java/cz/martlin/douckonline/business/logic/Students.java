@@ -2,7 +2,8 @@ package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.teaching.Student;
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DbLoading;
+import cz.martlin.douckonline.business.tools.DbModifying;
 import java.util.Calendar;
 import java.util.List;
 import org.slf4j.Logger;
@@ -14,8 +15,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Students {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-
-    private final DbAccessor db = DbAccessor.get();
+    
+    private final DbLoading dbl = DbLoading.get();
+    private final DbModifying dbm = DbModifying.get();
 
     public Students() {
     }
@@ -29,7 +31,7 @@ public class Students {
     public List<Student> listAllStudents() {
 	LOG.trace("Loading all students");
 	
-	List<Student> students = db.listAll(Student.class);
+	List<Student> students = dbl.listAll(Student.class);
 	return students;
     }
     
@@ -42,7 +44,7 @@ public class Students {
 	//TODO FIXME
 	LOG.warn("not implemented, returning all students instead");
 	
-	List<Student> students = db.listAll(Student.class);
+	List<Student> students = dbl.listAll(Student.class);
 	return students;
     }
     
@@ -57,7 +59,7 @@ public class Students {
      */
     public Student getStudent(String loginName) {
 	LOG.trace("Loading student by loginName");
-	return db.getById(Student.class, loginName);
+	return dbl.getById(Student.class, loginName);
     }
     
     /**
@@ -82,7 +84,7 @@ public class Students {
      */
     public boolean updateStudent(Student student) {
 	LOG.trace("Updating student");
-	return db.update(student);
+	return dbm.updateSingle(student);
     }
     
 //</editor-fold>

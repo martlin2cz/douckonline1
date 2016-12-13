@@ -1,6 +1,6 @@
 package cz.martlin.douckonline.web.rest;
 
-import cz.martlin.douckonline.business.tools.DbAccessor;
+import cz.martlin.douckonline.business.tools.DatabaseAccess;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -20,12 +20,12 @@ public class EntityManagerContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-	DbAccessor.createFactory();
+	DatabaseAccess.createFactory();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-	DbAccessor.closeFactory();
+	DatabaseAccess.closeFactory();
     }
     
 }
