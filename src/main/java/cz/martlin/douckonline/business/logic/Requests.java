@@ -93,7 +93,7 @@ public class Requests {
 	request.getReactions().add(reaction);
 	reaction.setRequest(request);
 	
-	return dbm.insert(reaction);
+	return dbm.insertSingle(reaction);
     }
     
      private RequestReaction createReaction(Lector lector, RequestReactionStatus status, String description) {

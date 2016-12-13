@@ -125,9 +125,9 @@ public class Teachings {
      */
     public Teaching startTeaching(Lector lector, Student student, Subject subject, Level level, int cost) {
 	LOG.trace("Starting of teaching");
-
+	
 	Teaching teaching = createTeaching(lector, student, subject, level, cost);
-	boolean success = dbm.insert(teaching);
+	boolean success = dbm.insertSingle(teaching);
 	if (success) {
 	    return teaching;
 	} else {

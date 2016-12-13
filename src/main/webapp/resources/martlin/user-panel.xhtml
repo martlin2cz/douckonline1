@@ -13,14 +13,8 @@
     <composite:implementation>
 	<section id="user-panel">
 	    <h:form>
-		<c:if test="#{not logingInController.loggedIn}">
-		    <h:commandButton value="Log in as " action="#{logingInController.logInAs()}" />
-		    <h:selectOneMenu value="#{logingInController.selectedUser}" converter="#{usersConverter}">
-			<f:selectItems value="#{logingInController.users}" var="user" itemLabel="#{user.loginName}" />
-		    </h:selectOneMenu>
-		</c:if>
-		<c:if test="#{logingInController.loggedIn}">
-		    Logged in as #{logingInController.loggedUser.loginName}
+		<c:if test="#{loginSession.loggedIn}">
+		      Logged in as #{loginSession.loggedUser.displayName}
 		    <h:commandButton value="Log out" action="#{logingInController.logOut()}" />
 		</c:if>	
 	    </h:form>

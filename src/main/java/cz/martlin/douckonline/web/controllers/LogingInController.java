@@ -22,41 +22,53 @@ import javax.inject.Named;
 public class LogingInController {
     private final Users users = new Users();
     
-    private User selectedUser;
     
     @Inject LoginSession session;
 
+    
+    private String username;
+    private String password;
+    
     public LogingInController() {
     }
-
-    public User getSelectedUser() {
-	return selectedUser;
+    
+//<editor-fold defaultstate="collapsed" desc="getters and setters">
+    
+    public String getUsername() {
+	return username;
     }
-
-    public void setSelectedUser(User selectedUser) {
-	this.selectedUser = selectedUser;
+    
+    public void setUsername(String username) {
+	this.username = username;
     }
+    
+    public String getPassword() {
+	return password;
+    }
+    
+    public void setPassword(String password) {
+	this.password = password;
+    }
+    
+    
     
     public boolean isLoggedIn() {
 	return session.isLoggedIn();
     }
+//</editor-fold>
     
-    public User getLoggedUser() {
-	return session.getLoggedUser();
-    }
+
+//<editor-fold defaultstate="collapsed" desc="action methods">
     
-    
-    public List<User> getUsers() {
-	return users.listAllUsers();
-    }
-    
-    public void logInAs() {
-	session.logInAs(selectedUser);
+    public void logIn() {
+	User user = users.findUser(username);
+	
+	session.logInAs(user);
 	
 	checkAndRedirect();
     }
-
-  
+    
+    
     
     public void logOut() {
 	session.logOut();
@@ -67,9 +79,10 @@ public class LogingInController {
     private void checkAndRedirect() {
 	PathInfo info = JSFTools.getCurrentPath();
 	String path = LoginFilter.checkLoginAndGetRedirect(info, session);
-
+	
 	if (path != null) {
 	    JSFTools.redirectTo(path);
 	}
     }
+//</editor-fold>
 }

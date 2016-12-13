@@ -68,7 +68,7 @@ public class Moneys {
 	LOG.trace("Adds payment");
 	
 	Payment payment = new Payment(student, amount, discount, date);
-	return dbm.insert(payment);
+	return dbm.insertSingle(payment);
     }
     
     /**
@@ -79,7 +79,7 @@ public class Moneys {
     public boolean removePayment(Payment payment) {
 	LOG.trace("Removes payment");
 	
-	return dbm.remove(payment);
+	return dbm.removeSingle(payment);
     }
     
 //</editor-fold>

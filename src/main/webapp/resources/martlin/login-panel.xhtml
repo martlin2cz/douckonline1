@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+
+      xmlns:p="http://primefaces.org/ui">
+
+
+    <composite:interface displayName="Login panel">			
+    </composite:interface>
+
+    <composite:implementation>
+	<section id="login-panel">
+	    <h:form id="login-panel-form">
+		<h:panelGrid columns="2">
+		    <h:outputLabel value="Login:" />
+		    <h:inputText value="#{logingInController.username}" 
+				 id="username" required="true" 
+				 binding="#{usernameBinding}">
+		    </h:inputText>
+
+		    <h:outputLabel value="Pasword:" />
+		    <h:inputSecret value="#{logingInController.password}" 
+				   id="password" required="true" >
+			<f:validator validatorId="loginValidator" />
+			<f:attribute name="usernameBinding" value="#{usernameBinding}" />
+		    </h:inputSecret>
+		</h:panelGrid>
+		
+		<p:messages />
+		
+		<p:commandButton value="Log in" ajax="false"
+				 action="#{logingInController.logIn}"
+				 >
+		 
+		</p:commandButton>
+	    </h:form>
+	</section>
+    </composite:implementation>
+</html>
+

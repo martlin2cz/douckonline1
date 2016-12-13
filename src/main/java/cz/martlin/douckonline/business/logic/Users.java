@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.lector.Lector;
@@ -27,8 +22,9 @@ public class Users {
     private final Students students = new Students();
     private final Lectors lectors = new Lectors();
     private final Managers managers = new Managers();
+    private final Passwording passwording = new Passwording();
     
-    private final DbLoading dbl = DbLoading.get();
+    
     private final DbModifying dbm = DbModifying.get();
     
     public Users() {
@@ -101,11 +97,10 @@ public class Users {
      */
     public boolean registerUser(User user, String password) {
 	LOG.trace("Registering user");
-	LOG.warn("password hash and salt not supported");
 	
 	Calendar registeredAt = Calendar.getInstance();
-	String passwordSalt = "TODOO-salt-" + password;	//TODO
-	String passwordHash = "TODOO-hash-" + password;	//TODO
+	String passwordSalt = passwording.generateSalt();
+	String passwordHash = passwording.hashPassword(password, passwordSalt);
 	String loginName = createLoginName(user.getReallName());
 	
 	user.setRegisteredAt(registeredAt);
@@ -113,7 +108,7 @@ public class Users {
 	user.setPasswordHash(passwordHash);
 	user.setLoginName(loginName);
 	
-	return dbm.insert(user);
+	return dbm.insertSingle(user);
     }
     
     /**
@@ -124,10 +119,9 @@ public class Users {
      */
     public boolean changePassword(User user, String password) {
 	LOG.trace("Changing password");
-	LOG.warn("password hash and salt not supported");
 	
-	String passwordSalt = "TODOO-salt-" + password;	//TODO
-	String passwordHash = "TODOO-hash-" + password;	//TODO
+	String passwordSalt = passwording.generateSalt();
+	String passwordHash = passwording.hashPassword(password, passwordSalt);
 	
 	user.setPasswordSalt(passwordSalt);
 	user.setPasswordHash(passwordHash);
@@ -152,6 +146,20 @@ public class Users {
     
 //<editor-fold defaultstate="collapsed" desc="misc">
     
+    
+    
+    public boolean isValid(String username, String password) {
+	User user = findUser(username);
+	if (user == null) {
+	    return false;
+	}
+	
+	String passwordSalt = user.getPasswordSalt();
+	String passwordHash = passwording.hashPassword(password, passwordSalt);
+	
+	return user.getPasswordHash().equals(passwordHash);
+    }
+    
     /**
      * Converts user's real name to loginName (remove whitespaces and - if needed add unique number).
      * @param realName
@@ -169,6 +177,7 @@ public class Users {
 	return loginName;
     }
 //</editor-fold>
+
 
     
 }

@@ -81,7 +81,7 @@ public class Lectors {
      */
     public boolean updateLector(Lector lector) {
 	LOG.trace("Updating lector");
-	return dbm.update(lector);
+	return dbm.updateSingle(lector);
     }
     
     /**
@@ -93,7 +93,7 @@ public class Lectors {
 	LOG.trace("Making lector inactive");
 	Calendar when = Calendar.getInstance();
 	lector.setEndedAt(when);
-	return dbm.update(lector);
+	return dbm.updateSingle(lector);
     }
     
     /**
@@ -104,7 +104,7 @@ public class Lectors {
     public boolean makeLectorActiveAgain(Lector lector) {
 	LOG.trace("Making lector active again");
 	lector.setEndedAt(null);
-	return dbm.update(lector);
+	return dbm.updateSingle(lector);
     }
 //</editor-fold>
     
@@ -121,7 +121,7 @@ public class Lectors {
 	certificate.setLector(lector);
 	lector.getCertificates().add(certificate);
 	
-	return dbm.insert(certificate);
+	return dbm.insertSingle(certificate);
     }
     
     /**
@@ -136,7 +136,7 @@ public class Lectors {
 	certificate.setLector(null);
 	lector.getCertificates().remove(certificate);
 	
-	return dbm.remove(certificate);
+	return dbm.removeSingle(certificate);
     }
     
     /**
@@ -151,7 +151,7 @@ public class Lectors {
 	education.setLector(lector);
 	lector.getEducations().add(education);
 	
-	return dbm.insert(education);
+	return dbm.insertSingle(education);
     }
     
     /**
@@ -166,7 +166,7 @@ public class Lectors {
 	education.setLector(null);
 	lector.getEducations().remove(education);
 	
-	return dbm.remove(education);
+	return dbm.removeSingle(education);
     }
     
     /**
@@ -181,7 +181,7 @@ public class Lectors {
 	practice.setLector(lector);
 	lector.getPractices().add(practice);
 	
-	return dbm.insert(practice);
+	return dbm.insertSingle(practice);
     }
     
     /**
@@ -196,7 +196,7 @@ public class Lectors {
 	practice.setLector(null);
 	lector.getPractices().remove(practice);
 	
-	return dbm.remove(practice);
+	return dbm.removeSingle(practice);
     }
     
     /**
@@ -211,7 +211,7 @@ public class Lectors {
 	spec.setLector(lector);
 	lector.getSubjects().add(spec);
 	
-	return dbm.insert(spec);
+	return dbm.insertSingle(spec);
     }
     
     /**
@@ -226,7 +226,7 @@ public class Lectors {
 	spec.setLector(null);
 	lector.getSubjects().remove(spec);
 	
-	return dbm.remove(spec);
+	return dbm.removeSingle(spec);
     }
 //</editor-fold>
     
