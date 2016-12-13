@@ -14,6 +14,7 @@ import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.model.teaching.Subject;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.validation.Payload;
@@ -33,6 +34,19 @@ public class ManagerController {
     private final Teachings teachings = new Teachings();
     private final Requests requests = new Requests();
     private final Moneys moneys = new Moneys();
+
+    
+    private List<TeachingRequest> currentRequests;
+    private List<Teaching> currentTeachings;
+    
+    public ManagerController() {
+    }
+    
+    @PostConstruct
+    public void init() {
+	currentRequests = requests.listAllPending();
+	currentTeachings = teachings.listCurrentTeachings();
+    }
     
     private Subject getSubject(String name) {
 	return subjects.getSubject(name);
@@ -52,12 +66,13 @@ public class ManagerController {
     
     
     public List<TeachingRequest> getCurrentRequests() {
-	return requests.listAllPending();
+	return currentRequests;
     }
     
     public List<Teaching> getCurrentTeachings() {
-	return teachings.listCurrentTeachings();
+	return currentTeachings;
     }
+    
     
     
 //</editor-fold>

@@ -45,10 +45,10 @@ public abstract class EntityWithLongID implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-	if (!(object instanceof TeachingRequest)) {
+	if (!(object instanceof EntityWithLongID)) {
 	    return false;
 	}
-	TeachingRequest other = (TeachingRequest) object;
+	EntityWithLongID other = (EntityWithLongID) object;
 	if (this.id != other.id) {
 	    return false;
 	}

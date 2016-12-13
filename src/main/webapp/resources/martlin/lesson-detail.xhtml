@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+    <composite:interface displayName="Detail view of lesson">
+	<composite:attribute name="lesson"  required="true" type="cz.martlin.douckonline.business.model.teaching.Lesson" />
+	<composite:attribute name="teaching"  required="true" type="cz.martlin.douckonline.business.model.teaching.Teaching" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+	<composite:attribute name="onSaved" required="false" type="java.lang.String" default="" />
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="lesson-detail">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+
+	    <h:form id="lesson-detail-form">
+		#{cc.attrs.lesson}
+		<h:panelGrid columns="2">
+
+		    <h:outputLabel value="Student:" />
+		    <p:selectOneMenu value="#{cc.attrs.lesson.teaching}" converter="#{teachingsConverter}">
+			<f:selectItems value="#{lessonsController.teachings}" var="teaching" 
+				       itemLabel="#{teaching.student.displayName}, #{teaching.subject.name}"
+				       itemValue="#{teaching}" />
+		    </p:selectOneMenu>
+
+		    
+		    <!-- TODO FIXME date/time -->
+		    <h:outputLabel value="Date:" />
+		    <p:calendar value="#{cc.attrs.lesson.date}" 
+				converter="#{calendarsConverter}" pattern="#{calendarsConverter.format}" />
+
+		    <!-- TODO FIXME date/time -->
+		    <h:outputLabel value="Duration:" />
+		    <p:calendar value="#{cc.attrs.lesson.duration}" 
+				converter="#{timesConverter}" pattern="#{timesConverter.format}" timeOnly="true"  />
+
+		    <h:outputLabel value="Description:" />		   
+		    <h:inputTextarea value="#{cc.attrs.lesson.description}" />
+		</h:panelGrid>
+
+		<p:messages />
+
+		<p:commandButton value="Save" 
+				 action="#{lessonsController.saveLesson(cc.attrs.lesson)}"
+				 oncomplete="#{cc.attrs.onSaved}"
+				 update="@form"
+				 />
+	    </h:form>
+
+
+	</section>
+
+
+
+    </composite:implementation>
+</html>
+

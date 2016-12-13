@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+      >
+
+    <composite:interface displayName="Panel with lessons">
+	<composite:attribute name="items"  required="true" type="java.util.List" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="lessons-pane">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+
+	    <h:form id="lessons-form">
+		
+		
+		<p:dataGrid value="#{cc.attrs.items}" var="lesson" 
+			    layout="grid" columns="2"
+			    emptyMessage="No current lessons">
+		    <h:panelGrid columns="4">
+			<h:outputLabel value="Student:" />
+			<h:outputText value="#{lesson.teaching.student.studentName}" />
+			<h:outputLabel value="Subject:" />
+			<h:outputText value="#{lesson.teaching.subject.name}" />
+
+			<h:outputLabel value="When:" />
+			<h:outputText value="#{lesson.date.time}" >
+			    <f:convertDateTime pattern="dd.MM.yyyy" />
+			</h:outputText>
+
+			<h:outputLabel value="Duration:" />
+			<h:outputText value="#{lesson.duration.time}" >
+			    <f:convertDateTime pattern="HH:mm" />
+			</h:outputText>
+
+			<h:outputLabel value="Description:" />
+			<p:spacer />
+			<p:spacer />
+			<p:spacer />
+		    </h:panelGrid>
+
+		    <h:outputText value="#{lesson.description}" />
+		</p:dataGrid>
+	    </h:form>
+
+	</section>
+    </composite:implementation>
+</html>
+

@@ -3,6 +3,7 @@ package cz.martlin.douckonline.business.logic;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.lector.SubjTeachingSpec;
 import cz.martlin.douckonline.business.model.managment.RequestReaction;
+import cz.martlin.douckonline.business.model.managment.RequestReactionStatus;
 import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import cz.martlin.douckonline.business.model.managment.TeachingRequestStatus;
 import cz.martlin.douckonline.business.model.teaching.Level;
@@ -73,16 +74,33 @@ public class Requests {
     
 //<editor-fold defaultstate="collapsed" desc="reactions">
     
-    public boolean react(TeachingRequest request, RequestReaction reaction) {
+    public boolean react(TeachingRequest request, Lector lector, RequestReactionStatus status, String description) {
+	LOG.trace("Reacting to request");
+
+	dbm.startBulk();
+	RequestReaction reaction = createReaction(lector, status, description);
+	
+	addReaction(request, reaction);
+	
+	dbm.finishBulk();
+	return dbm.isSuccessfull();
+    }
+    
+    public boolean addReaction(TeachingRequest request, RequestReaction reaction) {
 	LOG.trace("Adding reaction to request");
 	
-	Calendar when = Calendar.getInstance();
-	reaction.setWhen(when);
 	
 	request.getReactions().add(reaction);
 	reaction.setRequest(request);
 	
 	return dbm.insert(reaction);
+    }
+    
+     private RequestReaction createReaction(Lector lector, RequestReactionStatus status, String description) {
+	 
+	Calendar when = Calendar.getInstance();
+	
+	return new RequestReaction(null, lector, status, when, description);
     }
 //</editor-fold>
 
@@ -170,6 +188,8 @@ public class Requests {
 	}
     }
 //</editor-fold>
+
+   
 
 
 }

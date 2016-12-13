@@ -22,11 +22,11 @@
 
 
 	    <h:form id="teaching-requests-form">
-
-		<p:commandButton value="Add request" action="#{teachingRequestsController.openNewRequest}"
-				 update="@widgetVar(teachingRequestDialog)"
-				 oncomplete="PF('teachingRequestDialog').show()" />
-
+		<c:if test="#{loginSession.loggedAsManager}">
+		    <p:commandButton value="Add request" action="#{teachingRequestsController.openNewRequest}"
+				     update="@widgetVar(teachingRequestDialog)"
+				     oncomplete="PF('teachingRequestDialog').show()" />
+		</c:if>
 
 		<p:dataGrid value="#{cc.attrs.items}" var="teaching_request" 
 			    layout="grid" columns="2"
@@ -68,20 +68,31 @@
 			    </h:panelGroup>
 			</c:if>
 
-			<h:outputLabel value="Description:" />		   
-			
-			<p:commandButton value="Edit" 
-					 action="#{teachingRequestsController.openRequest(teaching_request)}"
-					 update="@widgetVar(teachingRequestDialog)"
-					 oncomplete="PF('teachingRequestDialog').show()" />
+			<h:outputLabel value="Description:" />
+			<p:spacer />
+			<p:spacer />
+			<h:panelGroup>
+			    <c:if test="#{loginSession.loggedAsManager}">
+				<p:commandButton icon="ui-icon-gear" title="Edit"
+					     action="#{teachingRequestsController.openRequest(teaching_request)}"
+					     update="@widgetVar(teachingRequestDialog)"
+					     oncomplete="PF('teachingRequestDialog').show()" />
 
-			<p:commandButton value="Dismiss" />
-			
-			<p:commandButton value="Assign to..." 
-					 action="#{teachingRequestsController.openRequest(teaching_request)}"
-					 update="@widgetVar(assignToLectorDialog)"
-					 oncomplete="PF('assignToLectorDialog').show()"
-					 />
+				<p:commandButton icon="ui-icon-closethick" title="Dismiss" />
+
+				<p:commandButton icon="ui-icon-transferthick-e-w" title="Assign to..." 
+					     action="#{teachingRequestsController.openRequest(teaching_request)}"
+					     update="@widgetVar(assignToLectorDialog)"
+					     oncomplete="PF('assignToLectorDialog').show()"
+					     />
+			    </c:if>
+			    <c:if test="#{loginSession.loggedAsLector}">
+				<p:commandButton icon="ui-icon-transferthick-e-w" title="React" 
+						 action="#{teachingRequestsController.openRequest(teaching_request)}"
+						 update="@widgetVar(reactionDialog)"
+						 oncomplete="PF('reactionDialog').show()" />
+				</c:if>			   
+			</h:panelGroup>
 
 		    </h:panelGrid>
 		    <h:outputText value="#{teaching_request.description}" />
@@ -105,6 +116,12 @@
 		<martlin:assign-teaching-request-detail
 		    item="#{teachingRequestsController.currentRequest}" 
 		    onSaved="hideOnSuccess(xhr, status, args, 'assignToLectorDialog');" />
+	    </p:dialog>
+	    
+	    <p:dialog header="Reaction" widgetVar="reactionDialog" id="reactionDialog">
+		<martlin:reaction-detail
+		    request="#{teachingRequestsController.currentRequest}" 
+		    onSaved="hideOnSuccess(xhr, status, args, 'reactionDialog');" />
 	    </p:dialog>
 	    
 	</section>

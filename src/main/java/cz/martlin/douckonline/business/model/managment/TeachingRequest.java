@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -57,7 +58,7 @@ public class TeachingRequest extends EntityWithLongID {
     @Temporal(TemporalType.DATE)
     private Calendar addedAt;
 
-    @OneToMany
+    @OneToMany//(fetch = FetchType.EAGER)
     @JoinColumn(name = "teaching_request_id")
     private List<RequestReaction> reactions;
 

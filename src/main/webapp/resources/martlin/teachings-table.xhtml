@@ -5,7 +5,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
-      >
+	  
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
 
     <composite:interface displayName="Panel with teaching requests">
 	<composite:attribute name="items"  required="true" type="java.util.List" />
@@ -26,11 +27,13 @@
 			    emptyMessage="No current teaching">
 
 		    <h:panelGrid columns="4">
-			<h:outputLabel value="Lector:" />
-			<h:panelGroup>
-			    <h:outputText value="#{teaching.lector.displayName}" />
-			    <p:commandButton value="Show" />
-			</h:panelGroup>
+			<c:if test="#{loginSession.loggedAsManager}">
+			    <h:outputLabel value="Lector:" />
+			    <h:panelGroup>
+				<h:outputText value="#{teaching.lector.displayName}" />
+				<p:commandButton value="Show" />
+			    </h:panelGroup>
+			</c:if>
 
 			<h:outputLabel value="Student:" />
 			<h:panelGroup>
@@ -38,6 +41,11 @@
 			    <p:commandButton value="Show" />
 			</h:panelGroup>
 
+			<c:if test="#{not loginSession.loggedAsManager}">
+			    <p:spacer />
+			    <p:spacer />
+			</c:if>
+			
 			<h:outputLabel value="Subject:" />
 			<h:outputText value="#{teaching.subject.name}" />
 
@@ -47,13 +55,31 @@
 			<h:outputLabel value="Description:" />		   
 			<p:spacer/>
 			<p:spacer/>
-			<p:spacer/>
-
+			
+			<h:panelGroup>
+			    <p:commandButton icon="ui-icon-plusthick" title="Add lesson"
+					     action="#{lessonsController.openNewLesson(teaching)}"
+					     update="@widgetVar(lessonDialog)"
+					     oncomplete="PF('lessonDialog').show()"
+					     />
+			    
+			</h:panelGroup>
+			
 		    </h:panelGrid>
 		    <h:outputText value="#{teaching.statusDescription}" />
 		</p:dataGrid>
 	    </h:form>
 
+	    <p:dialog header="Lesson" id="lessonDialog" widgetVar="lessonDialog">
+		#{teachingsController.currentTeaching}
+		
+		<martlin:lesson-detail
+		    lesson="#{lessonsController.lessonToOpen}" 
+		    teaching="#{lessonsController.teachingToOpen}"
+		    onSaved="hideOnSuccess(xhr, status, args, 'lessonDialog');" />
+		
+	    </p:dialog>
+	    
 	</section>
     </composite:implementation>
 </html>

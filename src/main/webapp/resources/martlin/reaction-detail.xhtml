@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+    <composite:interface displayName="Detail view of teaching request's reaction">
+	<composite:attribute name="request"  required="true" type="cz.martlin.douckonline.business.model.managment.TeachingRequest" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+	<composite:attribute name="onSaved" required="false" type="java.lang.String" default="" />
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="teaching-request-reaction-detail">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+
+	    <h:form id="teaching-request-reaction-detail-form">
+		<h:panelGrid columns="2">
+		    
+		    <h:outputLabel value="Status:" />
+		    <p:selectOneMenu value="#{requestReactionsController.status}">
+			<f:selectItems value="#{requestReactionsController.allStatuses}" />
+		    </p:selectOneMenu>
+
+		    <h:outputLabel value="Description:" />		   
+		    <h:inputTextarea value="#{requestReactionsController.description}" />
+		</h:panelGrid>
+		
+		<p:messages />
+
+		<p:commandButton value="Save" 
+				 action="#{requestReactionsController.saveReaction(cc.attrs.request)}"
+				 oncomplete="#{cc.attrs.onSaved}"
+				 update="@form"
+				 />
+	    </h:form>
+
+
+	</section>
+
+
+
+    </composite:implementation>
+</html>
+

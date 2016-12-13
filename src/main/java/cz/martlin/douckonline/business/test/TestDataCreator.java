@@ -19,6 +19,7 @@ import cz.martlin.douckonline.business.model.managment.RequestReaction;
 import cz.martlin.douckonline.business.model.managment.RequestReactionStatus;
 import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import cz.martlin.douckonline.business.model.managment.TeachingRequestStatus;
+import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Level;
 import cz.martlin.douckonline.business.model.teaching.Subject;
 import cz.martlin.douckonline.business.model.teaching.SubjectCategory;
@@ -224,17 +225,25 @@ public class TestDataCreator {
     }
 
     private void createLessons1() {
-	teachings.addLesson(bachMillyPiano, daysAgo(15), Tools.time(1, 30), "First look");
-	teachings.addLesson(bachMillyPiano, daysAgo(14), Tools.time(1, 30), "First listen");
-	teachings.addLesson(bachMillyPiano, daysAgo(3), Tools.time(1, 30), "First touch");
+	Lesson lsn1 = new Lesson(bachMillyPiano, null, daysAgo(15), Tools.time(1, 30), "First look");
+	Lesson lsn2 = new Lesson(bachMillyPiano, null, daysAgo(14), Tools.time(1, 30), "First listen");
+	Lesson lsn3 = new Lesson(bachMillyPiano, null, daysAgo(3), Tools.time(1, 30), "First touch");
+	teachings.addLesson(lsn1);
+	teachings.addLesson(lsn2); 
+	teachings.addLesson(lsn3); 
 
-	teachings.addLesson(smartLazyEng, daysAgo(21), Tools.time(0, 45), "Present perfect");
-	teachings.addLesson(smartLazyEng, daysAgo(14), Tools.time(0, 45), "Past perfect");
+	Lesson lsn4 = new Lesson(smartLazyEng, null,  daysAgo(21), Tools.time(0, 45), "Present perfect");
+	Lesson lsn5 = new Lesson(smartLazyEng, null, daysAgo(14), Tools.time(0, 45), "Past perfect");
+	teachings.addLesson(lsn4);
+	teachings.addLesson(lsn5);
 	
-	teachings.addLesson(geekNerdMath, daysAgo(11), Tools.time(1, 0), "Linear equations");
-	teachings.addLesson(geekNerdMath, daysAgo(10), Tools.time(1, 0), "Nonliear equations");
+	Lesson lsn6 = new Lesson(geekNerdMath, null, daysAgo(11), Tools.time(1, 0), "Linear equations");
+	Lesson lsn7 = new Lesson(geekNerdMath, null, daysAgo(10), Tools.time(1, 0), "Nonliear equations");
+	teachings.addLesson(lsn6);
+	teachings.addLesson(lsn7);
 	
-	teachings.addLesson(geekLazyPhys, daysAgo(15), Tools.time(2, 0), "Newton's laws");
+	Lesson lsn8 = new Lesson(geekLazyPhys, null, daysAgo(15), Tools.time(2, 0), "Newton's laws");
+	teachings.addLesson(lsn8);
     }
 
     private void createPayments1() {
@@ -294,13 +303,13 @@ public class TestDataCreator {
 
     private void createRequestsReactions() {
 	RequestReaction reaction1 = new RequestReaction(null, jamiehydrogen, RequestReactionStatus.YES, daysAgo(4), "Yes! I'm totally in!");
-	requests.react(elemMath, reaction1);
+	requests.addReaction(elemMath, reaction1);
 	
 	RequestReaction reaction2 = new RequestReaction(null, petergeek, RequestReactionStatus.IF_NO_ONE_ELSE, daysAgo(3), "Okay..!");
-	requests.react(elemMath, reaction2);
+	requests.addReaction(elemMath, reaction2);
 	
 	RequestReaction reaction3 = new RequestReaction(null, johnsmart, RequestReactionStatus.NO, daysAgo(5), "No time, sorry...");
-	requests.react(middEng, reaction3);
+	requests.addReaction(middEng, reaction3);
     }
 
 }

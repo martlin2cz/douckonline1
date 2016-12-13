@@ -2,6 +2,8 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/rest/LoginSession.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/logic/Subjects.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/converters/SubjectsConverter.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/converters/TeachingsConverter.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/LessonsController.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/TeachingRequestsController.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/rest/EntityManagerContextListener.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/rest/LoginFilter.java
@@ -20,6 +22,7 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Certificate.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/managment/Manager.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/managment/RequestReaction.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/converters/WithLongIdConverter.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/managment/Payment.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/logic/Moneys.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/converters/UsersConverter.java
@@ -27,7 +30,9 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/base/User.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Education.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/lector/Practice.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/TeachingsController.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/tools/DbModifying.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/converters/TimesConverter.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/utils/PathInfo.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/LectorProfileController.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/utils/JSFTools.java
@@ -45,6 +50,7 @@
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/base/EntityWithLongID.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/business/model/teaching/Level.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/SubjectsController.java
+/home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/converters/CalendarsConverter.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/LectorsController.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/MiscController.java
 /home/martin/Programovani/netbeans8-projs/douckonline1/src/main/java/cz/martlin/douckonline/web/controllers/AssignRequestController.java

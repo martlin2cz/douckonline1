@@ -32,6 +32,13 @@ public class Teachings {
     }
 
 //<editor-fold defaultstate="collapsed" desc="listing of teaching">
+    
+    public Teaching getTeachingById(long id) {
+	LOG.trace("Finding teaching by id");
+	
+	return dbl.getById(Teaching.class, id);
+    }
+    
     /**
      * Lists all teachings of given lector.
      *
@@ -224,27 +231,23 @@ public class Teachings {
     }
 
     /**
-     * Adds lesson specified by given params to given teaching instance.
+     * Adds lesson to given teaching instance.
      *
      * @param teaching
-     * @param date
-     * @param duration
-     * @param description
+     * @param lesson 
      * @return
      */
-    public Lesson addLesson(Teaching teaching, Calendar date, Calendar duration, String description) {
+    public boolean addLesson(Lesson lesson) {
 	LOG.trace("Adding lesson");
 
 	Calendar addedAt = Calendar.getInstance();
-	Lesson lesson = new Lesson(teaching, addedAt, date, duration, description);
+	lesson.setAddedAt(addedAt);
+	
+	Teaching teaching = lesson.getTeaching();
 	teaching.getLessons().add(lesson);
 
-	boolean success = dbm.insert(lesson);
-	if (success) {
-	    return lesson;
-	} else {
-	    return null;
-	}
+	boolean success = dbm.insertSingle(lesson);
+	return success;
     }
 
     /**
@@ -261,6 +264,7 @@ public class Teachings {
 	return dbm.remove(lesson);
     }
 //</editor-fold>
+
 
 
 }

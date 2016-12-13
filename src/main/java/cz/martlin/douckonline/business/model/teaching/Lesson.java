@@ -94,7 +94,13 @@ public class Lesson extends EntityWithLongID {
 
     @Override
     public String toString() {
-	return "Lesson{id=" + id + ", teaching=" + teaching.getId() + ", date=" + date.getTime() + ", duration=" + duration.getTime() + ", description=" + description + "}";
+	return "Lesson{id=" + id + ", teaching="
+		+ (teaching != null ? teaching.getId() : "-") 
+		+ ", date=" 
+		+ (date != null ? date.getTime() : "-") 
+		+ ", duration=" 
+		+ (duration != null ? duration.getTime() : "-") 
+		+ ", description=" + description + "}";
     }
 
 }
