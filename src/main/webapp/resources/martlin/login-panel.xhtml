@@ -12,32 +12,31 @@
     </composite:interface>
 
     <composite:implementation>
-	<section id="login-panel">
+	<p:panel id="login-panel">
 	    <h:form id="login-panel-form">
 		<h:panelGrid columns="2">
 		    <h:outputLabel value="Login:" />
-		    <h:inputText value="#{logingInController.username}" 
+		    <p:inputText value="#{logingInController.username}" 
 				 id="username" required="true" 
 				 binding="#{usernameBinding}">
-		    </h:inputText>
+		    </p:inputText>
 
 		    <h:outputLabel value="Pasword:" />
-		    <h:inputSecret value="#{logingInController.password}" 
+		    <p:password value="#{logingInController.password}" 
 				   id="password" required="true" >
 			<f:validator validatorId="loginValidator" />
 			<f:attribute name="usernameBinding" value="#{usernameBinding}" />
-		    </h:inputSecret>
+		    </p:password>
+		    
+		    
+		    <p:spacer />
+		    <p:commandButton value="Log in" ajax="false" icon="ui-icon-locked"
+				 action="#{logingInController.logIn}" />
 		</h:panelGrid>
 		
 		<p:messages />
-		
-		<p:commandButton value="Log in" ajax="false"
-				 action="#{logingInController.logIn}"
-				 >
-		 
-		</p:commandButton>
 	    </h:form>
-	</section>
+	</p:panel>
     </composite:implementation>
 </html>
 

@@ -16,6 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -23,6 +25,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "teachings")
+@XmlRootElement
 public class Teaching extends EntityWithLongID {
 
     @ManyToOne
@@ -118,6 +121,7 @@ public class Teaching extends EntityWithLongID {
 	this.cost = cost;
     }
 
+    @XmlTransient
     public List<Lesson> getLessons() {
 	return lessons;
     }

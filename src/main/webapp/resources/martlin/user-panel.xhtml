@@ -3,22 +3,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:composite="http://java.sun.com/jsf/composite"
       >
-  
-    
+
+
     <composite:interface displayName="User panel">			
     </composite:interface>
 
     <composite:implementation>
-	<section id="user-panel">
-	    <h:form>
-		<c:if test="#{loginSession.loggedIn}">
-		      Logged in as #{loginSession.loggedUser.displayName}
-		    <h:commandButton value="Log out" action="#{logingInController.logOut()}" />
-		</c:if>	
-	    </h:form>
-	</section>
+	<c:if test="#{loginSession.loggedIn}">
+	    <p:panel id="user-panel">
+		<h:form>
+
+		    <h:outputLabel value="Logged in as " />
+		    <h:outputText value="#{loginSession.loggedUser.displayName}" />
+		    <p:commandButton value="Log out" ajax="false" icon="ui-icon-unlocked"
+				     action="#{logingInController.logOut()}" />
+
+		</h:form>
+	    </p:panel>
+	</c:if>	
     </composite:implementation>
 </html>
 

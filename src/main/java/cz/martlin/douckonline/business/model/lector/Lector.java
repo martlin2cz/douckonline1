@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -19,6 +21,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "lectors")
+@XmlRootElement
 public class Lector extends User implements Serializable {
 
     @Column(name = "full_name")
@@ -152,6 +155,7 @@ public class Lector extends User implements Serializable {
 	this.endedAt = endedAt;
     }
     
+    @XmlTransient
     public List<SubjTeachingSpec> getSubjects() {
 	return subjects;
     }
@@ -160,6 +164,7 @@ public class Lector extends User implements Serializable {
 	this.subjects = subjects;
     }
 
+    @XmlTransient
     public List<Certificate> getCertificates() {
 	return certificates;
     }
@@ -168,6 +173,7 @@ public class Lector extends User implements Serializable {
 	this.certificates = certificates;
     }
 
+    @XmlTransient
     public List<Education> getEducations() {
 	return educations;
     }
@@ -176,6 +182,7 @@ public class Lector extends User implements Serializable {
 	this.educations = educations;
     }
 
+    @XmlTransient
     public List<Practice> getPractices() {
 	return practices;
     }

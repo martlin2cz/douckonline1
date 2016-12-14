@@ -1,10 +1,9 @@
 package cz.martlin.douckonline.business.logic;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import java.security.MessageDigest;
 import java.util.Random;
 import javax.xml.bind.DatatypeConverter;
-import sun.misc.BASE64Encoder;
+
 
 /**
  *

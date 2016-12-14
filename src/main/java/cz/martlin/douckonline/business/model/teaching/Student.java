@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -15,6 +16,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "students")
+@XmlRootElement
 public class Student extends User implements Serializable{
     
     @Column(name = "register_name")

@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -16,6 +17,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "subjects")
+@XmlRootElement
 public class Subject implements Serializable {
 
     @Id
