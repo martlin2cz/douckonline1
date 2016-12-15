@@ -53,8 +53,7 @@ public class JSFTools {
 //<editor-fold defaultstate="collapsed" desc="params">
     
     public static String getGETParam(String name) {
-	//TODO
-	return "TODOOOOO";
+	return getRequestParam(name);
     }
      public static String getRequestParam(String name) {
 	ExternalContext context = externalContext();

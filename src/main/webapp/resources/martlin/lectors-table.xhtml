@@ -5,8 +5,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
-      >
-  
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
     <composite:interface displayName="Panel with teaching requests">
 	<composite:attribute name="items"  required="true" type="java.util.List" />
 	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
@@ -14,57 +15,60 @@
 
 
     <composite:implementation>
-	<section class="lectors-pane">
-	    <c:if test="#{not empty cc.attrs.title}">
-		<h2>#{cc.attrs.title}</h2>
-	    </c:if>
-	
-	    
-	    <h:form>
-		<p:selectOneMenu value="#{lectorsController.selectedSubject}">
-		    <f:selectItem value="#{null}" itemLabel="all subjects" />
-		    <f:selectItems value="#{lectorsController.allSubjects}" var="subject" itemLabel="#{subject.name}" itemValue="#{subject.name}" />
-		</p:selectOneMenu>
-		<p:commandButton value="Filter" action="#{lectorsController.filter}" update="" />
-	    </h:form>
-	    
-	    <p:dataTable value="#{cc.attrs.items}" var="lector" 
-			 widgetVar="lectorsTable" id="lectorsTable"
-			 emptyMessage="No lector found">
-		<p:column headerText="Name">
-		    <h:outputText value="#{lector.displayName}" />
-		</p:column>
-		
-		<p:column headerText="Subjects">
-		    <ui:repeat value="#{lector.subjects}" var="subjSpec">
-			<span>#{subjSpec.subject.name}</span>
-		    </ui:repeat>
-		</p:column>
-		
-		<p:column headerText="Login">
-		    <h:outputText value="#{lector.loginName}" />
-		</p:column>
-		
-		<p:column headerText="Since">
-		    <h:outputText value="#{lector.registeredAt.time}" />
-		</p:column>
-		
-		<p:column headerText="Last login">
-		    <h:outputText value="#{lector.lastLoginAt.time}" />
-		</p:column>
-		
-		
-		<p:column headerText="">
-		    <p:commandButton value="Open profile" />
-		</p:column>
-		
+	<p:panel class="lectors-pane">
+	    <h:form id="lectors-form">
+		<h2>
+		    <h:outputText value="#{cc.attrs.title}" />
+		    <p:commandButton title="Add new Lector" icon="ui-icon-plusthick"
+				     disabled="true"
+				     update="@widgetVar(paymentDialog)"
+				     oncomplete="PF('paymentDialog').show()"
+				     rendered="#{loginSession.loggedAsManager}"
+				     />
+		</h2>
 
-	    </p:dataTable> 
-	    <h:form>
-		<h:inputText value="#{lectorsController.newLectorName}" />
-		<h:commandButton value="Add lector" action="#{lectorsController.addLector()}" />
-	    </h:form>	    
-	</section>
+		<p:panel id="lectors-filter-pane">
+		    <martlin:subjects-list value="#{lectorsController.selectedSubject}" 
+					   withOtherSubject="false" withAllSubject="true" />
+
+		    <p:commandButton value="Filter" action="#{lectorsController.filter}" update="@form" />
+		</p:panel>    
+
+		<p:dataTable value="#{cc.attrs.items}" var="lector" 
+			     widgetVar="lectorsTable" id="lectorsTable"
+			     emptyMessage="No lector found">
+		    <p:column headerText="Name">
+			<h:outputText value="#{lector.displayName}" />
+		    </p:column>
+
+		    <p:column headerText="Subjects">
+			<ui:repeat value="#{lector.subjects}" var="subjSpec">
+			    <span>#{subjSpec.subject.name}</span>
+			</ui:repeat>
+		    </p:column>
+
+		    <p:column headerText="Login">
+			<h:outputText value="#{lector.loginName}" />
+		    </p:column>
+
+		    <p:column headerText="Since">
+			<h:outputText value="#{lector.registeredAt.time}" />
+		    </p:column>
+
+		    <p:column headerText="Last login">
+			<h:outputText value="#{lector.lastLoginAt.time}" />
+		    </p:column>
+
+
+		    <p:column headerText="">
+			<p:button value="Open profile" icon="ui-icon-extlink" target="_blank"
+				  onclick="window.open('lector.xhtml?login-name=#{lector.loginName}')"  />
+		    </p:column>
+
+
+		</p:dataTable> 
+	    </h:form>
+	</p:panel>
     </composite:implementation>
 </html>
 

@@ -10,13 +10,23 @@
     
     <composite:interface displayName="Subjects dropdown list">
 	<composite:attribute name="value" type="cz.martlin.douckonline.business.model.teaching.Subject" required="true" />
+	<composite:attribute name="withOtherSubject" type="boolean" required="false" default="#{false}" />
+	<composite:attribute name="withAllSubject" type="boolean" required="false" default="#{false}" />
+  
     </composite:interface>
 
     <composite:implementation>
 	<p:selectOneMenu value="#{cc.attrs.value}" converter="#{subjectsConverter}" id="subjects-dropdown">
+	    <c:if test="#{cc.attrs.withAllSubject}">
+		<f:selectItem itemLabel="all subjects" itemValue="#{null}" />
+	    </c:if>
+	    
 	    <f:selectItems value="#{subjectsController.allSubjects}" var="subject"
 			   itemLabel="#{subject.name}" itemValue="#{subject}" />
-	    <f:selectItem itemLabel="Other" itemValue="#{null}" />
+	    
+	    <c:if test="#{cc.attrs.withOtherSubject}">
+		<f:selectItem itemLabel="other" itemValue="#{null}" />
+	    </c:if>
 	</p:selectOneMenu>	    
     </composite:implementation>
 </html>
