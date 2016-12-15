@@ -10,7 +10,6 @@
 
     <composite:interface displayName="Detail view of lesson">
 	<composite:attribute name="lesson"  required="true" type="cz.martlin.douckonline.business.model.teaching.Lesson" />
-	<composite:attribute name="teaching"  required="true" type="cz.martlin.douckonline.business.model.teaching.Teaching" />
 	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
 	<composite:attribute name="onSaved" required="false" type="java.lang.String" default="" />
     </composite:interface>
@@ -22,9 +21,9 @@
 	    </c:if>
 
 	    <h:form id="lesson-detail-form">
-		#{cc.attrs.lesson}
-		<h:panelGrid columns="2">
+		<h:inputHidden value="#{cc.attrs.lesson.id}" />
 
+		<h:panelGrid columns="2">
 		    <h:outputLabel value="Student:" />
 		    <p:selectOneMenu value="#{cc.attrs.lesson.teaching}" converter="#{teachingsConverter}">
 			<f:selectItems value="#{lessonsController.teachings}" var="teaching" 
@@ -32,16 +31,13 @@
 				       itemValue="#{teaching}" />
 		    </p:selectOneMenu>
 
-		    
-		    <!-- TODO FIXME date/time -->
 		    <h:outputLabel value="Date:" />
 		    <p:calendar value="#{cc.attrs.lesson.date}" 
 				converter="#{calendarsConverter}" pattern="#{calendarsConverter.format}" />
 
-		    <!-- TODO FIXME date/time -->
 		    <h:outputLabel value="Duration:" />
-		    <p:calendar value="#{cc.attrs.lesson.duration}" 
-				converter="#{timesConverter}" pattern="#{timesConverter.format}" timeOnly="true"  />
+		    <p:calendar value="#{cc.attrs.lesson.duration.time}" 
+				pattern="#{timesConverter.format}" timeOnly="true"  />
 
 		    <h:outputLabel value="Description:" />		   
 		    <h:inputTextarea value="#{cc.attrs.lesson.description}" />
@@ -52,7 +48,7 @@
 		<p:commandButton value="Save" 
 				 action="#{lessonsController.saveLesson(cc.attrs.lesson)}"
 				 oncomplete="#{cc.attrs.onSaved}"
-				 update="@form"
+				 update="@form @widgetVar(growl)"
 				 />
 	    </h:form>
 

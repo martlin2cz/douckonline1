@@ -37,7 +37,7 @@
 		<p:commandButton value="Save" 
 				 action="#{requestReactionsController.saveReaction(cc.attrs.request)}"
 				 oncomplete="#{cc.attrs.onSaved}"
-				 update="@form"
+				 update="@form @widgetVar(growl)"
 				 />
 	    </h:form>
 

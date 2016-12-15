@@ -4,81 +4,15 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
     
   <ui:composition template="/WEB-INF/templates/main-template.xhtml">
-    <ui:define name="main-content">
-
-	<h1>Profile of lector</h1>
-	<h2>Basic info</h2>
-	<h:panelGrid columns="2">
-	    <h:outputLabel value="Full name" />
-	    <h:panelGroup>
-		<h:outputText value="#{lectorsProfileController.loggedLector.titleBeforeName}" />
-		<h:outputText value="#{lectorsProfileController.loggedLector.fullName}" />,
-		<h:outputText value="#{lectorsProfileController.loggedLector.titleAfterName}" />
-	    </h:panelGroup>
-	    
-	    <h:outputLabel value="Login" />
-	    <h:outputText value="#{lectorsProfileController.loggedLector.loginName}" />
-	    
-	    <h:outputLabel value="Registered" />
-	    <h:outputText value="#{lectorsProfileController.loggedLector.registeredAt.time}" />
-	    
-	    <h:outputLabel value="Last login at" />
-	    <h:outputText value="#{lectorsProfileController.loggedLector.lastLoginAt.time}" />
-	</h:panelGrid>
+      <ui:define name="title">My profile</ui:define>
+      
+      <ui:define name="main-content">
 	
-	<h2>Subjects</h2>
-	<h:dataTable value="#{lectorsProfileController.loggedLector.subjects}" var="subjSpec">
-	    <h:column>
-		<h:outputText value="#{subjSpec.subject.name}, #{subjSpec.level} (#{subjSpec.suitabity})" />
-	    </h:column>
-	</h:dataTable>
-	
-	<h2>Educations</h2>
-	<h:dataTable value="#{lectorsProfileController.loggedLector.educations}" var="education">
-	    <h:column>
-		<f:facet name="header">Institution</f:facet>
-		<h:outputText value="#{education.institution}" />
-	    </h:column>
-	    <h:column>
-		<f:facet name="header">Subject</f:facet>
-		<h:outputText value="#{education.subject}" />
-	    </h:column>
-	    <h:column>
-		<f:facet name="header">Degree</f:facet>
-		<h:outputText value="#{education.degree}" />
-	    </h:column>
-	</h:dataTable>
-	
-	<h2>Certificates</h2>
-	<h:dataTable value="#{lectorsProfileController.loggedLector.certificates}" var="certificate">
-	    <h:column>
-		<f:facet name="header">Certificate</f:facet>
-		<h:outputText value="#{certificate.name}" />
-	    </h:column>
-	    <h:column>
-		<f:facet name="header">Subject</f:facet>
-		<h:outputText value="#{certificate.subject.name}" />
-	    </h:column>
-	    <h:column>
-		<f:facet name="header">Level</f:facet>
-		<h:outputText value="#{certificate.degree}" />
-	    </h:column>
-	</h:dataTable>
-	
-	<h2>Practices</h2>
-	<h:dataTable value="#{lectorsProfileController.loggedLector.practices}" var="practise">
-	    <h:column>
-		<f:facet name="header">What</f:facet>
-		<h:outputText value="#{practise.work}" />
-	    </h:column>
-	    <h:column>
-		<f:facet name="header">Where</f:facet>
-		<h:outputText value="#{practise.institution}" />
-	    </h:column>
-	</h:dataTable>
+	<martlin:lector-detail lector="#{loginSession.loggedLector}" />
 	
     </ui:define>
   </ui:composition>

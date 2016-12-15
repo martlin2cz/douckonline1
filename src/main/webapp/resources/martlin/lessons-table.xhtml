@@ -8,49 +8,75 @@
       >
 
     <composite:interface displayName="Panel with lessons">
-	<composite:attribute name="items"  required="true" type="java.util.List" />
+	<composite:attribute name="lessons"  required="true" type="java.util.List" />
 	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
     </composite:interface>
 
     <composite:implementation>
-	<section class="lessons-pane">
-	    <c:if test="#{not empty cc.attrs.title}">
-		<h2>#{cc.attrs.title}</h2>
-	    </c:if>
+	<p:panel class="lessons-pane">
 
 	    <h:form id="lessons-form">
 		
-		
-		<p:dataGrid value="#{cc.attrs.items}" var="lesson" 
+		<h2>
+		    <h:outputText value="#{cc.attrs.title}" />
+		    <p:commandButton title="Add new lesson" icon="ui-icon-plusthick"
+				     action="#{lessonsController.openNewLesson(null)}"
+				     update="@widgetVar(lessonDialog)"
+				     oncomplete="PF('lessonDialog').show()"
+				     rendered="#{loginSession.loggedAsManager or loginSession.loggedAsLector}"
+				     />
+		</h2>
+
+
+		<p:dataGrid value="#{cc.attrs.lessons}" var="lesson" 
 			    layout="grid" columns="2"
 			    emptyMessage="No current lessons">
-		    <h:panelGrid columns="4">
-			<h:outputLabel value="Student:" />
-			<h:outputText value="#{lesson.teaching.student.studentName}" />
-			<h:outputLabel value="Subject:" />
-			<h:outputText value="#{lesson.teaching.subject.name}" />
+		    <p:panel>
+			<h:panelGrid columns="4">
+			    <h:outputLabel value="Student:" />
+			    <h:outputText value="#{lesson.teaching.student.studentName}" />
+			    <h:outputLabel value="Subject:" />
+			    <h:outputText value="#{lesson.teaching.subject.name}" />
 
-			<h:outputLabel value="When:" />
-			<h:outputText value="#{lesson.date.time}" >
-			    <f:convertDateTime pattern="dd.MM.yyyy" />
-			</h:outputText>
+			    <h:outputLabel value="When:" />
+			    <h:outputText value="#{lesson.date.time}" >
+				<f:convertDateTime pattern="dd.MM.yyyy" />
+			    </h:outputText>
 
-			<h:outputLabel value="Duration:" />
-			<h:outputText value="#{lesson.duration.time}" >
-			    <f:convertDateTime pattern="HH:mm" />
-			</h:outputText>
+			    <h:outputLabel value="Duration:" />
+			    <h:outputText value="#{lesson.duration.time}" >
+				<f:convertDateTime pattern="HH:mm" />
+			    </h:outputText>
 
-			<h:outputLabel value="Description:" />
-			<p:spacer />
-			<p:spacer />
-			<p:spacer />
-		    </h:panelGrid>
+			    <h:outputLabel value="Description:" />
+			    <p:spacer />
+			    <p:spacer />
 
-		    <h:outputText value="#{lesson.description}" />
+			    <h:panelGroup>
+				<p:commandButton title="Edit lesson" icon="ui-icon-gear"
+						 action="#{lessonsController.openLesson(lesson)}"
+						 update="@widgetVar(lessonDialog)"
+						 oncomplete="PF('lessonDialog').show()"
+						 rendered="#{loginSession.loggedAsManager or loginSession.loggedAsLector}"
+						 />
+
+				<p:commandButton title="Delete lesson" icon="ui-icon-closethick"
+						 action="#{lessonsController.deleteLesson(lesson)}"
+						 update="@widgetVar(lessonDialog)"
+						 oncomplete="PF('lessonDialog').show()"
+						 rendered="#{loginSession.loggedAsManager or loginSession.loggedAsLector}"
+						 />
+			    </h:panelGroup>
+			    
+			</h:panelGrid>
+
+			<h:outputText value="#{lesson.description}" />
+		    </p:panel>
 		</p:dataGrid>
+
 	    </h:form>
 
-	</section>
+	</p:panel>
     </composite:implementation>
 </html>
 

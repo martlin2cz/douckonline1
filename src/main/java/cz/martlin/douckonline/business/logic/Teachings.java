@@ -253,17 +253,28 @@ public class Teachings {
     /**
      * Removes given lesson from given teaching.
      *
-     * @param teaching
      * @param lesson
      * @return
      */
-    public boolean removeLesson(Teaching teaching, Lesson lesson) {
+    public boolean removeLesson(Lesson lesson) {
 	LOG.trace("Removing lesson");
 
+	Teaching teaching = lesson.getTeaching();
 	teaching.getLessons().remove(lesson);
-	return dbm.remove(lesson);
+	
+	return dbm.removeSingle(lesson);
+    }
+    
+    
+    public boolean updateLesson(Lesson lesson) {
+	LOG.trace("Updating lesson");
+
+	LOG.warn("will loose data like AddedAt ... (restore from db and copy it into?)");
+	
+	return dbm.updateSingle(lesson);
     }
 //</editor-fold>
+
 
 
 

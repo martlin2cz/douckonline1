@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -33,12 +34,16 @@ public class TimesConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 	Calendar calendar = stringToCalendar(value);
+	//Date date = calendar.getTime();
 	return calendar;
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-	Calendar calendar = (Calendar) value;
+	//Date date = (Date) value;
+	Calendar calendar = Calendar.getInstance();
+	//calendar.setTime(date);
+	
 	String string = calendarToString(calendar);
 	return string;
     }

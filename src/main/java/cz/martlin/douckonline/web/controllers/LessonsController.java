@@ -6,6 +6,8 @@ import cz.martlin.douckonline.business.model.teaching.Lesson;
 import cz.martlin.douckonline.business.model.teaching.Teaching;
 import cz.martlin.douckonline.web.rest.LoginSession;
 import cz.martlin.douckonline.web.utils.JSFTools;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -32,6 +34,7 @@ public class LessonsController {
 
     public LessonsController() {
 	lessonToOpen = new Lesson();
+	lessonToOpen.setDuration(new GregorianCalendar(0, 0, 0, 1, 0, 0));  //FIXME HACK HAAAACK
     }
     
     @PostConstruct
@@ -62,7 +65,6 @@ public class LessonsController {
 
 //<editor-fold defaultstate="collapsed" desc="action methods">
     public void openNewLesson(Teaching teaching) {
-	//
 	lessonToOpen.setTeaching(teaching);
     }
 
@@ -73,12 +75,16 @@ public class LessonsController {
     public void saveLesson(Lesson lesson) {
 	boolean success;
 	if (lesson.isPersisted()) {
-	    JSFTools.failed("unsupported operation");
-	    throw new UnsupportedOperationException("update lesson");
+	    success = TEACHINGS.updateLesson(lesson);
 	} else {
 	    success = TEACHINGS.addLesson(lesson);
 	}
 	JSFTools.savedOrFailed(success, "Lesson saved", "Could not save lesson");
+    }
+    
+    public void deleteLesson(Lesson lesson) {
+	boolean  success = TEACHINGS.removeLesson(lesson);
+	JSFTools.savedOrFailed(success, "Lesson removed", "Could not remove lesson");
     }
 //</editor-fold>
 }

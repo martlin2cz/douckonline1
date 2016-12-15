@@ -13,20 +13,20 @@
       <ui:define name="main-content">
 
 	
-	<martlin:teaching-requests-table items="#{lectorsProfileController.currentRequests}" 
+	<martlin:teaching-requests-table requests="#{lectorsProfileController.currentRequests}" 
 					 title="Teaching requests" displayAll="false" />
 	
 	
-	<martlin:teachings-table items="#{lectorsProfileController.currentTeachings}"
+	<martlin:teachings-table teachings="#{lectorsProfileController.currentTeachings}"
 				 title="Students" />
 	
-	<martlin:lessons-table items="#{lectorsProfileController.actualLessons}"
+	<martlin:lessons-table lessons="#{lectorsProfileController.actualLessons}"
 			       title="Lessons" />
 	
-	
+	<!--	
 	<h2>Sallary</h2>
 	TODO ...
-	
+	-->
 
     </ui:define>
   </ui:composition>
