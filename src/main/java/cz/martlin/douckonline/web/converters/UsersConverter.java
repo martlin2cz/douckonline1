@@ -26,15 +26,25 @@ public class UsersConverter implements  Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 	String loginName = value;
-	User user = users.findUser(value);
-	return user;
+	
+	if (loginName == null) {
+	    return null; 
+	} else {
+	    User user = users.findUser(loginName);
+	    return user;
+	}
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
 	User user = (User) value;
-	String loginName = user.getLoginName();
-	return loginName;
+	
+	if (user == null) {
+	    return null;
+	} else {
+	    String loginName = user.getLoginName();
+	    return loginName;
+	}
     }
     
 }

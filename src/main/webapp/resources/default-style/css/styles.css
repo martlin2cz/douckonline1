@@ -40,3 +40,10 @@ footer {
 table th, td {
     border: 1px solid #DDDDDD;
 }
+
+/******************************************************************************/
+/* redefine ui */
+
+.ui-selectonemenu {
+    vertical-align: bottom !important;
+}

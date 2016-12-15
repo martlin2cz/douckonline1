@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.martlin.douckonline.rest.ws.service;
 
 import cz.martlin.douckonline.business.model.base.User;
@@ -16,6 +11,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
  */
 @Path("login")
 public class LoginWS {
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private final WSAuthorisation auth = new WSAuthorisation();
 
@@ -39,6 +37,7 @@ public class LoginWS {
     public String getAuthToken(
 	    @QueryParam("username") String username,
 	    @QueryParam("password") String password) {
+	LOG.debug("Attempt to log in using password: " + username + ", " + password);
 
 	User user = auth.tryAuthoriseByLogin(username, password, null);
 
@@ -53,8 +52,9 @@ public class LoginWS {
     public String checkAuthToken(
 	    @QueryParam("username") String username,
 	    @QueryParam("auth-token") String authToken) {
+	LOG.debug("Attempt to log in using authToken: " + username + ", " + authToken);
 
 	User user = auth.tryAuthoriseByAuthToken(username, authToken, null);
-	return user.getLoginName();
+	return user.getClass().getSimpleName();
     }
 }

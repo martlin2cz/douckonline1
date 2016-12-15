@@ -1,6 +1,7 @@
 
 
 /* global PF */
+//var TIMEOUT_BEFORE_UPDATE = 1 * 1000;
 
 function hideOnSuccess(xhr, status, args, widgetVar) {
     
@@ -11,5 +12,7 @@ function hideOnSuccess(xhr, status, args, widgetVar) {
     
     PF(widgetVar).hide();  
     updateWholePage();
+    
+    //setTimeout(TIMEOUT_BEFORE_UPDATE, updateWholePage());
 }
 

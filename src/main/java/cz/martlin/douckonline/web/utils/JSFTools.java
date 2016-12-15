@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class JSFTools {
 
     private static final Logger LOG = LoggerFactory.getLogger(JSFTools.class);
-    private static final String MESSAGES_ID = "the-global-messages";
+    private static final String MESSAGES_ID = null;//"the-global-messages";
     
     private static final String SAVED_INFO_TITLE = "Saved.";
     private static final String FAILED_ERROR_TITLE = "Failed!";

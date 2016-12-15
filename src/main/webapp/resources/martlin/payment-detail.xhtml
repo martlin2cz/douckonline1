@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+    <composite:interface displayName="Detail view of payment">
+	<composite:attribute name="payment"  required="true" type="cz.martlin.douckonline.business.model.managment.Payment" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+	<composite:attribute name="onSaved" required="false" type="java.lang.String" default="" />
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="payment-detail">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+
+	    <h:form id="payment-detail-form">
+		<h:inputHidden value="#{cc.attrs.payment.id}" />
+		    
+		<h:panelGrid columns="2">
+		    <h:outputLabel value="Student:" />
+		    <martlin:students-list value="#{cc.attrs.payment.student}" 
+					   withAccountNumber="true" withAllStudentsOption="false" />
+		    
+		    <h:outputLabel value="Date:" />
+		    <p:calendar value="#{cc.attrs.payment.date}" 
+				converter="#{calendarsConverter}" pattern="#{calendarsConverter.format}" />
+		    
+		    <h:outputLabel value="Amount:" />
+		    <p:inputNumber value="#{cc.attrs.payment.amount}" />
+
+		    <h:outputLabel value="Discount:" />		   
+		    <p:inputNumber value="#{cc.attrs.payment.discount}" />
+		</h:panelGrid>
+
+		<p:commandButton value="Save" 
+				 action="#{paymentsController.savePayment(cc.attrs.payment)}"
+				 oncomplete="#{cc.attrs.onSaved}"
+				 update="@form @widgetVar(growl)"
+				 />
+	    </h:form>
+
+
+	</section>
+
+
+
+    </composite:implementation>
+</html>
+

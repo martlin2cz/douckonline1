@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+    <composite:interface displayName="Panel with payments">
+	<composite:attribute name="title" required="true" type="java.lang.String" />
+    </composite:interface>
+
+
+    <composite:implementation>
+	<p:panel class="payments-pane">
+	    <h:form id="payments-form">
+		<h2>
+		    <h:outputText value="#{cc.attrs.title}" />
+		    <p:commandButton title="Add new Payment" icon="ui-icon-plusthick"
+				     action="#{paymentsController.openNewPayment()}"
+				     update="@widgetVar(paymentDialog)"
+				     oncomplete="PF('paymentDialog').show()"
+				     rendered="#{loginSession.loggedAsManager}"
+				     />
+		</h2>
+
+		<p:panel id="filter-panel">
+		    <martlin:students-list value="#{paymentsController.filterStudent}" 
+					   withAccountNumber="true" withAllStudentsOption="true" />
+		    <p:commandButton value="Filter" id="buttFilter" update="@all" 
+				     action="#{paymentsController.filter}" />
+
+		    <p:defaultCommand target="buttFilter" />
+		</p:panel>
+		<p:dataTable value="#{paymentsController.payments}" var="payment" 
+			     widgetVar="paymentsTable" id="paymentsTable"
+			     emptyMessage="No payment found">
+
+		    <p:column headerText="Student">
+			<h:outputText value="#{payment.student.displayName}" />
+			<p:commandButton title="Open student's profile" icon="ui-icon-extlink" />
+		    </p:column>
+
+
+		    <p:column headerText="Date">
+			<h:outputText value="#{payment.date.time}" />
+		    </p:column>
+
+		    <p:column headerText="Amount">
+			<h:outputText value="#{payment.amount}" />
+			<h:outputText value="Kč" />
+		    </p:column>
+
+		    <p:column headerText="Discount">
+			<h:outputText value="#{payment.discount}" />
+			<h:outputText value="%" />
+		    </p:column>
+
+
+		    <p:column headerText="">
+			<p:commandButton value="Edit" icon="ui-icon-gear"
+					 action="#{paymentsController.openPayment(payment)}"
+					 update="@widgetVar(paymentDialog)"
+					 oncomplete="PF('paymentDialog').show()"
+					 />
+
+			<p:commandButton value="Delete" icon="ui-icon-closethick"
+					 action="#{paymentsController.removePayment(payment)}"
+					 onclick="return confirm('Are you sure?')"
+					 update="@form @widgetVar(growl)"
+					 />
+		    </p:column>
+
+		</p:dataTable> 
+	    </h:form>
+
+	    <p:dialog header="Payment" id="paymentDialog" widgetVar="paymentDialog">
+
+		<martlin:payment-detail 
+		    payment="#{paymentsController.paymentToOpen}" 
+		    onSaved="hideOnSuccess(xhr, status, args, 'paymentDialog');" />
+
+	    </p:dialog>
+
+	</p:panel>
+    </composite:implementation>
+</html>
+

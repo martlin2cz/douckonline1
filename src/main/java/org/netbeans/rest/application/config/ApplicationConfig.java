@@ -29,15 +29,10 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-	resources.add(cz.martlin.douckonline.rest.ws.service.LectorFacadeREST.class);
 	resources.add(cz.martlin.douckonline.rest.ws.service.LectorWS.class);
-	resources.add(cz.martlin.douckonline.rest.ws.service.LessonFacadeREST.class);
 	resources.add(cz.martlin.douckonline.rest.ws.service.LoginWS.class);
 	resources.add(cz.martlin.douckonline.rest.ws.service.ManagerWS.class);
-	resources.add(cz.martlin.douckonline.rest.ws.service.StudentFacadeREST.class);
 	resources.add(cz.martlin.douckonline.rest.ws.service.StudentWS.class);
-	resources.add(cz.martlin.douckonline.rest.ws.service.SubjectFacadeREST.class);
-	resources.add(cz.martlin.douckonline.rest.ws.service.TeachingFacadeREST.class);
     }
     
 }

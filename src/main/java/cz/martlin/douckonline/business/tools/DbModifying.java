@@ -15,13 +15,14 @@ import org.slf4j.LoggerFactory;
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class DbModifying {
+
     private final static Logger LOG = LoggerFactory.getLogger(DbModifying.class);
     private static final DbModifying INSTANCE = new DbModifying();
-    private final DatabaseAccess db = new DatabaseAccess();
+    private final DatabaseAccess db = DatabaseAccess.get();
 
     private boolean success = true;
     private int bulksStack = 0;
-    
+
 //<editor-fold defaultstate="collapsed" desc="singleton">
     private DbModifying() {
 
@@ -32,17 +33,15 @@ public class DbModifying {
     }
 
 //</editor-fold>
-
 //<editor-fold defaultstate="collapsed" desc="bulk of modifications">
     public void startBulk() {
 	bulksStack++;
-	
+
 	if (bulksStack > 1) {
 	    return;
 	}
-	
+
 	try {
-	    db.setupEntityManager();
 	    db.getEntityManager().getTransaction().begin();
 	    success &= true;
 	} catch (Exception e) {
@@ -53,7 +52,7 @@ public class DbModifying {
 
     public void finishBulk() {
 	bulksStack--;
-	
+
 	if (bulksStack > 0) {
 	    return;
 	}
@@ -61,10 +60,9 @@ public class DbModifying {
 	    LOG.warn("Finishing not started bulk");
 	    return;
 	}
-	
+
 	try {
 	    db.getEntityManager().getTransaction().commit();
-	    db.unsetEntityManager();
 	    success &= true;
 	} catch (Exception e) {
 	    LOG.error("Cannot finish bulk", e);
@@ -82,7 +80,7 @@ public class DbModifying {
 
 	return ready;
     }
-    
+
     public boolean isSuccessfull() {
 	return success;
     }

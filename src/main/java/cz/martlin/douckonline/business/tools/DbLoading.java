@@ -26,7 +26,7 @@ public class DbLoading {
 
     private static final DbLoading INSTANCE = new DbLoading();
 
-    private final DatabaseAccess db = new DatabaseAccess();
+    private final DatabaseAccess db = DatabaseAccess.get();
 
 //<editor-fold defaultstate="collapsed" desc="singleton">
     private DbLoading() {
@@ -99,10 +99,7 @@ public class DbLoading {
 
 //<editor-fold defaultstate="collapsed" desc="other loadings">
     public <T> T getById(Class<T> clazz, Object identificator) {
-	db.setupEntityManager();
 	T item = db.getEntityManager().find(clazz, identificator);
-	db.unsetEntityManager();
-	
 	return item;
     }
 
@@ -135,7 +132,6 @@ public class DbLoading {
     }
 
     private Query toJPAQuery(String jpql, String[] variables, Object[] values) {
-	db.setupEntityManager();
 	Query query = db.getEntityManager().createQuery(jpql);
 
 	if (variables != null) {
