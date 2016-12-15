@@ -30,7 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- *
+ * Generates simple testing database to be used for testing purposes.
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class TestDataCreator {
@@ -66,6 +66,9 @@ public class TestDataCreator {
     private TeachingRequest middEng;
     
     
+    /**
+     * Creates database.
+     */
     public void create() {
 	createSubjects();
 	

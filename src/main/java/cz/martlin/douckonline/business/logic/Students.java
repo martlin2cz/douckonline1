@@ -1,16 +1,14 @@
 package cz.martlin.douckonline.business.logic;
 
-import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.teaching.Student;
 import cz.martlin.douckonline.business.tools.DbLoading;
 import cz.martlin.douckonline.business.tools.DbModifying;
-import java.util.Calendar;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Implements logic operations to work with students. 
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Students {

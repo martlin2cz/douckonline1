@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Lector structure. Contains lectors personal data (name, contact information),
+ * professional (certificates, education and practices) and work (subjects to
+ * learn) informations.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -27,40 +30,39 @@ public class Lector extends User implements Serializable {
     @Column(name = "full_name")
     @Size(min = 3, max = 80)
     private String fullName;
-    
+
     @Column(name = "title_before_name")
     @Size(min = 0, max = 20)
     private String titleBeforeName;
-    
+
     @Column(name = "title_after_name")
     @Size(min = 0, max = 20)
     private String titleAfterName;
-    
+
     @Column(name = "phone")
     @Size(min = 8, max = 15)
     private String phone;
-    
+
     @Column(name = "email")
     @Size(min = 0, max = 20)
     private String email;
-    
+
     @Column(name = "bank_account_number", nullable = true)
     @Size(min = 8, max = 20)
     private String bankAccountNumber;
-    
-    
+
     @Column(name = "ended_at")
     @Temporal(TemporalType.DATE)
     private Calendar endedAt;
-    
+
     @OneToMany(mappedBy = "lector")
     @JoinColumn(name = "lector_login_name")
     private List<SubjTeachingSpec> subjects;
-    
+
     @OneToMany(mappedBy = "lector")
     @JoinColumn(name = "lector_login_name")
     private List<Certificate> certificates;
-    
+
     @OneToMany(mappedBy = "lector")
     @JoinColumn(name = "lector_login_name")
     private List<Education> educations;
@@ -68,8 +70,7 @@ public class Lector extends User implements Serializable {
     @OneToMany(mappedBy = "lector")
     @JoinColumn(name = "lector_login_name")
     private List<Practice> practices;
-    
-    
+
     public Lector() {
 	super();
     }
@@ -154,7 +155,7 @@ public class Lector extends User implements Serializable {
     public void setEndedAt(Calendar endedAt) {
 	this.endedAt = endedAt;
     }
-    
+
     @XmlTransient
     public List<SubjTeachingSpec> getSubjects() {
 	return subjects;
@@ -190,12 +191,10 @@ public class Lector extends User implements Serializable {
     public void setPractices(List<Practice> practices) {
 	this.practices = practices;
     }
-  
+
     @Override
     public String toString() {
 	return "Lector{" + getLoginName() + "}";
     }
 
-    
-        
 }

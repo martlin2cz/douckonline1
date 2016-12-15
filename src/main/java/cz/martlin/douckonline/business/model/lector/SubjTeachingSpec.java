@@ -14,6 +14,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 /**
+ * Lector's specification of some subject. Contains suitability of subject to
+ * lector, level which lector can teach and cost.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -24,7 +26,7 @@ public class SubjTeachingSpec extends EntityWithLongID {
     @ManyToOne
     @JoinColumn(name = "lector_login_name")
     private Lector lector;
-    
+
     @ManyToOne
     @JoinColumn(name = "subject_name")
     private Subject subject;
@@ -68,7 +70,7 @@ public class SubjTeachingSpec extends EntityWithLongID {
     public void setLector(Lector lector) {
 	this.lector = lector;
     }
-    
+
     public Subject getSubject() {
 	return subject;
     }

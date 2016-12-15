@@ -20,6 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Teaching represents link betweeen lector, student, subject and lessons. Each
+ * teaching has date of start and end, some description and cost per one lesson.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */

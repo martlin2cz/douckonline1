@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
+ * Represents request to teaching from client. Contains information about
+ * student, subject and required level (but in simplified and less formal form).
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -69,8 +71,6 @@ public class TeachingRequest extends EntityWithLongID {
     @Enumerated(EnumType.STRING)
     private TeachingRequestStatus status;
 
-    
-    
     public TeachingRequest() {
 	super();
 
@@ -88,7 +88,6 @@ public class TeachingRequest extends EntityWithLongID {
 	this.reactions = reactions;
 	this.status = status;
     }
-
 
     public String getRegisterName() {
 	return registerName;
@@ -153,7 +152,7 @@ public class TeachingRequest extends EntityWithLongID {
     public void setAddedAt(Calendar addedAt) {
 	this.addedAt = addedAt;
     }
-    
+
     @XmlTransient
     public List<RequestReaction> getReactions() {
 	return reactions;

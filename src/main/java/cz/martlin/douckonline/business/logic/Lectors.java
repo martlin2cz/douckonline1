@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Implements logic corresponding to Lectors. 
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Lectors {
@@ -54,6 +54,11 @@ public class Lectors {
 	return lectors;
     }
     
+    /**
+     * Finds lector of given login.
+     * @param loginName
+     * @return 
+     */
     public Lector getLector(String loginName) {
 	LOG.trace("Loading lector by loginName");
 	return dbl.getById(Lector.class, loginName);
@@ -65,6 +70,7 @@ public class Lectors {
     /**
      * Adds specified lector into database.
      * @param lector
+     * @param password 
      * @return
      */
     public boolean addLector(Lector lector, String password) {
@@ -232,6 +238,12 @@ public class Lectors {
     
 //<editor-fold defaultstate="collapsed" desc="other (non-db querying)">
     
+    /**
+     * Finds subject teaching specification of given lector and given subject.
+     * @param lector
+     * @param subject
+     * @return 
+     */
     public SubjTeachingSpec getSubjOfLector(Lector lector, Subject subject) {
 	for (SubjTeachingSpec spec: lector.getSubjects()) {
 	    if (spec.getSubject().equals(subject)) {

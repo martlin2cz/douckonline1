@@ -4,16 +4,15 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
+ * Base user entity class. Has a login credentials (username, password (salt and
+ * hash)), and date of registration and last login.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -24,15 +23,15 @@ public abstract class User implements Serializable {
     @Column(name = "login_name")
     @Size(min = 1, max = 50)
     private String loginName;
-    
+
     @Column(name = "password_hash")
     @Size(min = 1, max = 100)
     private String passwordHash;
-    
+
     @Column(name = "password_salt")
     @Size(min = 1, max = 100)
     private String passwordSalt;
-    
+
     @Column(name = "registered_at")
     @Temporal(TemporalType.DATE)
     private Calendar registeredAt;
@@ -51,8 +50,9 @@ public abstract class User implements Serializable {
 	this.registeredAt = registeredAt;
 	this.lastLoginAt = lastLoginAt;
     }
-    
+
     public abstract String getDisplayName();
+
     public abstract String getReallName();
 
     public String getLoginName() {
@@ -124,5 +124,5 @@ public abstract class User implements Serializable {
     public String toString() {
 	return "User{" + loginName + "}";
     }
-    
+
 }

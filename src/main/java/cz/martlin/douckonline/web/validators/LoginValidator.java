@@ -10,7 +10,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
+ * Implements loging in validator.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @FacesValidator("loginValidator")

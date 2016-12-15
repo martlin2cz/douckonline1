@@ -6,7 +6,7 @@ import javax.xml.bind.DatatypeConverter;
 
 
 /**
- *
+ * Implements working with passwords. 
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Passwording {
@@ -17,17 +17,32 @@ public class Passwording {
     public Passwording() {
     }
     
+    /**
+     * Computes hash of given password with given salt.
+     * @param password
+     * @param salt
+     * @return 
+     */
     public String hashPassword(String password, String salt) {
 	String hashment = salt + password + salt;
 	String hashed = hash(hashment);
 	return hashed;
     }
     
+    /**
+     * Generates random salt.
+     * @return 
+     */
     public String generateSalt() {
 	long value = random.nextLong();
 	return Long.toHexString(value);
     }
     
+    /**
+     * Hashs given string.
+     * @param value
+     * @return 
+     */
     private String hash(String value) {
 	try {
 	    MessageDigest md = MessageDigest.getInstance(ALGORITHM);

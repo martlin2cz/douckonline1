@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
+ * Represents work experience, study abroad or practice of lector.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -23,7 +24,7 @@ public class Practice extends EntityWithLongID {
     @Column(name = "institution")
     @Size(min = 0, max = 80)
     private String institution;
-    
+
     @ManyToOne
     @JoinColumn(name = "lector_login_name")
     private Lector lector;
@@ -63,8 +64,6 @@ public class Practice extends EntityWithLongID {
 	this.lector = lector;
     }
 
-    
-    
     @Override
     public String toString() {
 	return "Practice{" + "id=" + id + ", work=" + work + ", institution=" + institution + '}';

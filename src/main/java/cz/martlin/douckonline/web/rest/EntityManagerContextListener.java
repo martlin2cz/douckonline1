@@ -6,9 +6,11 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 /**
- * Based on: 
- * http://stackoverflow.com/a/7862798/3797793, 
- * http://www.hhutzler.de/blog/jpa-best-practice-to-get-and-close-entitymanagerfactory-to-avoid-unknown-entity-bean-class-error/
+ * 
+ * Servlet context listener performing correct startup and finish of database.
+ * 
+ * @see http://stackoverflow.com/a/7862798/3797793, 
+ * @see http://www.hhutzler.de/blog/jpa-best-practice-to-get-and-close-entitymanagerfactory-to-avoid-unknown-entity-bean-class-error/
  * 
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -20,12 +22,12 @@ public class EntityManagerContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-	DatabaseAccess.createFactory();
+	DatabaseAccess.startupDatabase();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-	DatabaseAccess.closeFactory();
+	DatabaseAccess.finishDatabase();
     }
     
 }

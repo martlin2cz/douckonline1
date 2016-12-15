@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Implements logic about the teachings (teachings and lessons).
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Teachings {
@@ -32,7 +32,11 @@ public class Teachings {
     }
 
 //<editor-fold defaultstate="collapsed" desc="listing of teaching">
-    
+    /**
+     * Finds teaching by id.
+     * @param id
+     * @return 
+     */
     public Teaching getTeachingById(long id) {
 	LOG.trace("Finding teaching by id");
 	
@@ -231,9 +235,8 @@ public class Teachings {
     }
 
     /**
-     * Adds lesson to given teaching instance.
+     * Adds lesson to database.
      *
-     * @param teaching
      * @param lesson 
      * @return
      */
@@ -251,7 +254,7 @@ public class Teachings {
     }
 
     /**
-     * Removes given lesson from given teaching.
+     * Removes given lesson from database.
      *
      * @param lesson
      * @return
@@ -266,10 +269,15 @@ public class Teachings {
     }
     
     
+    /**
+     * Updates given lesson in database.
+     * @param lesson
+     * @return 
+     */
     public boolean updateLesson(Lesson lesson) {
 	LOG.trace("Updating lesson");
 
-	LOG.warn("will loose data like AddedAt ... (restore from db and copy it into?)");
+	LOG.warn("will loose data like AddedAt ... (restore from db and copy it into?)? Or not?");
 	
 	return dbm.updateSingle(lesson);
     }

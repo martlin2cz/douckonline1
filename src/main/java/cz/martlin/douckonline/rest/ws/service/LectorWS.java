@@ -15,6 +15,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
+ * Web service for lector.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -23,12 +24,19 @@ public class LectorWS {
 
     private final Requests requests = new Requests();
     private final Teachings teachings = new Teachings();
-    
+
     private final WSAuthorisation auth = new WSAuthorisation();
 
     public LectorWS() {
     }
 
+    /**
+     * Returns lector's profile.
+     *
+     * @param username
+     * @param authToken
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/profile")
@@ -40,6 +48,13 @@ public class LectorWS {
 	return lector;
     }
 
+    /**
+     * For given lector returns his pending requests.
+     *
+     * @param username
+     * @param authToken
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/requests")
@@ -50,7 +65,14 @@ public class LectorWS {
 	Lector lector = auth.tryAuthoriseByAuthToken(username, authToken, Lector.class);
 	return requests.listPendingForLector(lector);
     }
-    
+
+    /**
+     * Returns current teachings of given lector.
+     *
+     * @param username
+     * @param authToken
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/teachings")
@@ -61,8 +83,14 @@ public class LectorWS {
 	Lector lector = auth.tryAuthoriseByAuthToken(username, authToken, Lector.class);
 	return teachings.listTeachingsOfLector(lector);
     }
-    
-    
+
+    /**
+     * Returns lessons of given lector.
+     *
+     * @param username
+     * @param authToken
+     * @return
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/lessons")

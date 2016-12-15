@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Performs logic operations over requests and their reactions.
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Requests {
@@ -35,6 +35,11 @@ public class Requests {
     }
 //<editor-fold defaultstate="collapsed" desc="finding (by id)">
     
+    /**
+     * Finds teaching request by given id.
+     * @param id
+     * @return 
+     */
     public TeachingRequest getRequestById(long id) {
 	LOG.trace("Getting teaching requst by id");
 	
@@ -45,6 +50,10 @@ public class Requests {
     
 //<editor-fold defaultstate="collapsed" desc="listing of requests">
 
+    /**
+     * Lists all requests waiting to assign a lector.
+     * @return 
+     */
     public List<TeachingRequest> listAllPending() {
 	LOG.trace("Listing all peding requests");
 
@@ -53,6 +62,11 @@ public class Requests {
 		new Object[]{TeachingRequestStatus.WAITING_FOR_REACTIONS});
     }
 
+    /**
+     * Lists all pending requests of given subject.
+     * @param subject
+     * @return 
+     */
     public List<TeachingRequest> listPendingOfSubject(Subject subject) {
 	LOG.trace("Listing all peding requests of subject");
 
@@ -61,6 +75,11 @@ public class Requests {
 		new Object[]{subject, TeachingRequestStatus.WAITING_FOR_REACTIONS});
     }
 
+    /**
+     * Lists requests pending to given lector.
+     * @param lector
+     * @return 
+     */
     public List<TeachingRequest> listPendingForLector(Lector lector) {
 	LOG.trace("Listing all pending requests for lector");
 
@@ -74,6 +93,14 @@ public class Requests {
     
 //<editor-fold defaultstate="collapsed" desc="reactions">
     
+    /**
+     * To given request adds reaction of given lector with specific info.
+     * @param request
+     * @param lector
+     * @param status
+     * @param description
+     * @return 
+     */
     public boolean react(TeachingRequest request, Lector lector, RequestReactionStatus status, String description) {
 	LOG.trace("Reacting to request");
 
@@ -86,6 +113,12 @@ public class Requests {
 	return dbm.isSuccessfull();
     }
     
+    /**
+     * Adds given reaction to to given request.
+     * @param request
+     * @param reaction
+     * @return 
+     */
     public boolean addReaction(TeachingRequest request, RequestReaction reaction) {
 	LOG.trace("Adding reaction to request");
 	
@@ -96,6 +129,13 @@ public class Requests {
 	return dbm.insertSingle(reaction);
     }
     
+    /**
+     * Creates instance of reaction.
+     * @param lector
+     * @param status
+     * @param description
+     * @return 
+     */
      private RequestReaction createReaction(Lector lector, RequestReactionStatus status, String description) {
 	 
 	Calendar when = Calendar.getInstance();
@@ -105,7 +145,12 @@ public class Requests {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="creating requests and converting to teaching">
-    public boolean addRequest(TeachingRequest request) {
+    /**
+     * Adds given teaching request.
+     * @param request
+     * @return 
+     */
+     public boolean addRequest(TeachingRequest request) {
 	LOG.trace("Adding request");
 
 	Calendar addedAt = Calendar.getInstance();
@@ -118,6 +163,11 @@ public class Requests {
     }
     
     
+     /**
+      * Updates status of request.
+      * @param request
+      * @return 
+      */
     private boolean updateRequestStatus(TeachingRequest request) {
 	LOG.trace("Updating request's status");
 
@@ -125,6 +175,11 @@ public class Requests {
 	
     }
     
+    /**
+     * From reaction makes the teaching.
+     * @param reaction
+     * @return 
+     */
     public Teaching reactionToTeaching(RequestReaction reaction) {
 	LOG.trace("Making teaching from lector's reaction");
 	
@@ -143,6 +198,14 @@ public class Requests {
 	return t;
     }
 
+    /**
+     * From request, lector and given other params makes teaching.
+     * @param request
+     * @param lector
+     * @param description
+     * @param cost
+     * @return 
+     */
     public Teaching requestToTeaching(TeachingRequest request, Lector lector, String description, int cost) {
 	LOG.trace("Making teaching from request");
 	
@@ -163,6 +226,11 @@ public class Requests {
 	return teaching;
     }
 
+    /**
+     * From given request registers and returns new student.
+     * @param request
+     * @return 
+     */
     private Student requestToStudent(TeachingRequest request) {
 	LOG.trace("Making teaching from request");
 

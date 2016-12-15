@@ -13,6 +13,9 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
+ * Represents one lesson/lecture. Each lecture is linked to specified teaching
+ * instance, and nextly has a date of the lesson, time duration and description
+ * of work done.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -97,11 +100,11 @@ public class Lesson extends EntityWithLongID {
     @Override
     public String toString() {
 	return "Lesson{id=" + id + ", teaching="
-		+ (teaching != null ? teaching.getId() : "-") 
-		+ ", date=" 
-		+ (date != null ? date.getTime() : "-") 
-		+ ", duration=" 
-		+ (duration != null ? duration.getTime() : "-") 
+		+ (teaching != null ? teaching.getId() : "-")
+		+ ", date="
+		+ (date != null ? date.getTime() : "-")
+		+ ", duration="
+		+ (duration != null ? duration.getTime() : "-")
 		+ ", description=" + description + "}";
     }
 

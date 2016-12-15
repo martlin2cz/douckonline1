@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Implements logic on users level.
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Users {
@@ -82,6 +82,7 @@ public class Users {
     public int countUsersOfName(String fullName) {
 	LOG.trace("Counting users of name");
 	LOG.warn("not implemented, returning 0");
+	
 	//TODO
 	return 0;
     }
@@ -147,7 +148,12 @@ public class Users {
 //<editor-fold defaultstate="collapsed" desc="misc">
     
     
-    
+    /**
+     * Is user specified by given credentals valid loginable user?
+     * @param username
+     * @param password
+     * @return 
+     */
     public boolean isValid(String username, String password) {
 	User user = findUser(username);
 	if (user == null) {

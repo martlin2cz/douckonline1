@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- *
+ * Manager is user managin all the system. Has no extra special fields (just only real name).
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity

@@ -64,6 +64,7 @@ public class LogingInController {
 	User user = users.findUser(username);
 	
 	session.logInAs(user);
+	users.userLoggedIn(user);
 	
 	checkAndRedirect();
     }

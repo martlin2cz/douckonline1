@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *
+ * Represents parts (folders and file) of some path.
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class PathInfo {

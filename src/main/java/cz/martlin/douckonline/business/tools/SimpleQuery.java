@@ -1,11 +1,10 @@
 package cz.martlin.douckonline.business.tools;
 
 import java.util.Objects;
-import javafx.beans.binding.StringBinding;
 
 /**
  * Class representing simple JPA query. Query allows to load over one or more
- * tables, filter using WHILE or sort by ORDER BY.
+ * tables, filter using WHERE or sort by ORDER BY.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */
@@ -137,7 +136,6 @@ public class SimpleQuery<T> {
     }
 
 //</editor-fold>
-    
 //<editor-fold defaultstate="collapsed" desc="creating FROM clausule">
     /**
      * Creates simple from clausule (only for one entity, class), returns:
@@ -191,6 +189,15 @@ public class SimpleQuery<T> {
 	return stb;
     }
 
+    /**
+     * Creates from clausule using the star topology. i.e. like:
+     * <code>FROM Foo foo INNER JOIN Bar bar ON foo.x = bar INNER JOIN Baz baz ON foo.y = baz</code>
+     *
+     * @param clazz
+     * @param froms
+     * @param relations
+     * @return
+     */
     private StringBuilder createJoinedStarFrom(Class<T> clazz, Class<?> froms[], Relations relations) {
 	StringBuilder stb = createSimpleFrom(clazz);
 
@@ -208,13 +215,23 @@ public class SimpleQuery<T> {
 		joinFrom = to;
 		joinTo = clazz;
 	    }
-	    
+
 	    stb.append(createJoinCriteria(to, joinFrom, joinTo, attr));
 	}
 
 	return stb;
     }
 
+    /**
+     * Just simply creates StringBuilder with join criteria, i. e.:
+     * <code>INNER JOIN Bar bar ON foo.x = bar</code>.
+     *
+     * @param destClass
+     * @param attrClass
+     * @param objClass
+     * @param attr
+     * @return
+     */
     private StringBuilder createJoinCriteria(Class<?> destClass, Class<?> attrClass, Class<?> objClass, String attr) {
 	StringBuilder stb = new StringBuilder();
 
@@ -230,7 +247,6 @@ public class SimpleQuery<T> {
     }
 
 //</editor-fold>
-    
 //<editor-fold defaultstate="collapsed" desc="converting to JPQL">
     /**
      * Renders query to JPQL (or how it's called (: ).

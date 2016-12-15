@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
- *
+ * Represents lector's education, i.e. high scool or grade.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity

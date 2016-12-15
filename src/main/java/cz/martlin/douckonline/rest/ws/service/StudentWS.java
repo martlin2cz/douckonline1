@@ -14,7 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
- *
+ * Web service for student.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Path("student")
@@ -28,6 +28,12 @@ public class StudentWS {
     public StudentWS() {
     }
 
+    /**
+     * Returns given user's profile.
+     * @param username
+     * @param authToken
+     * @return 
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/profile")
@@ -39,6 +45,12 @@ public class StudentWS {
 	return student;
     }
 
+    /**
+     * Returns ballance of given user.
+     * @param username
+     * @param authToken
+     * @return 
+     */
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/balance")
@@ -51,6 +63,12 @@ public class StudentWS {
 	return moneys.getBallanceOfStudent(student);
     }
     
+    /**
+     * Returns list of lessons of given user.
+     * @param username
+     * @param authToken
+     * @return 
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/lessons")

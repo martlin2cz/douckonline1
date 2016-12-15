@@ -14,6 +14,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 /**
+ * Student's payment. Links to student and nextly evides amount (suprisingly),
+ * date of add and also discount.
  *
  * @author m@rtlin <martlin@seznam.cz>
  */

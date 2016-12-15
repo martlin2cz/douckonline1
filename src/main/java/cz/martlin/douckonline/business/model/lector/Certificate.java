@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
- *
+ * Represents lector's certificate (i.e. FCE exam). 
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity

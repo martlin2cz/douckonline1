@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Lector's reaction to teaching request. Contains just status (accept/deny), description and timestamp.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity

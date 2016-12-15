@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Student entity. Each student has user's credentials, but also a contact informations (name, adress, email, phone) and optionally bank account.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity

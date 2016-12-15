@@ -20,7 +20,7 @@
 	    <h:form id="teaching-requests-form">
 		<h2>
 		    <h:outputText value="#{cc.attrs.title}" />
-		    <p:commandButton title="Add new Payment" icon="ui-icon-plusthick"
+		    <p:commandButton title="Add new teaching request" icon="ui-icon-plusthick"
 				     action="#{teachingRequestsController.openNewRequest}"
 				     update="@widgetVar(teachingRequestDialog)"
 				     oncomplete="PF('teachingRequestDialog').show()"
@@ -106,7 +106,7 @@
 	    <p:dialog header="Reactions" widgetVar="reactionsDialog" id="reactionsDialog">
 		<martlin:requests-reactions-table 
 		    reactions="#{teachingRequestsController.currentReactions}"
-		    withActionButtons="true" withRequest="false" />
+		    withRequest="false" />
 	    </p:dialog>
 
 

@@ -1,17 +1,13 @@
 package cz.martlin.douckonline.business.model.base;
 
-import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import java.io.Serializable;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
 
 /**
- *
+ * Base entity class with <code>long</code> id field.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @MappedSuperclass

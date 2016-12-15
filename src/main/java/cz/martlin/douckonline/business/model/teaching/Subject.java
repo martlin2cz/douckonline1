@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Represents subject of teaching, i.e. minions language or holophoner playing.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity

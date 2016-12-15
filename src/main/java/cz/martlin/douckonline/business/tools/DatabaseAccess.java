@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Perform the root database access.
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class DatabaseAccess {
@@ -22,66 +22,50 @@ public class DatabaseAccess {
     
     private static EntityManagerFactory entityManagerFactory;
     
-    //@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
     private static EntityManager entityManager;
     
-//    @Inject
-//    private UserTransaction transaction;
-
+    /**
+     * Singleton.
+     */
     private DatabaseAccess() {
     }
 
     
+    /**
+     * Returns the only one instance.
+     * @return 
+     */
     public static DatabaseAccess get() {
 	return INSTANCE;
     }
 
     
 //<editor-fold defaultstate="collapsed" desc="start and finish of whole db mechanism">
-    public static void createFactory() {
+    /**
+     * Starts whole database work.
+     */
+    public static void startupDatabase() {
 	LOG.info("Starting entity manager factory");
 	entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 	entityManager = entityManagerFactory.createEntityManager();
     }
 
-    public static void closeFactory() {
+    /**
+     * Finished the database.
+     */
+    public static void finishDatabase() {
 	LOG.info("Closing entity manager factory");
 	entityManager = null;
 	entityManagerFactory.close();
 	
     }
     
+    /**
+     * Returns entity manager of current connection.
+     * @return 
+     */
     public EntityManager getEntityManager() {
 	return entityManager;
     }
 //</editor-fold>
-    
-//<editor-fold defaultstate="collapsed" desc="setup and unset entity manager">
-
- /*   
-    @Deprecated
-    public boolean isEntityManagerSet() {
-	return entityManager != null;
-    }
-    
-    @Deprecated
-    public void setupEntityManager() {
-	LOG.trace("Setting up entity manager");
-	
-    }
-    
-    @Deprecated
-    public void unsetEntityManager() {
-	LOG.trace("Unsetting entity manager");
-	
-    }
-    
-    
-//</editor-fold>
-
-   public UserTransaction getTransaction() {
-throw new UnsupportedOperationException("JTA transaction, foo");
-//return transaction;
-    }
-*/
 }

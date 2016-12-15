@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.martlin.douckonline.business.logic;
 
-import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.Manager;
 import cz.martlin.douckonline.business.tools.DbLoading;
 import cz.martlin.douckonline.business.tools.DbModifying;
@@ -14,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Just simply implements support of managers.
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Managers {

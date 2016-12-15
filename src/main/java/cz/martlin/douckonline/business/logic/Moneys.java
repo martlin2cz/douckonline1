@@ -2,8 +2,7 @@ package cz.martlin.douckonline.business.logic;
 
 import cz.martlin.douckonline.business.model.managment.Payment;
 import cz.martlin.douckonline.business.model.teaching.Lesson;
-import cz.martlin.douckonline.business.model.teaching.Student;
-import cz.martlin.douckonline.business.model.teaching.Teaching;
+import cz.martlin.douckonline.business.model.teaching.Student;;
 import cz.martlin.douckonline.business.tools.DbLoading;
 import cz.martlin.douckonline.business.tools.DbModifying;
 import cz.martlin.douckonline.business.utils.Tools;
@@ -14,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Implements logic operations working with money (payments, ballances and wages).
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Moneys {
@@ -112,6 +111,7 @@ public class Moneys {
     }
 
 //</editor-fold>
+    
 //<editor-fold defaultstate="collapsed" desc="ballances">
     /**
      * Returns current ballance of student's account
@@ -142,33 +142,44 @@ public class Moneys {
 	return sum;
     }
 //</editor-fold>
-
+//<editor-fold defaultstate="collapsed" desc="misc">
+    
+    /**
+     * Gets total payments of student.
+     * @param student
+     * @return
+     */
     public BigDecimal getPaymentsOfStudent(Student student) {
 	BigDecimal sum = BigDecimal.ZERO;
-
+	
 	for (Payment payment : listPayments(student, null)) {
 	    BigDecimal amount = new BigDecimal(payment.getAmount());
 	    BigDecimal steal = Tools.toPercentMultiplier(payment.getDiscount());
 	    BigDecimal value = amount.multiply(steal);
 	    sum = sum.add(value);
 	}
-
+	
 	return sum;
     }
-
+    
+    /**
+     * Get outcomes (bought lessons) of student.
+     * @param student
+     * @return
+     */
     public BigDecimal getOutcomesOfStudent(Student student) {
 	final Teachings teachings = new Teachings();
-
+	
 	BigDecimal sum = BigDecimal.ZERO;
-
+	
 	for (Lesson lesson : teachings.getLessonsOf(student, null)) {
 	    BigDecimal unitCost = new BigDecimal(lesson.getTeaching().getCost());
 	    BigDecimal duration = Tools.durationToHours(lesson.getDuration());
 	    BigDecimal cost = unitCost.multiply(duration);
 	    sum = sum.subtract(cost);
 	}
-
+	
 	return sum;
     }
-
+//</editor-fold>
 }

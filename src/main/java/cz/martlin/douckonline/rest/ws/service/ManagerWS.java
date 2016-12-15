@@ -9,7 +9,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
- *
+ * Web service for manager.
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Path("manager")
@@ -20,6 +20,12 @@ public class ManagerWS {
     public ManagerWS() {
     }
 
+    /**
+     * Returns managers profile.
+     * @param username
+     * @param authToken
+     * @return 
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/profile")

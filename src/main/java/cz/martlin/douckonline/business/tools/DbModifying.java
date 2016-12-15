@@ -1,8 +1,6 @@
 package cz.martlin.douckonline.business.tools;
 
 import java.util.Set;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -11,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Class performing updating (insert, update, delete) on database.
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class DbModifying {
@@ -24,16 +22,27 @@ public class DbModifying {
     private int bulksStack = 0;
 
 //<editor-fold defaultstate="collapsed" desc="singleton">
+    /**
+     * Singleton.
+     */
     private DbModifying() {
 
     }
 
+    /**
+     * Returns the only and only instance.
+     * @return 
+     */
     public static DbModifying get() {
 	return INSTANCE;
     }
 
 //</editor-fold>
+    
 //<editor-fold defaultstate="collapsed" desc="bulk of modifications">
+    /**
+     * Starts bulk of modificaitions.
+     */
     public void startBulk() {
 	bulksStack++;
 
@@ -50,6 +59,9 @@ public class DbModifying {
 	}
     }
 
+    /**
+     * Finishs bulk of modifications.
+     */
     public void finishBulk() {
 	bulksStack--;
 
@@ -70,6 +82,11 @@ public class DbModifying {
 	}
     }
 
+    /**
+     * Tests whether the bulk is ready (only beacuse of internal errors).
+     * @param operation
+     * @return 
+     */
     public boolean isBulkReady(String operation) {
 	boolean ready = bulksStack > 0;
 
@@ -81,12 +98,22 @@ public class DbModifying {
 	return ready;
     }
 
+    /**
+     * Returns where during the bulk operations occured some error.
+     * @return 
+     */
     public boolean isSuccessfull() {
 	return success;
     }
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="insert, update, delete">
+    /**
+     * Inserts entity. Bulk must be ready.
+     * @param <T>
+     * @param item
+     * @return 
+     */
     public <T> boolean insert(T item) {
 	if (!isBulkReady("insert")) {
 	    return false;
@@ -104,6 +131,12 @@ public class DbModifying {
 	}
     }
 
+    /**
+     * Updates entity. Bulk must be ready.
+     * @param <T>
+     * @param item
+     * @return 
+     */
     public <T> boolean update(T item) {
 	if (!isBulkReady("update")) {
 	    return false;
@@ -121,6 +154,12 @@ public class DbModifying {
 	}
     }
 
+    /**
+     * Removes entity. Bulk must be ready.
+     * @param <T>
+     * @param item
+     * @return 
+     */
     public <T> boolean remove(T item) {
 	if (!isBulkReady("remove")) {
 	    return false;
@@ -138,6 +177,12 @@ public class DbModifying {
 	}
     }
 
+    /**
+     * Inserts entity, automatically starts and finishes bulk.
+     * @param <T>
+     * @param item
+     * @return 
+     */
     public <T> boolean insertSingle(T item) {
 	startBulk();
 	insert(item);
@@ -145,6 +190,12 @@ public class DbModifying {
 	return success;
     }
 
+    /**
+     * Updates entity, automatically starts and finishes bulk.
+     * @param <T>
+     * @param item
+     * @return 
+     */
     public <T> boolean updateSingle(T item) {
 	startBulk();
 	update(item);
@@ -152,6 +203,12 @@ public class DbModifying {
 	return success;
     }
 
+    /**
+     * Removes entity, automatically starts and finishes bulk.
+     * @param <T>
+     * @param item
+     * @return 
+     */
     public <T> boolean removeSingle(T item) {
 	startBulk();
 	remove(item);
@@ -161,7 +218,9 @@ public class DbModifying {
 //</editor-fold>
 
     /**
-     * https://coderanch.com/t/589060/java/bean-validation-error-JPA-persist
+     * Runs validation of given entity. Logs.
+     * 
+     * @see https://coderanch.com/t/589060/java/bean-validation-error-JPA-persist
      *
      * @param <T>
      * @param entity
