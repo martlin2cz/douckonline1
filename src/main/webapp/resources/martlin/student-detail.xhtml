@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:p="http://primefaces.org/ui"
+
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+    <composite:interface displayName="Detail view student">
+	<composite:attribute name="student"  required="true" type="cz.martlin.douckonline.business.model.teaching.Student" />
+	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
+	<composite:attribute name="onSaved" required="false" type="java.lang.String" default="" />
+    </composite:interface>
+
+    <composite:implementation>
+	<section class="student-detail">
+	    <c:if test="#{not empty cc.attrs.title}">
+		<h2>#{cc.attrs.title}</h2>
+	    </c:if>
+
+	    <h:form id="student-detail-form">
+		<h:inputHidden value="#{cc.attrs.student.loginName}" />
+
+		<p:panel id="student-basic-info-panel">
+		    <h2>Basic info</h2>
+
+		    <h:panelGrid columns="2">
+			<h:outputLabel value="Registered to:" />	
+			<h:outputText value="#{cc.attrs.student.displayName}" />
+
+			<h:outputLabel value="Student name:" />	
+			<h:outputText value="#{cc.attrs.student.studentName}" />
+
+			<h:outputLabel value="Phone:" />	
+			<h:outputText value="#{cc.attrs.student.phone}" />
+
+			<h:outputLabel value="E-mail:" />	
+			<h:outputText value="#{cc.attrs.student.email}" />
+
+			<h:outputLabel value="Adress:" />	
+			<h:outputText value="#{cc.attrs.student.adress}" />
+
+			<h:outputLabel value="Bank account:" />	
+			<h:outputText value="#{cc.attrs.student.bankAccountNumber}" />
+
+			<h:outputLabel value="Login:" />
+			<h:outputText value="#{cc.attrs.student.loginName}" />
+
+			<h:outputLabel value="Registered:" />
+			<h:outputText value="#{cc.attrs.student.registeredAt.time}" />
+
+			<h:outputLabel value="Last login at:" />
+			<h:outputText value="#{cc.attrs.student.lastLoginAt.time}" />
+		    </h:panelGrid>
+		</p:panel>
+
+		<!--
+  TODO teching (subject and lector)
+		-->
+	    </h:form>
+	</section>
+
+
+
+    </composite:implementation>
+</html>
+

@@ -26,7 +26,7 @@
 				     />
 		</h2>
 
-		<p:panel id="filter-panel">
+		<p:panel id="filter-panel" rendered="#{loginSession.loggedAsManager}">
 		    <martlin:students-list value="#{paymentsController.filterStudent}" 
 					   withAccountNumber="true" withAllStudentsOption="true" />
 		    <p:commandButton value="Filter" id="buttFilter" update="@all" 
@@ -38,7 +38,7 @@
 			     widgetVar="paymentsTable" id="paymentsTable"
 			     emptyMessage="No payment found">
 
-		    <p:column headerText="Student">
+		    <p:column headerText="Student"  rendered="#{loginSession.loggedAsManager}">
 			<h:outputText value="#{payment.student.displayName}" />
 			<p:commandButton title="Open student's profile" icon="ui-icon-extlink" 
 					 disabled="true" />
@@ -60,17 +60,19 @@
 		    </p:column>
 
 
-		    <p:column headerText="">
+		    <p:column headerText="" rendered="#{loginSession.loggedAsManager}">
 			<p:commandButton value="Edit" icon="ui-icon-gear"
 					 action="#{paymentsController.openPayment(payment)}"
 					 update="@widgetVar(paymentDialog)"
 					 oncomplete="PF('paymentDialog').show()"
+					 rendered="#{loginSession.loggedAsManager}"
 					 />
 
 			<p:commandButton value="Delete" icon="ui-icon-closethick"
 					 action="#{paymentsController.removePayment(payment)}"
 					 onclick="return confirm('Are you sure?')"
 					 update="@form @widgetVar(growl)"
+					 rendered="#{loginSession.loggedAsManager}"
 					 />
 		    </p:column>
 

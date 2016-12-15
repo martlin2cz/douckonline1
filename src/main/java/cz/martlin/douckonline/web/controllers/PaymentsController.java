@@ -5,10 +5,12 @@ import cz.martlin.douckonline.business.logic.Moneys;
 import cz.martlin.douckonline.business.logic.Students;
 import cz.martlin.douckonline.business.model.managment.Payment;
 import cz.martlin.douckonline.business.model.teaching.Student;
+import cz.martlin.douckonline.web.rest.LoginSession;
 import cz.martlin.douckonline.web.utils.JSFTools;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
@@ -20,7 +22,8 @@ import javax.inject.Named;
 public class PaymentsController {
 
     private final Moneys MONEYS = new Moneys();
-   
+    @Inject private LoginSession login;
+    
     private List<Payment> payments;
     private Student filterStudent;
     
@@ -32,6 +35,9 @@ public class PaymentsController {
     
     @PostConstruct
     public void init() {
+	if (login.isLoggedAsStudent()) {
+	    filterStudent = login.getLoggedStudent();
+	}
 	loadPayments();
     }
 //<editor-fold defaultstate="collapsed" desc="getters and setters">
