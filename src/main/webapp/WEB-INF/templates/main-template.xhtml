@@ -23,13 +23,15 @@
     </h:head>
     <h:body>
 	<header>
-	    <martlin:main-menu />
+	    <p:panel id="header-panel">
+		
+		<martlin:main-menu />
 
-	    <martlin:user-panel />
+	    </p:panel>
 	</header>
 
 	<main>
-	    <p:panel widgetVar="mainContent">
+	    <p:panel id="main-content-panel" widgetVar="mainContent">
 		<h1>
 		    <ui:insert name="title">
 			douckonline
@@ -43,12 +45,14 @@
 	</main>
 
 	<footer>
-	    <h:form>
-		<p:commandButton value="Generate test database" update="@all" 
-				 action="#{testsController.generateTestDatabase()}" 
-				 />
-
-	    </h:form>
+	    <p:panel id="footer-panel">
+		<h:form>
+		    <p:commandButton value="Generate test database" update="@all" 
+				     action="#{testsController.generateTestDatabase()}" 
+				     />
+		    <h:outputLabel value="(c) Martin Jašek, 2016" />
+		</h:form>
+	    </p:panel>
 	</footer>
 
 	<section id="the-crap">

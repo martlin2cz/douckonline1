@@ -4,35 +4,60 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:composite="http://java.sun.com/jsf/composite"
-      >
-  
-    
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
+
+
     <composite:interface displayName="User panel">			
     </composite:interface>
 
     <composite:implementation>
-	<nav id="main-menu">
-	    <ul>
-	    <c:choose>
-		<c:when test="#{loginSession.loggedAsStudent}">
-			<li><h:outputLink value="index.xhtml">Home</h:outputLink></li>
-		    	<li><h:outputLink value="student-profile.xhtml">My profile</h:outputLink></li>
-		</c:when>
-		
-		<c:when test="#{loginSession.loggedAsLector}">
-			<li><h:outputLink value="index.xhtml">Home</h:outputLink></li>
-		    	<li><h:outputLink value="lector-profile.xhtml">My profile</h:outputLink></li>
-		</c:when>
-		
-		<c:when test="#{loginSession.loggedAsManager}">
-		    	<li><h:outputLink value="lectors.xhtml">Our lectors</h:outputLink></li>
-		</c:when>
-		
-		<c:when test="#{not loginSession.loggedIn}">
-		    	<li><h:outputLink value="index.xhtml">Login site</h:outputLink></li>
-		</c:when>
-	    </c:choose>
-	    </ul>
+	<nav class="main-menu">
+	    <h:form id="main-menu-form">
+		<p:menubar>
+
+		    <p:menuitem url="index.xhtml">
+			<h:graphicImage library="default-style" name="img/logo.svg" styleClass="logo-image" />
+		    </p:menuitem>
+
+		    <c:choose>
+			<c:when test="#{loginSession.loggedAsStudent}">
+			    <p:menuitem value="Home" icon="ui-icon-home" url="index.xhtml" 
+					styleClass="main-menu-menu-item" />
+			    <p:menuitem value="My profile" icon="ui-icon-person" url="student-profile.xhtml" 
+					styleClass="main-menu-menu-item" />
+			</c:when>
+
+			<c:when test="#{loginSession.loggedAsLector}">
+			    <p:menuitem value="Home" icon="ui-icon-home" url="index.xhtml"
+					styleClass="main-menu-menu-item" />
+			    <p:menuitem value="My profile" icon="ui-icon-person" url="lector-profile.xhtml" 
+					styleClass="main-menu-menu-item" />
+			</c:when>
+
+			<c:when test="#{loginSession.loggedAsManager}">
+			    <p:menuitem value="Home" icon="ui-icon-home" url="index.xhtml" 
+					styleClass="main-menu-menu-item" />
+			    <p:menuitem value="Our lectors" icon="ui-icon-person" url="lectors.xhtml" 
+					styleClass="main-menu-menu-item" />
+			    <p:menuitem value="Payments" icon="ui-icon-cart" url="payments.xhtml" 
+					styleClass="main-menu-menu-item" />
+			    <p:menuitem value="Settings" icon="ui-icon-gear" url="settings.xhtml" 
+					styleClass="main-menu-menu-item" />
+			</c:when>
+
+			<c:when test="#{not loginSession.loggedIn}">
+			    <p:menuitem value="Log in" icon="ui-icon-locked" url="index.xhtml" 
+					styleClass="main-menu-menu-item" />
+			</c:when>
+		    </c:choose>
+
+		    <f:facet name="options">
+			<martlin:user-panel />
+		    </f:facet>
+		</p:menubar>
+	    </h:form>
 	</nav>
     </composite:implementation>
 </html>

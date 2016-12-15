@@ -5,19 +5,30 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:martlin="http://java.sun.com/jsf/composite/martlin"
-      >
-    
-  <ui:composition template="/WEB-INF/templates/main-template.xhtml">
-      <ui:define name="title">Settings</ui:define>
-      
-      <ui:define name="main-content">
-	   
-	  <h2>About agency</h2>
-	  TODO
-	  
-	  <h2>Subjects</h2>
-	  TODO
 
-    </ui:define>
-  </ui:composition>
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/WEB-INF/templates/main-template.xhtml">
+	<ui:define name="title">Settings</ui:define>
+
+	<ui:define name="main-content">
+	    <!--	   
+		      <h2>About agency</h2>
+		      TODO
+	    -->
+	    <p:panel id="subjects-panel">
+		<h2>Subjects</h2>
+		<p:dataGrid value="#{subjectsController.allSubjects}" var="subject">
+		    <p:panel>
+			<h:panelGrid columns="2">
+			    <h:outputText value="#{subject.name}" />
+			    <h:outputText value="(#{subject.category})" />
+			</h:panelGrid>
+
+		    </p:panel>
+		</p:dataGrid>
+	    </p:panel>
+
+	</ui:define>
+    </ui:composition>
 </html>

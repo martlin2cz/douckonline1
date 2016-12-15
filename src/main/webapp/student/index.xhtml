@@ -7,49 +7,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
-    
-  <ui:composition template="/WEB-INF/templates/main-template.xhtml">
-      <ui:define name="title">Student</ui:define>
-      
-      <ui:define name="main-content">
 
-	  <p:panel>
-	      <h2>Account</h2>
-	      
-	  <h:panelGrid columns="2">
-	    <h:outputLabel value="Account ballance" />
-	    <h:outputText value="#{studentsProfileController.ballance}" 
-			title="Payments total: #{studentsProfileController.incomes}, Lessons total: #{studentsProfileController.outcomes} "/>
-	</h:panelGrid>
-	      </p:panel>
-	    
-	<h2>Lectures</h2>
-	
-	<martlin:lessons-table lessons="#{studentsProfileController.actualLessons}"
-			       title="Lessons" />
-	
-	<martlin:payments-table title="Payments" />
-	
-	
-	<h2>Payments</h2>
-	<c:forEach items="#{studentsProfileController.actualPayments}" var="payment">
-	    
-	    <h:panelGrid columns="6">
-		<h:outputLabel value="When:" />
-		<h:outputText value="#{payment.date.time}" />
+    <ui:composition template="/WEB-INF/templates/main-template.xhtml">
+	<ui:define name="title">Student</ui:define>
 
-		<h:outputLabel value="Amount:" />
-		<h:outputText value="#{payment.amount}" />
-		
-		<c:if test="#{payment.discount > 0}">
-		    <h:outputLabel value="Discount:" />
-		    <h:outputText value="#{payment.discount}" />
-		</c:if>
-	    </h:panelGrid>
-	    
-	</c:forEach>
-	
+	<ui:define name="main-content">
 
-    </ui:define>
-  </ui:composition>
+	    <p:panel>
+		<h2>Account</h2>
+
+		<h:panelGrid columns="2">
+		    <h:outputLabel value="Account ballance" />
+		    <h:outputText value="#{studentsProfileController.ballance}" 
+				  title="Payments total: #{studentsProfileController.incomes}, Lessons total: #{studentsProfileController.outcomes} "/>
+		</h:panelGrid>
+	    </p:panel>
+
+	    <martlin:lessons-table lessons="#{studentsProfileController.actualLessons}"
+				   title="Lessons" />
+
+	    <martlin:payments-table title="Payments" />
+
+	</ui:define>
+    </ui:composition>
 </html>

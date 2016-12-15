@@ -12,18 +12,19 @@
     </composite:interface>
 
     <composite:implementation>
-	<c:if test="#{loginSession.loggedIn}">
-	    <p:panel id="user-panel">
-		<h:form>
+	<!--<p:panel id="user-panel">-->
+	    <c:if test="#{loginSession.loggedIn}">
 
-		    <h:outputLabel value="Logged in as " />
+		<!--<h:form id="user-panel-form">-->
+
+		    <h:outputLabel value="Logged as " />
 		    <h:outputText value="#{loginSession.loggedUser.displayName}" />
 		    <p:commandButton value="Log out" ajax="false" icon="ui-icon-unlocked"
 				     action="#{logingInController.logOut()}" />
 
-		</h:form>
-	    </p:panel>
-	</c:if>	
+		<!--</h:form>-->
+	    </c:if>
+	<!--</p:panel>--> 
     </composite:implementation>
 </html>
 
