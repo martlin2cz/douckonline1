@@ -6,8 +6,8 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       >
-  
-    
+
+
     <composite:interface displayName="Students dropdown list">
 	<composite:attribute name="value" type="cz.martlin.douckonline.business.model.teaching.Student" required="true" />
 	<composite:attribute name="withAccountNumber" type="boolean" required="true" />
@@ -17,14 +17,14 @@
     <composite:implementation>
 	<p:selectOneMenu value="#{cc.attrs.value}" converter="#{usersConverter}" id="students-dropdown"
 			 var="student" filter="true" filterMatchMode="contains">
-	    
+
 	    <c:if test="#{cc.attrs.withAllStudentsOption}">
 		<f:selectItem value="#{null}" itemLabel="all students" itemValue="#{null}" />
 	    </c:if>
-	    
+
 	    <f:selectItems value="#{studentsController.students}" var="student" 
 			   itemValue="#{student}" itemLabel="#{student.displayName}" />
-	    
+
 	    <p:column>
 		<h:outputText value="#{not empty student ? student.displayName : 'all students'}" />
 	    </p:column>

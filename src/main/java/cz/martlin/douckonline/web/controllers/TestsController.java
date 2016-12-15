@@ -17,10 +17,10 @@ import javax.inject.Named;
 @RequestScoped
 @Named("testsController")
 public class TestsController {
-    
+
     public void generateTestDatabase() {
 	TestDataCreator creator = new TestDataCreator();
 	creator.create();
     }
-    
+
 }

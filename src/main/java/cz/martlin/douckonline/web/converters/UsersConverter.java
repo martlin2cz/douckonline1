@@ -14,21 +14,19 @@ import javax.inject.Named;
  */
 @RequestScoped
 @Named("usersConverter")
-public class UsersConverter implements  Converter {
+public class UsersConverter implements Converter {
 
     private final Users users = new Users();
 
-    
     public UsersConverter() {
     }
-    
-    
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 	String loginName = value;
-	
+
 	if (loginName == null) {
-	    return null; 
+	    return null;
 	} else {
 	    User user = users.findUser(loginName);
 	    return user;
@@ -38,7 +36,7 @@ public class UsersConverter implements  Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
 	User user = (User) value;
-	
+
 	if (user == null) {
 	    return null;
 	} else {
@@ -46,5 +44,5 @@ public class UsersConverter implements  Converter {
 	    return loginName;
 	}
     }
-    
+
 }

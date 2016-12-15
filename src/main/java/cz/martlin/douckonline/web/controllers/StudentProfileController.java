@@ -27,40 +27,40 @@ import javax.inject.Named;
 @RequestScoped
 @Named("studentsProfileController")
 public class StudentProfileController {
+
     private static final int SHOW_LESSONS_FOR_DAYS = 30;
     private static final int SHOW_PAYMENTS_FOR_DAYS = 60;
-    
+
     private final Moneys moneys = new Moneys();
     private final Teachings teachings = new Teachings();
-    @Inject private LoginSession session;
+    @Inject
+    private LoginSession session;
 
     public StudentProfileController() {
     }
-    
+
     public Student getLoggedStudent() {
 	return session.getLoggedStudent();
     }
-    
+
     public BigDecimal getBallance() {
 	return moneys.getBallanceOfStudent(getLoggedStudent());
     }
-    
+
     public BigDecimal getIncomes() {
 	return moneys.getPaymentsOfStudent(getLoggedStudent());
     }
-    
+
     public BigDecimal getOutcomes() {
 	return moneys.getOutcomesOfStudent(getLoggedStudent()).negate();
     }
-    
+
     public List<Lesson> getActualLessons() {
 	return teachings.getLessonsOf(getLoggedStudent(), SHOW_LESSONS_FOR_DAYS);
     }
-    
+
     public List<Payment> getActualPayments() {
 	return moneys.listPayments(getLoggedStudent(), SHOW_PAYMENTS_FOR_DAYS);
     }
-    
-    
-}
 
+}

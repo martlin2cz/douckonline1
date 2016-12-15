@@ -20,67 +20,60 @@ import javax.inject.Named;
 @RequestScoped
 @Named("logingInController")
 public class LogingInController {
-    private final Users users = new Users();
-    
-    
-    @Inject LoginSession session;
 
-    
+    private final Users users = new Users();
+
+    @Inject
+    LoginSession session;
+
     private String username;
     private String password;
-    
+
     public LogingInController() {
     }
-    
+
 //<editor-fold defaultstate="collapsed" desc="getters and setters">
-    
     public String getUsername() {
 	return username;
     }
-    
+
     public void setUsername(String username) {
 	this.username = username;
     }
-    
+
     public String getPassword() {
 	return password;
     }
-    
+
     public void setPassword(String password) {
 	this.password = password;
     }
-    
-    
-    
+
     public boolean isLoggedIn() {
 	return session.isLoggedIn();
     }
 //</editor-fold>
-    
 
 //<editor-fold defaultstate="collapsed" desc="action methods">
-    
     public void logIn() {
 	User user = users.findUser(username);
-	
+
 	session.logInAs(user);
 	users.userLoggedIn(user);
-	
+
 	checkAndRedirect();
     }
-    
-    
-    
+
     public void logOut() {
 	session.logOut();
-	
+
 	checkAndRedirect();
     }
-    
+
     private void checkAndRedirect() {
 	PathInfo info = JSFTools.getCurrentPath();
 	String path = LoginFilter.checkLoginAndGetRedirect(info, session);
-	
+
 	if (path != null) {
 	    JSFTools.redirectTo(path);
 	}

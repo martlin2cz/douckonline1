@@ -6,13 +6,13 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       >
-  
-    
+
+
     <composite:interface displayName="Subjects dropdown list">
 	<composite:attribute name="value" type="cz.martlin.douckonline.business.model.teaching.Subject" required="true" />
 	<composite:attribute name="withOtherSubject" type="boolean" required="false" default="#{false}" />
 	<composite:attribute name="withAllSubject" type="boolean" required="false" default="#{false}" />
-  
+
     </composite:interface>
 
     <composite:implementation>
@@ -20,10 +20,10 @@
 	    <c:if test="#{cc.attrs.withAllSubject}">
 		<f:selectItem itemLabel="all subjects" itemValue="#{null}" />
 	    </c:if>
-	    
+
 	    <f:selectItems value="#{subjectsController.allSubjects}" var="subject"
 			   itemLabel="#{subject.name}" itemValue="#{subject}" />
-	    
+
 	    <c:if test="#{cc.attrs.withOtherSubject}">
 		<f:selectItem itemLabel="other" itemValue="#{null}" />
 	    </c:if>

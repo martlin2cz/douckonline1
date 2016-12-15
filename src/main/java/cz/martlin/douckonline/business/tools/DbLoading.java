@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Performs querying and loading data from database.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class DbLoading {
@@ -38,14 +39,14 @@ public class DbLoading {
 
     /**
      * Returns the only and only instance.
-     * @return 
+     *
+     * @return
      */
     public static DbLoading get() {
 	return INSTANCE;
     }
 
 //</editor-fold>
-    
 //<editor-fold defaultstate="collapsed" desc="loading of list">
     /**
      * Lists all entities of given class.
@@ -108,10 +109,11 @@ public class DbLoading {
 //<editor-fold defaultstate="collapsed" desc="other loadings">
     /**
      * Finds by given identificator.
+     *
      * @param <T>
      * @param clazz
      * @param identificator
-     * @return 
+     * @return
      */
     public <T> T getById(Class<T> clazz, Object identificator) {
 	T item = db.getEntityManager().find(clazz, identificator);
@@ -120,6 +122,7 @@ public class DbLoading {
 
     /**
      * Runs native JPQL with given vars and vals.
+     *
      * @param jpql
      * @param vars
      * @param vals
@@ -135,9 +138,10 @@ public class DbLoading {
 //<editor-fold defaultstate="collapsed" desc="helping methods (creating of queries)">
     /**
      * Creates query by given criteria (none).
+     *
      * @param <T>
      * @param clazz
-     * @return 
+     * @return
      */
     public <T> SimpleQuery<T> createQuery(Class<T> clazz) {
 	return new SimpleQuery<>(clazz);
@@ -145,11 +149,12 @@ public class DbLoading {
 
     /**
      * Creates query by given criteria (froms and topology).
+     *
      * @param <T>
      * @param clazz
      * @param isStar
      * @param from
-     * @return 
+     * @return
      */
     public <T> SimpleQuery<T> createQuery(Class<T> clazz, boolean isStar, Class<?>... from) {
 	return new SimpleQuery<>(relations(), isStar, clazz, from);
@@ -157,11 +162,12 @@ public class DbLoading {
 
     /**
      * Creates query by given criteria (single table but check on values).
+     *
      * @param <T>
      * @param query
      * @param variables
      * @param values
-     * @return 
+     * @return
      */
     private <T> Query toJPAquery(SimpleQuery<T> query, String[] variables, Object[] values) {
 	String jpql = query.toJPQL();
@@ -170,10 +176,11 @@ public class DbLoading {
 
     /**
      * Converts specified JPQL to JPA query.
+     *
      * @param jpql
      * @param variables
      * @param values
-     * @return 
+     * @return
      */
     private Query toJPAQuery(String jpql, String[] variables, Object[] values) {
 	Query query = db.getEntityManager().createQuery(jpql);
@@ -189,11 +196,12 @@ public class DbLoading {
 
     /**
      * Runs given query with attrs and values.
+     *
      * @param <T>
      * @param simple
      * @param attrs
      * @param values
-     * @return 
+     * @return
      */
     private <T> List<T> runSimpleQuery(SimpleQuery<T> simple, String[] attrs, Object[] values) {
 	LOG.debug("Running JPQL: " + simple.toJPQL() + " with " + Arrays.toString(attrs));
@@ -204,7 +212,8 @@ public class DbLoading {
 
     /**
      * Constructs relation to be used in douconline model.
-     * @return 
+     *
+     * @return
      */
     private static Relations relations() {
 	Relations relations = new Relations();

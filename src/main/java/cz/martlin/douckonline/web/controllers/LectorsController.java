@@ -32,7 +32,6 @@ public class LectorsController {
     public LectorsController() {
     }
 
-    
     private void loadLectors() {
 	if (selectedSubject != null) {
 	    currentLectors = lectors.listLectorsOfSubject(selectedSubject);
@@ -41,21 +40,20 @@ public class LectorsController {
 	}
     }
 
-    
     @PostConstruct
     public void init() {
-	loadLectors();	
+	loadLectors();
 	allSubjects = subjects.listAllSubjects();
     }
-    
+
 //<editor-fold defaultstate="collapsed" desc="getters and setters">
-    
     public List<Lector> getLectors() {
 	return currentLectors;
     }
-    
+
     /**
      * See SubjectsController#getAllSubjects()
+     *
      * @return
      * @deprecated
      */
@@ -63,27 +61,26 @@ public class LectorsController {
     public List<Subject> getAllSubjects() {
 	return allSubjects;
     }
-    
+
     public Subject getSelectedSubject() {
 	return selectedSubject;
     }
-    
+
     public void setSelectedSubject(Subject selectedSubject) {
 	this.selectedSubject = selectedSubject;
     }
-    
+
     public String getNewLectorName() {
 	return newLectorName;
     }
-    
+
     public void setNewLectorName(String newLectorName) {
 	this.newLectorName = newLectorName;
     }
 //</editor-fold>
-    
+
     public void filter() {
 	loadLectors();
     }
-    
 
 }

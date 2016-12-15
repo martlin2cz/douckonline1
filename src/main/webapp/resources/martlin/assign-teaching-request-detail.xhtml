@@ -24,17 +24,17 @@
 		<h:panelGrid columns="2">
 		    <h:outputLabel value="Lector:" />
 		    <martlin:lectors-list value="#{assignRequestController.lector}" withSubjects="true" />	 		    
-		
+
 		    <h:outputLabel value="Cost:" />
 		    <p:inputNumber value="#{assignRequestController.cost}" />
-		
-		    
+
+
 		    <h:outputLabel value="Description:" />
 		    <h:inputTextarea value="#{assignRequestController.description}" />
 		</h:panelGrid>
-		
+
 		<p:messages />
-		
+
 		<p:commandButton value="Assign" 
 				 action="#{assignRequestController.assign(cc.attrs.item)}"
 				 oncomplete="#{cc.attrs.onSaved}"

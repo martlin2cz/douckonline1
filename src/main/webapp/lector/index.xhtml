@@ -6,28 +6,28 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
-    
-  <ui:composition template="/WEB-INF/templates/main-template.xhtml">
-      <ui:define name="title">Lector</ui:define>
-      
-      <ui:define name="main-content">
 
-	
-	<martlin:teaching-requests-table requests="#{lectorsProfileController.currentRequests}" 
-					 title="Teaching requests" displayAll="false" />
-	
-	
-	<martlin:teachings-table teachings="#{lectorsProfileController.currentTeachings}"
-				 title="Students" />
-	
-	<martlin:lessons-table lessons="#{lectorsProfileController.actualLessons}"
-			       title="Lessons" />
-	
-	<!--	
-	<h2>Sallary</h2>
-	TODO ...
-	-->
+    <ui:composition template="/WEB-INF/templates/main-template.xhtml">
+	<ui:define name="title">Lector</ui:define>
 
-    </ui:define>
-  </ui:composition>
+	<ui:define name="main-content">
+
+
+	    <martlin:teaching-requests-table requests="#{lectorsProfileController.currentRequests}" 
+					     title="Teaching requests" displayAll="false" />
+
+
+	    <martlin:teachings-table teachings="#{lectorsProfileController.currentTeachings}"
+				     title="Students" />
+
+	    <martlin:lessons-table lessons="#{lectorsProfileController.actualLessons}"
+				   title="Lessons" />
+
+	    <!--	
+	    <h2>Sallary</h2>
+	    TODO ...
+	    -->
+
+	</ui:define>
+    </ui:composition>
 </html>

@@ -11,35 +11,35 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Perform the root database access.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class DatabaseAccess {
+
     private final static Logger LOG = LoggerFactory.getLogger(DatabaseAccess.class);
 
     private final static String PERSISTENCE_UNIT_NAME = "pu_douckonline_1";
     private static final DatabaseAccess INSTANCE = new DatabaseAccess();
-    
-    
+
     private static EntityManagerFactory entityManagerFactory;
-    
+
     private static EntityManager entityManager;
-    
+
     /**
      * Singleton.
      */
     private DatabaseAccess() {
     }
 
-    
     /**
      * Returns the only one instance.
-     * @return 
+     *
+     * @return
      */
     public static DatabaseAccess get() {
 	return INSTANCE;
     }
 
-    
 //<editor-fold defaultstate="collapsed" desc="start and finish of whole db mechanism">
     /**
      * Starts whole database work.
@@ -57,12 +57,13 @@ public class DatabaseAccess {
 	LOG.info("Closing entity manager factory");
 	entityManager = null;
 	entityManagerFactory.close();
-	
+
     }
-    
+
     /**
      * Returns entity manager of current connection.
-     * @return 
+     *
+     * @return
      */
     public EntityManager getEntityManager() {
 	return entityManager;

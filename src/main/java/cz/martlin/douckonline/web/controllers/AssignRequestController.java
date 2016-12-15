@@ -16,31 +16,30 @@ import javax.inject.Named;
 @RequestScoped
 @Named("assignRequestController")
 public class AssignRequestController {
-    
+
     private final Requests REQUESTS = new Requests();
-    
+
     private Lector lector;
     private int cost;
     private String description;
-    
 
     public AssignRequestController() {
     }
-    
+
     @PostConstruct
     public void init() {
-	
+
     }
 //<editor-fold defaultstate="collapsed" desc="getters and setters">
-    
+
     public Lector getLector() {
 	return lector;
     }
-    
+
     public void setLector(Lector lector) {
 	this.lector = lector;
     }
-    
+
     public int getCost() {
 	return cost;
     }
@@ -48,24 +47,20 @@ public class AssignRequestController {
     public void setCost(int cost) {
 	this.cost = cost;
     }
-    
+
     public String getDescription() {
 	return description;
     }
-    
+
     public void setDescription(String description) {
 	this.description = description;
     }
 
-    
-    
 //</editor-fold>
-    
     public void assign(TeachingRequest request) {
 	Teaching teaching = REQUESTS.requestToTeaching(request, lector, description, cost);
-	
+
 	JSFTools.savedOrFailed(teaching != null, "Teaching assigned", "Assignment failed");
     }
-    
-    
+
 }

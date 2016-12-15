@@ -25,12 +25,11 @@ public class TimesConverter implements Converter {
 
     public TimesConverter() {
     }
-    
+
     public String getFormat() {
 	return DATE_FORMAT;
-   }
-    
-    
+    }
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 	Calendar calendar = stringToCalendar(value);
@@ -43,7 +42,7 @@ public class TimesConverter implements Converter {
 	//Date date = (Date) value;
 	Calendar calendar = Calendar.getInstance();
 	//calendar.setTime(date);
-	
+
 	String string = calendarToString(calendar);
 	return string;
     }
@@ -61,5 +60,5 @@ public class TimesConverter implements Converter {
 	}
 	return cal;
     }
-    
+
 }

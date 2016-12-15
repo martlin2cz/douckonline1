@@ -54,7 +54,6 @@ public class RequestReactionsController {
     }
 
 //</editor-fold>
-    
 //<editor-fold defaultstate="collapsed" desc="action methods">
     public void assignToLector(RequestReaction reaction) {
 	Teaching teaching = requests.reactionToTeaching(reaction);

@@ -1,4 +1,3 @@
-
 package cz.martlin.douckonline.web.controllers;
 
 import cz.martlin.douckonline.business.logic.Teachings;
@@ -14,32 +13,24 @@ import javax.inject.Named;
 @RequestScoped
 @Named("teachingsController")
 public class TeachingsController {
-    
+
     private Teaching currentTeaching;
     private Lesson currentLesson;
-    
+
     public TeachingsController() {
 	currentTeaching = null;
     }
 //<editor-fold defaultstate="collapsed" desc="getters and setters">
-    
+
     public Teaching getCurrentTeaching() {
 	return currentTeaching;
     }
-    
-    
+
     public Lesson getCurrentLesson() {
 	return currentLesson;
     }
-    
-    
-//</editor-fold>
-    
-    
-//<editor-fold defaultstate="collapsed" desc="action methods">
-   
-//</editor-fold>
 
-    
-    
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="action methods">
+//</editor-fold>
 }

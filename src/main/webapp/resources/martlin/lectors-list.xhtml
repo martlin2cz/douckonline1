@@ -6,8 +6,8 @@
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
       >
-  
-    
+
+
     <composite:interface displayName="Lectors dropdown list">
 	<composite:attribute name="value" type="cz.martlin.douckonline.business.model.lector.Lector" required="true" />
 	<composite:attribute name="withSubjects" type="boolean" required="true" />
@@ -16,10 +16,10 @@
     <composite:implementation>
 	<p:selectOneMenu value="#{cc.attrs.value}" converter="#{usersConverter}" id="lectors-dropdown"
 			 var="lector" filter="true" filterMatchMode="contains">
-	    
+
 	    <f:selectItems value="#{lectorsController.lectors}" var="lector" 
 			   itemValue="#{lector}" itemLabel="#{lector.displayName}" />
-	    
+
 	    <p:column>
 		<h:outputText value="#{lector.displayName}" />
 	    </p:column>

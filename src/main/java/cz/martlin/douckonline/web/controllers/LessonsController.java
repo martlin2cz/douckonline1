@@ -27,8 +27,9 @@ import javax.inject.Named;
 public class LessonsController {
 
     private final Teachings TEACHINGS = new Teachings();
-    @Inject private LoginSession login;
-    
+    @Inject
+    private LoginSession login;
+
     private Lesson lessonToOpen;
     private List<Teaching> teachings;
 
@@ -36,7 +37,7 @@ public class LessonsController {
 	lessonToOpen = new Lesson();
 	lessonToOpen.setDuration(new GregorianCalendar(0, 0, 0, 1, 0, 0));  //FIXME HACK HAAAACK
     }
-    
+
     @PostConstruct
     public void init() {
 	Lector lector = login.getLoggedLector();
@@ -59,10 +60,8 @@ public class LessonsController {
     public void setTeachings(List<Teaching> teachings) {
 	this.teachings = teachings;
     }
-    
-    
- //</editor-fold>
 
+    //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="action methods">
     public void openNewLesson(Teaching teaching) {
 	lessonToOpen.setTeaching(teaching);
@@ -81,9 +80,9 @@ public class LessonsController {
 	}
 	JSFTools.savedOrFailed(success, "Lesson saved", "Could not save lesson");
     }
-    
+
     public void deleteLesson(Lesson lesson) {
-	boolean  success = TEACHINGS.removeLesson(lesson);
+	boolean success = TEACHINGS.removeLesson(lesson);
 	JSFTools.savedOrFailed(success, "Lesson removed", "Could not remove lesson");
     }
 //</editor-fold>

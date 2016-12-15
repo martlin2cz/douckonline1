@@ -1,4 +1,3 @@
-
 package cz.martlin.douckonline.web.controllers;
 
 import cz.martlin.douckonline.business.logic.Moneys;
@@ -22,17 +21,18 @@ import javax.inject.Named;
 public class PaymentsController {
 
     private final Moneys MONEYS = new Moneys();
-    @Inject private LoginSession login;
-    
+    @Inject
+    private LoginSession login;
+
     private List<Payment> payments;
     private Student filterStudent;
-    
+
     private Payment paymentToOpen;
-    
+
     public PaymentsController() {
 	paymentToOpen = new Payment();
     }
-    
+
     @PostConstruct
     public void init() {
 	if (login.isLoggedAsStudent()) {
@@ -41,20 +41,19 @@ public class PaymentsController {
 	loadPayments();
     }
 //<editor-fold defaultstate="collapsed" desc="getters and setters">
-    
+
     public List<Payment> getPayments() {
 	return payments;
     }
-    
+
     public void setPayments(List<Payment> payments) {
 	this.payments = payments;
     }
-    
-    
+
     public Student getFilterStudent() {
 	return filterStudent;
     }
-    
+
     public void setFilterStudent(Student filterStudent) {
 	this.filterStudent = filterStudent;
     }
@@ -62,17 +61,13 @@ public class PaymentsController {
     public Payment getPaymentToOpen() {
 	return paymentToOpen;
     }
-    
-    
+
 //</editor-fold>
-    
 //<editor-fold defaultstate="collapsed" desc="action methods">
-    
-    
     public void filter() {
 	loadPayments();
     }
-    
+
     private void loadPayments() {
 	if (filterStudent != null) {
 	    payments = MONEYS.listPayments(filterStudent, null);
@@ -80,16 +75,15 @@ public class PaymentsController {
 	    payments = MONEYS.listAllPayments();
 	}
     }
-    
+
     public void openNewPayment() {
 	//does nothing
     }
-    
-    
+
     public void openPayment(Payment payment) {
 	paymentToOpen = payment;
     }
-    
+
     public void savePayment(Payment payment) {
 	boolean success;
 	if (payment.isPersisted()) {
@@ -97,17 +91,15 @@ public class PaymentsController {
 	} else {
 	    success = MONEYS.addPayment(payment);
 	}
-	
+
 	JSFTools.savedOrFailed(success, "Payment saved", "Payment save failed");
-    } 
-    
+    }
+
     public void removePayment(Payment payment) {
 	boolean success = MONEYS.removePayment(payment);
-	
+
 	JSFTools.savedOrFailed(success, "Payment removed", "Payment removal failed");
-    } 
-    
-    
+    }
+
 //</editor-fold>
-    
 }

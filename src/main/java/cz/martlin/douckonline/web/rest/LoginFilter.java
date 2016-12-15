@@ -22,34 +22,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Login filter filters (correctly redirect) HTTP requests depending on the user roles of currently logged user.
+ * Login filter filters (correctly redirect) HTTP requests depending on the user
+ * roles of currently logged user.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @WebFilter("/*")
 public class LoginFilter implements Filter {
+
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-    
+
     private static final String XHTML_FILE_PATTERN = "^(.+)\\.xhtml$";
     private static final String RESOURCE_DIR = "javax.faces.resource";
     private static final String WEB_SERVICE_DIR = "rest";
     private static final Map<Class<?>, String> FOLDERS = initFolders();
-    
-    @Inject private LoginSession login;
-    
+
+    @Inject
+    private LoginSession login;
+
     public LoginFilter() {
     }
 
     private static Map<Class<?>, String> initFolders() {
 	Map<Class<?>, String> folders = new HashMap<>();
-	
+
 	//folders.put(User.class, "");
 	folders.put(Student.class, "student");
 	folders.put(Manager.class, "manager");
 	folders.put(Lector.class, "lector");
-	
+
 	return folders;
     }
-    
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
     }
@@ -57,85 +61,88 @@ public class LoginFilter implements Filter {
     @Override
     public void destroy() {
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 	PathInfo info = getCurrentPathInfo(request);
-	
+
 	if (info.getFoldersCount() <= 1) {
 	    String newPath = checkLoginAndGetRedirect(info, login);
 	    LOG.debug("Having site path " + info + " with login " + login + ", will redirect to " + newPath);
-	    
+
 	    if (newPath != null) {
 		redirectTo(newPath, response);
 		return;
 	    }
-	}	
-	
+	}
+
 	chain.doFilter(request, response);
     }
 
     /**
      * Returns current path (as path info).
+     *
      * @param request
-     * @return 
+     * @return
      */
     public static PathInfo getCurrentPathInfo(ServletRequest request) {
 	String path = getPath(request);
 	String root = getContextRoot(request);
 	PathInfo info = PathInfo.create(path, root, XHTML_FILE_PATTERN);
 	info.popFolder(); //context root
-	
+
 	return info;
     }
-    
 
     /**
      * Returns current path (as string).
+     *
      * @param request
-     * @return 
+     * @return
      */
     private static String getPath(ServletRequest request) {
 	HttpServletRequest req = (HttpServletRequest) request;
 	return req.getRequestURI();
     }
-    
+
     /**
      * Returns context root.
+     *
      * @param request
-     * @return 
+     * @return
      */
     private static String getContextRoot(ServletRequest request) {
 	HttpServletRequest req = (HttpServletRequest) request;
 	return req.getContextPath();
     }
-    
+
     /**
      * Redirects to given path.
+     *
      * @param newPath
      * @param response
-     * @throws IOException 
+     * @throws IOException
      */
     private static void redirectTo(String newPath, ServletResponse response) throws IOException {
 	HttpServletResponse res = (HttpServletResponse) response;
 	res.sendRedirect(newPath);
-    }  
+    }
 
-    
     /**
      * Compare actual path info (given) with login and if needed redirects.
+     *
      * @param info
      * @param login
-     * @return 
+     * @return
      */
     public static String checkLoginAndGetRedirect(PathInfo info, LoginSession login) {
 	String currentFolder = info.getFoldersCount() == 0 ? null : info.getFolder(0);
 	String expectedFolder = getRequiredFolder(login);
-	
+
 	if (RESOURCE_DIR.equals(currentFolder) || WEB_SERVICE_DIR.equals(currentFolder)) {
 	    return null;
 	}
-	
+
 	if (currentFolder == null && expectedFolder != null) {
 	    return expectedFolder;
 	}
@@ -152,14 +159,15 @@ public class LoginFilter implements Filter {
 	if (currentFolder == null && expectedFolder == null) {
 	    return null;
 	}
-	
+
 	return null;
     }
 
     /**
      * Gets required folder name depending on given user.
+     *
      * @param login
-     * @return 
+     * @return
      */
     public static String getRequiredFolder(LoginSession login) {
 	User loggedUser = login.getLoggedUser();

@@ -19,30 +19,31 @@ import javax.inject.Named;
 @RequestScoped
 @Named("lectorsProfileController")
 public class LectorProfileController {
+
     private static final int SHOW_LESSONS_DAYS_AGO = 30;
     private final Teachings teachings = new Teachings();
     private final Requests requests = new Requests();
-    
-    @Inject private LoginSession session;
-    
+
+    @Inject
+    private LoginSession session;
+
     public LectorProfileController() {
     }
-    
+
     public Lector getLoggedLector() {
 	return session.getLoggedLector();
     }
-    
+
     public List<TeachingRequest> getCurrentRequests() {
 	return requests.listPendingForLector(getLoggedLector());
     }
-    
+
     public List<Teaching> getCurrentTeachings() {
 	return teachings.listTeachingsOfLector(getLoggedLector());
     }
-    
-    
+
     public List<Lesson> getActualLessons() {
 	return teachings.getLessonsOf(getLoggedLector(), SHOW_LESSONS_DAYS_AGO);
     }
-    
+
 }

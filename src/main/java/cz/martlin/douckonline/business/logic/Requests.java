@@ -19,14 +19,16 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Performs logic operations over requests and their reactions.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Requests {
+
     private final Logger LOG = LoggerFactory.getLogger(getClass());
-    
+
     private final DbLoading dbl = DbLoading.get();
     private final DbModifying dbm = DbModifying.get();
-    
+
     private final Teachings teachings = new Teachings();
     private final Lectors lectors = new Lectors();
     private final Students students = new Students();
@@ -34,25 +36,25 @@ public class Requests {
     public Requests() {
     }
 //<editor-fold defaultstate="collapsed" desc="finding (by id)">
-    
+
     /**
      * Finds teaching request by given id.
+     *
      * @param id
-     * @return 
+     * @return
      */
     public TeachingRequest getRequestById(long id) {
 	LOG.trace("Getting teaching requst by id");
-	
+
 	return dbl.getById(TeachingRequest.class, id);
     }
-    
-//</editor-fold>
-    
-//<editor-fold defaultstate="collapsed" desc="listing of requests">
 
+//</editor-fold>
+//<editor-fold defaultstate="collapsed" desc="listing of requests">
     /**
      * Lists all requests waiting to assign a lector.
-     * @return 
+     *
+     * @return
      */
     public List<TeachingRequest> listAllPending() {
 	LOG.trace("Listing all peding requests");
@@ -64,8 +66,9 @@ public class Requests {
 
     /**
      * Lists all pending requests of given subject.
+     *
      * @param subject
-     * @return 
+     * @return
      */
     public List<TeachingRequest> listPendingOfSubject(Subject subject) {
 	LOG.trace("Listing all peding requests of subject");
@@ -77,8 +80,9 @@ public class Requests {
 
     /**
      * Lists requests pending to given lector.
+     *
      * @param lector
-     * @return 
+     * @return
      */
     public List<TeachingRequest> listPendingForLector(Lector lector) {
 	LOG.trace("Listing all pending requests for lector");
@@ -90,56 +94,57 @@ public class Requests {
 		new Object[]{lector, TeachingRequestStatus.WAITING_FOR_REACTIONS});
     }
 //</editor-fold>
-    
+
 //<editor-fold defaultstate="collapsed" desc="reactions">
-    
     /**
      * To given request adds reaction of given lector with specific info.
+     *
      * @param request
      * @param lector
      * @param status
      * @param description
-     * @return 
+     * @return
      */
     public boolean react(TeachingRequest request, Lector lector, RequestReactionStatus status, String description) {
 	LOG.trace("Reacting to request");
 
 	dbm.startBulk();
 	RequestReaction reaction = createReaction(lector, status, description);
-	
+
 	addReaction(request, reaction);
-	
+
 	dbm.finishBulk();
 	return dbm.isSuccessfull();
     }
-    
+
     /**
      * Adds given reaction to to given request.
+     *
      * @param request
      * @param reaction
-     * @return 
+     * @return
      */
     public boolean addReaction(TeachingRequest request, RequestReaction reaction) {
 	LOG.trace("Adding reaction to request");
-	
-	
+
 	request.getReactions().add(reaction);
 	reaction.setRequest(request);
-	
+
 	return dbm.insertSingle(reaction);
     }
-    
+
     /**
      * Creates instance of reaction.
+     *
      * @param lector
      * @param status
      * @param description
-     * @return 
+     * @return
      */
-     private RequestReaction createReaction(Lector lector, RequestReactionStatus status, String description) {
-	 
+    private RequestReaction createReaction(Lector lector, RequestReactionStatus status, String description) {
+
 	Calendar when = Calendar.getInstance();
-	
+
 	return new RequestReaction(null, lector, status, when, description);
     }
 //</editor-fold>
@@ -147,89 +152,93 @@ public class Requests {
 //<editor-fold defaultstate="collapsed" desc="creating requests and converting to teaching">
     /**
      * Adds given teaching request.
+     *
      * @param request
-     * @return 
+     * @return
      */
-     public boolean addRequest(TeachingRequest request) {
+    public boolean addRequest(TeachingRequest request) {
 	LOG.trace("Adding request");
 
 	Calendar addedAt = Calendar.getInstance();
 	request.setAddedAt(addedAt);
-	
+
 	TeachingRequestStatus status = TeachingRequestStatus.WAITING_FOR_REACTIONS;
 	request.setStatus(status);
-	
+
 	return dbm.insertSingle(request);
     }
-    
-    
-     /**
-      * Updates status of request.
-      * @param request
-      * @return 
-      */
+
+    /**
+     * Updates status of request.
+     *
+     * @param request
+     * @return
+     */
     private boolean updateRequestStatus(TeachingRequest request) {
 	LOG.trace("Updating request's status");
 
 	return dbm.updateSingle(request);
-	
+
     }
-    
+
     /**
      * From reaction makes the teaching.
+     *
      * @param reaction
-     * @return 
+     * @return
      */
     public Teaching reactionToTeaching(RequestReaction reaction) {
 	LOG.trace("Making teaching from lector's reaction");
-	
+
 	dbm.startBulk();
-	
+
 	TeachingRequest request = reaction.getRequest();
 	request.setStatus(TeachingRequestStatus.TEACHING_RUNNING);
 	updateRequestStatus(request);
-	
+
 	Lector lector = reaction.getLector();
 	String description = "Okay, let's go";	//TODO description
 	int cost = 42;	//TODO 42
 	Teaching t = requestToTeaching(request, lector, description, cost);
-	
+
 	dbm.finishBulk();
 	return t;
     }
 
     /**
      * From request, lector and given other params makes teaching.
+     *
      * @param request
      * @param lector
      * @param description
      * @param cost
-     * @return 
+     * @return
      */
     public Teaching requestToTeaching(TeachingRequest request, Lector lector, String description, int cost) {
 	LOG.trace("Making teaching from request");
-	
+
 	dbm.startBulk();
 
 	Student student = requestToStudent(request);
 	Subject subject = request.getSubject();
 	Level level = request.getLevel();
 	//TODO description
-	
+
 	Teaching teaching = teachings.startTeaching(lector, student, subject, level, cost);
-	
+
 	request.setStatus(TeachingRequestStatus.TEACHING_RUNNING);
 	updateRequestStatus(request);
-	
+
 	dbm.finishBulk();
-	
+
 	return teaching;
     }
 
     /**
      * From given request registers and returns new student.
+     *
      * @param request
-     * @return 
+     * @return
      */
     private Student requestToStudent(TeachingRequest request) {
 	LOG.trace("Making teaching from request");
@@ -256,8 +265,5 @@ public class Requests {
 	}
     }
 //</editor-fold>
-
-   
-
 
 }

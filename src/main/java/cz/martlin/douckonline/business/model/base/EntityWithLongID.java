@@ -8,11 +8,12 @@ import javax.persistence.MappedSuperclass;
 
 /**
  * Base entity class with <code>long</code> id field.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @MappedSuperclass
 public abstract class EntityWithLongID implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected long id;
@@ -27,11 +28,11 @@ public abstract class EntityWithLongID implements Serializable {
     public void setId(long id) {
 	this.id = id;
     }
-    
+
     public boolean isPersisted() {
 	return this.id != 0;
     }
-    
+
     @Override
     public int hashCode() {
 	int hash = 0;
@@ -55,5 +56,5 @@ public abstract class EntityWithLongID implements Serializable {
     public String toString() {
 	return "EntityWithLongID{ id = " + id + " }";
     }
-    
+
 }

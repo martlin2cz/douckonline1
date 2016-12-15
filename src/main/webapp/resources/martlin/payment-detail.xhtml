@@ -22,16 +22,16 @@
 
 	    <h:form id="payment-detail-form">
 		<h:inputHidden value="#{cc.attrs.payment.id}" />
-		    
+
 		<h:panelGrid columns="2">
 		    <h:outputLabel value="Student:" />
 		    <martlin:students-list value="#{cc.attrs.payment.student}" 
 					   withAccountNumber="true" withAllStudentsOption="false" />
-		    
+
 		    <h:outputLabel value="Date:" />
 		    <p:calendar value="#{cc.attrs.payment.date}" 
 				converter="#{calendarsConverter}" pattern="#{calendarsConverter.format}" />
-		    
+
 		    <h:outputLabel value="Amount:" />
 		    <p:inputNumber value="#{cc.attrs.payment.amount}" />
 

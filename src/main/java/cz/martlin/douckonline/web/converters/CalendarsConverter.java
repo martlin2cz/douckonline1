@@ -24,12 +24,11 @@ public class CalendarsConverter implements Converter {
 
     public CalendarsConverter() {
     }
-    
+
     public String getFormat() {
 	return DATE_FORMAT;
-   }
-    
-    
+    }
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 	Calendar calendar = stringToCalendar(value);
@@ -56,5 +55,5 @@ public class CalendarsConverter implements Converter {
 	}
 	return cal;
     }
-    
+
 }

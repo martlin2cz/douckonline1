@@ -1,6 +1,5 @@
 package cz.martlin.douckonline.business.model.teaching;
 
-
 import cz.martlin.douckonline.business.model.base.User;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -11,38 +10,40 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Student entity. Each student has user's credentials, but also a contact informations (name, adress, email, phone) and optionally bank account.
+ * Student entity. Each student has user's credentials, but also a contact
+ * informations (name, adress, email, phone) and optionally bank account.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
 @Table(name = "students")
 @XmlRootElement
-public class Student extends User implements Serializable{
-    
+public class Student extends User implements Serializable {
+
     @Column(name = "register_name")
     @Size(min = 2, max = 50)
     private String registerName;
-    
+
     @Column(name = "student_name")
     @Size(min = 2, max = 50)
     private String studentName;
-    
+
     @Column(name = "email")
     @Size(min = 2, max = 50)
     private String email;
-    
+
     @Column(name = "phone")
     @Size(min = 9, max = 15)
     private String phone;
-    
+
     @Column(name = "bank_account_number", nullable = true)
     @Size(min = 8, max = 20)
     private String bankAccountNumber;
-    
+
     @Column(name = "adress", nullable = true)
     @Size(min = 5, max = 50)
     private String adress;
-    
+
     public Student() {
     }
 
@@ -65,8 +66,7 @@ public class Student extends User implements Serializable{
     public String getReallName() {
 	return registerName;
     }
-    
-    
+
     public String getRegisterName() {
 	return registerName;
     }
@@ -114,9 +114,9 @@ public class Student extends User implements Serializable{
     public void setAdress(String adress) {
 	this.adress = adress;
     }
-    
+
     @Override
     public String toString() {
-	return "Student{" +  getLoginName() + "}";
+	return "Student{" + getLoginName() + "}";
     }
 }

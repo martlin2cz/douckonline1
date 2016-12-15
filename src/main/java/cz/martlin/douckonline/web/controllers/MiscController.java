@@ -13,8 +13,7 @@ public class MiscController {
 
     public MiscController() {
     }
-    
-    
+
     public void doNothing() {
 	//really nothing
     }

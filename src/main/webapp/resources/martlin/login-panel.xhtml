@@ -23,17 +23,17 @@
 
 		    <h:outputLabel value="Pasword:" />
 		    <p:password value="#{logingInController.password}" 
-				   id="password" required="true" >
+				id="password" required="true" >
 			<f:validator validatorId="loginValidator" />
 			<f:attribute name="usernameBinding" value="#{usernameBinding}" />
 		    </p:password>
-		    
-		    
+
+
 		    <p:spacer />
 		    <p:commandButton value="Log in" ajax="false" icon="ui-icon-locked"
-				 action="#{logingInController.logIn}" />
+				     action="#{logingInController.logIn}" />
 		</h:panelGrid>
-		
+
 		<p:messages />
 	    </h:form>
 	</p:panel>

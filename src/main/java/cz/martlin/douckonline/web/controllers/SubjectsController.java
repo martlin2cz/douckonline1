@@ -15,30 +15,24 @@ import javax.inject.Named;
 @RequestScoped
 @Named("subjectsController")
 public class SubjectsController {
-    
+
     private final Subjects SUBJECTS = new Subjects();
-    
+
     private List<Subject> allSubjects;
-    
 
     public SubjectsController() {
     }
-    
+
     @PostConstruct
     public void init() {
-	 allSubjects = SUBJECTS.listAllSubjects();
+	allSubjects = SUBJECTS.listAllSubjects();
     }
-    
+
     //<editor-fold defaultstate="collapsed" desc="getters and setters">
-    
     public List<Subject> getAllSubjects() {
 	return allSubjects;
     }
-    
-    
+
 //</editor-fold>
-    
-    
     //TODO add/remove/update? subject
-    
 }

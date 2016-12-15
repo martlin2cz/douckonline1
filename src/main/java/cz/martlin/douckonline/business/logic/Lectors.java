@@ -14,22 +14,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implements logic corresponding to Lectors. 
+ * Implements logic corresponding to Lectors.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Lectors {
+
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private final DbLoading dbl = DbLoading.get();
     private final DbModifying dbm = DbModifying.get();
-    
-    
+
     public Lectors() {
     }
-    
+
 //<editor-fold defaultstate="collapsed" desc="load lector(s)">
     /**
      * Lists all lectors.
+     *
      * @return
      */
     public List<Lector> listAllLectors() {
@@ -37,15 +39,16 @@ public class Lectors {
 	List<Lector> lectors = dbl.listAll(Lector.class);
 	return lectors;
     }
-    
+
     /**
      * List lectors teaching specified subject.
+     *
      * @param subject
-     * @return 
+     * @return
      */
     public List<Lector> listLectorsOfSubject(Subject subject) {
 	LOG.trace("Loading lectors of subject");
-	
+
 	List<Lector> lectors = dbl.listByCond(Lector.class, false, //
 		new Class<?>[]{SubjTeachingSpec.class, Subject.class}, //
 		new String[]{"subjTeachingSpec.subject"}, //
@@ -53,35 +56,37 @@ public class Lectors {
 		new Object[]{subject});
 	return lectors;
     }
-    
+
     /**
      * Finds lector of given login.
+     *
      * @param loginName
-     * @return 
+     * @return
      */
     public Lector getLector(String loginName) {
 	LOG.trace("Loading lector by loginName");
 	return dbl.getById(Lector.class, loginName);
     }
 //</editor-fold>
-    
+
 //<editor-fold defaultstate="collapsed" desc="Add, modify lector">
-    
     /**
      * Adds specified lector into database.
+     *
      * @param lector
-     * @param password 
+     * @param password
      * @return
      */
     public boolean addLector(Lector lector, String password) {
 	LOG.trace("Adding lector");
-	
+
 	final Users users = new Users();
 	return users.registerUser(lector, password);
     }
-    
+
     /**
      * Saves modified lector into database.
+     *
      * @param lector
      * @return
      */
@@ -89,9 +94,10 @@ public class Lectors {
 	LOG.trace("Updating lector");
 	return dbm.updateSingle(lector);
     }
-    
+
     /**
      * Sets lector as inactive until now.
+     *
      * @param lector
      * @return
      */
@@ -101,9 +107,10 @@ public class Lectors {
 	lector.setEndedAt(when);
 	return dbm.updateSingle(lector);
     }
-    
+
     /**
      * Makes lector active again.
+     *
      * @param lector
      * @return
      */
@@ -113,147 +120,154 @@ public class Lectors {
 	return dbm.updateSingle(lector);
     }
 //</editor-fold>
-    
+
 //<editor-fold defaultstate="collapsed" desc="certificates, educations, practices, subjects specs">
     /**
      * To specified lector adds given certificate.
+     *
      * @param lector
      * @param certificate
      * @return
      */
     public boolean addCertificate(Lector lector, Certificate certificate) {
 	LOG.trace("Adding certificate");
-	
+
 	certificate.setLector(lector);
 	lector.getCertificates().add(certificate);
-	
+
 	return dbm.insertSingle(certificate);
     }
-    
+
     /**
      * To specified lector removes given certificate.
+     *
      * @param lector
      * @param certificate
-     * @return 
+     * @return
      */
     public boolean removeCertificate(Lector lector, Certificate certificate) {
 	LOG.trace("Removing certificate");
-	
+
 	certificate.setLector(null);
 	lector.getCertificates().remove(certificate);
-	
+
 	return dbm.removeSingle(certificate);
     }
-    
+
     /**
      * To specified lector adds given education.
+     *
      * @param lector
      * @param education
      * @return
      */
     public boolean addEducation(Lector lector, Education education) {
 	LOG.trace("Adding education");
-	
+
 	education.setLector(lector);
 	lector.getEducations().add(education);
-	
+
 	return dbm.insertSingle(education);
     }
-    
+
     /**
      * To specified lector removes given education.
+     *
      * @param lector
      * @param education
-     * @return 
+     * @return
      */
     public boolean removeEducation(Lector lector, Education education) {
 	LOG.trace("Removing education");
-	
+
 	education.setLector(null);
 	lector.getEducations().remove(education);
-	
+
 	return dbm.removeSingle(education);
     }
-    
+
     /**
      * To specified lector adds given parctice.
+     *
      * @param lector
      * @param practice
      * @return
      */
     public boolean addPractise(Lector lector, Practice practice) {
 	LOG.trace("Adding practice");
-	
+
 	practice.setLector(lector);
 	lector.getPractices().add(practice);
-	
+
 	return dbm.insertSingle(practice);
     }
-    
+
     /**
      * To specified lector removes given parctice.
+     *
      * @param lector
      * @param practice
-     * @return 
+     * @return
      */
-     public boolean removePractise(Lector lector, Practice practice) {
+    public boolean removePractise(Lector lector, Practice practice) {
 	LOG.trace("Removing practice");
-	
+
 	practice.setLector(null);
 	lector.getPractices().remove(practice);
-	
+
 	return dbm.removeSingle(practice);
     }
-    
+
     /**
      * To specified lector adds given subject teaching specification.
+     *
      * @param lector
      * @param spec
      * @return
      */
     public boolean addSubjTeachSpec(Lector lector, SubjTeachingSpec spec) {
 	LOG.trace("Adding subject teaching specification");
-	
+
 	spec.setLector(lector);
 	lector.getSubjects().add(spec);
-	
+
 	return dbm.insertSingle(spec);
     }
-    
+
     /**
      * To specified lector removes given subject teaching specification.
+     *
      * @param lector
      * @param spec
-     * @return 
+     * @return
      */
     public boolean removeSubjTeachSpec(Lector lector, SubjTeachingSpec spec) {
 	LOG.trace("Removing subject teaching specification");
-	
+
 	spec.setLector(null);
 	lector.getSubjects().remove(spec);
-	
+
 	return dbm.removeSingle(spec);
     }
 //</editor-fold>
-    
+
 //<editor-fold defaultstate="collapsed" desc="other (non-db querying)">
-    
     /**
      * Finds subject teaching specification of given lector and given subject.
+     *
      * @param lector
      * @param subject
-     * @return 
+     * @return
      */
     public SubjTeachingSpec getSubjOfLector(Lector lector, Subject subject) {
-	for (SubjTeachingSpec spec: lector.getSubjects()) {
+	for (SubjTeachingSpec spec : lector.getSubjects()) {
 	    if (spec.getSubject().equals(subject)) {
 		return spec;
 	    }
 	}
-	
+
 	return null;
     }
 //</editor-fold>
 
 }
-

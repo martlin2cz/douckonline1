@@ -19,12 +19,12 @@ import javax.inject.Named;
 @ViewScoped
 @ManagedBean(name = "teachingRequestsController")
 public class TeachingRequestsController implements Serializable {
-    
+
     private final Requests REQUESTS = new Requests();
-    
+
     private List<RequestReaction> currentReactions;
     private TeachingRequest currentRequest;
-    
+
     public TeachingRequestsController() {
 	currentRequest = new TeachingRequest();
     }
@@ -33,28 +33,25 @@ public class TeachingRequestsController implements Serializable {
     public List<RequestReaction> getCurrentReactions() {
 	return currentReactions;
     }
-    
+
     public TeachingRequest getCurrentRequest() {
 	return currentRequest;
     }
-    
+
     public Level[] getAllLevels() {
 	return Level.values();
     }
 //</editor-fold>
-        
-    
+
 //<editor-fold defaultstate="collapsed" desc="action methods">
-    
-    
     public void openNewRequest() {
 	//in fact does nothing
     }
-    
+
     public void openRequest(TeachingRequest request) {
 	currentRequest = request;
     }
-    
+
     public void saveRequest(TeachingRequest request) {
 	boolean success;
 	if (request.isPersisted()) {
@@ -62,18 +59,13 @@ public class TeachingRequestsController implements Serializable {
 	} else {
 	    success = REQUESTS.addRequest(request);
 	}
-	
+
 	JSFTools.savedOrFailed(success, "Request saved", "Request save failed");
     }
-    
+
     public void loadReactions(TeachingRequest request) {
 	currentReactions = request.getReactions();
     }
-    
-    
-//</editor-fold>
 
-    
-    
-    
+//</editor-fold>
 }

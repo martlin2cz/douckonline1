@@ -10,7 +10,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 /**
- * Represents lector's certificate (i.e. FCE exam). 
+ * Represents lector's certificate (i.e. FCE exam).
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
@@ -32,7 +33,7 @@ public class Certificate extends EntityWithLongID {
     @ManyToOne
     @JoinColumn(name = "lector_login_name")
     private Lector lector;
-    
+
     public Certificate() {
 	super();
     }
@@ -76,8 +77,6 @@ public class Certificate extends EntityWithLongID {
 	this.lector = lector;
     }
 
-    
-    
     @Override
     public String toString() {
 	return "Certificate{" + "id=" + id + ", name=" + name + ", subject=" + subject + ", degree=" + degree + '}';

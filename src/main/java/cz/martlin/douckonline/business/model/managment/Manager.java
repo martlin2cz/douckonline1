@@ -7,20 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Manager is user managin all the system. Has no extra special fields (just only real name).
+ * Manager is user managin all the system. Has no extra special fields (just
+ * only real name).
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
 @Table(name = "managers")
 public class Manager extends User implements Serializable {
-    
+
     private String realName;
-    
-    
+
     public Manager() {
 	super();
     }
-    
+
     public Manager(String realName, String loginName, String passwordHash, String passwordSalt, Calendar registeredAt, Calendar lastLoginAt) {
 	super(loginName, passwordHash, passwordSalt, registeredAt, lastLoginAt);
 	this.realName = realName;
@@ -36,9 +37,6 @@ public class Manager extends User implements Serializable {
 	return realName;
     }
 
-    
-    
-    
     public String getRealName() {
 	return realName;
     }
@@ -51,5 +49,5 @@ public class Manager extends User implements Serializable {
     public String toString() {
 	return "Manager{" + getLoginName() + "}";
     }
-    
+
 }

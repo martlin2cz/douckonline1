@@ -10,16 +10,15 @@ import javax.faces.convert.Converter;
  * @author m@rtlin <martlin@seznam.cz>
  * @param <T>
  */
-public abstract class WithLongIdConverter<T extends EntityWithLongID> implements  Converter {
+public abstract class WithLongIdConverter<T extends EntityWithLongID> implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 	String idStr = value;
 	long idLong = Long.parseLong(idStr);
 	T item = findById(idLong);
-    	return item;
+	return item;
     }
-    
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
@@ -30,5 +29,5 @@ public abstract class WithLongIdConverter<T extends EntityWithLongID> implements
     }
 
     protected abstract T findById(long id);
-    
+
 }

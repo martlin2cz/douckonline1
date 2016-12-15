@@ -9,9 +9,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Just simply implements support of managers.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Managers {
+
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     private final DbLoading dbl = DbLoading.get();
@@ -19,11 +21,11 @@ public class Managers {
 
     public Managers() {
     }
-  
+
 //<editor-fold defaultstate="collapsed" desc="load managers">
-    
     /**
      * Lists all managers.
+     *
      * @return
      */
     public List<Manager> listAllManagers() {
@@ -32,30 +34,31 @@ public class Managers {
 	return managers;
     }
 //</editor-fold>
-    
+
 //<editor-fold defaultstate="collapsed" desc="add, update manager">
-    
     /**
      * Adds specified manager with given password.
+     *
      * @param manager
      * @param password
      * @return
      */
     public boolean addManager(Manager manager, String password) {
 	LOG.debug("Adding manager");
-	
+
 	final Users users = new Users();
 	return users.registerUser(manager, password);
     }
-    
+
     /**
      * Updates specified manager.
+     *
      * @param manager
      * @return
      */
     public boolean updateManager(Manager manager) {
 	LOG.debug("Updating manager");
-	
+
 	return dbm.update(manager);
     }
 //</editor-fold>

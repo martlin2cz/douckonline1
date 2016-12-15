@@ -24,7 +24,7 @@
 		<h:panelGrid columns="2">
 		    <h:outputLabel value="Subject:" />
 		    <martlin:subjects-list value="#{cc.attrs.item.subject}" withOtherSubject="true" />	 
-		    
+
 		    <h:outputLabel value="Level:" />
 		    <p:selectOneMenu value="#{cc.attrs.item.level}">
 			<f:selectItems value="#{teachingRequestsController.allLevels}" />
@@ -49,7 +49,7 @@
 		    <h:outputLabel value="Description:" />		   
 		    <h:inputTextarea value="#{cc.attrs.item.description}" />
 		</h:panelGrid>
-		
+
 		<p:messages />
 
 		<p:commandButton value="Save" 

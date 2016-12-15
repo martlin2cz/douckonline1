@@ -13,17 +13,17 @@
 
     <composite:implementation>
 	<!--<p:panel id="user-panel">-->
-	    <c:if test="#{loginSession.loggedIn}">
+	<c:if test="#{loginSession.loggedIn}">
 
-		<!--<h:form id="user-panel-form">-->
+	    <!--<h:form id="user-panel-form">-->
 
-		    <h:outputLabel value="Logged as " />
-		    <h:outputText value="#{loginSession.loggedUser.displayName}" />
-		    <p:commandButton value="Log out" ajax="false" icon="ui-icon-unlocked"
-				     action="#{logingInController.logOut()}" />
+	    <h:outputLabel value="Logged as " />
+	    <h:outputText value="#{loginSession.loggedUser.displayName}" />
+	    <p:commandButton value="Log out" ajax="false" icon="ui-icon-unlocked"
+			     action="#{logingInController.logOut()}" />
 
-		<!--</h:form>-->
-	    </c:if>
+	    <!--</h:form>-->
+	</c:if>
 	<!--</p:panel>--> 
     </composite:implementation>
 </html>

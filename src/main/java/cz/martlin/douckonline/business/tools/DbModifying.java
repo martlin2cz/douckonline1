@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Class performing updating (insert, update, delete) on database.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class DbModifying {
@@ -31,14 +32,14 @@ public class DbModifying {
 
     /**
      * Returns the only and only instance.
-     * @return 
+     *
+     * @return
      */
     public static DbModifying get() {
 	return INSTANCE;
     }
 
 //</editor-fold>
-    
 //<editor-fold defaultstate="collapsed" desc="bulk of modifications">
     /**
      * Starts bulk of modificaitions.
@@ -84,8 +85,9 @@ public class DbModifying {
 
     /**
      * Tests whether the bulk is ready (only beacuse of internal errors).
+     *
      * @param operation
-     * @return 
+     * @return
      */
     public boolean isBulkReady(String operation) {
 	boolean ready = bulksStack > 0;
@@ -100,7 +102,8 @@ public class DbModifying {
 
     /**
      * Returns where during the bulk operations occured some error.
-     * @return 
+     *
+     * @return
      */
     public boolean isSuccessfull() {
 	return success;
@@ -110,9 +113,10 @@ public class DbModifying {
 //<editor-fold defaultstate="collapsed" desc="insert, update, delete">
     /**
      * Inserts entity. Bulk must be ready.
+     *
      * @param <T>
      * @param item
-     * @return 
+     * @return
      */
     public <T> boolean insert(T item) {
 	if (!isBulkReady("insert")) {
@@ -133,9 +137,10 @@ public class DbModifying {
 
     /**
      * Updates entity. Bulk must be ready.
+     *
      * @param <T>
      * @param item
-     * @return 
+     * @return
      */
     public <T> boolean update(T item) {
 	if (!isBulkReady("update")) {
@@ -156,9 +161,10 @@ public class DbModifying {
 
     /**
      * Removes entity. Bulk must be ready.
+     *
      * @param <T>
      * @param item
-     * @return 
+     * @return
      */
     public <T> boolean remove(T item) {
 	if (!isBulkReady("remove")) {
@@ -179,9 +185,10 @@ public class DbModifying {
 
     /**
      * Inserts entity, automatically starts and finishes bulk.
+     *
      * @param <T>
      * @param item
-     * @return 
+     * @return
      */
     public <T> boolean insertSingle(T item) {
 	startBulk();
@@ -192,9 +199,10 @@ public class DbModifying {
 
     /**
      * Updates entity, automatically starts and finishes bulk.
+     *
      * @param <T>
      * @param item
-     * @return 
+     * @return
      */
     public <T> boolean updateSingle(T item) {
 	startBulk();
@@ -205,9 +213,10 @@ public class DbModifying {
 
     /**
      * Removes entity, automatically starts and finishes bulk.
+     *
      * @param <T>
      * @param item
-     * @return 
+     * @return
      */
     public <T> boolean removeSingle(T item) {
 	startBulk();
@@ -219,8 +228,9 @@ public class DbModifying {
 
     /**
      * Runs validation of given entity. Logs.
-     * 
-     * @see https://coderanch.com/t/589060/java/bean-validation-error-JPA-persist
+     *
+     * @see
+     * https://coderanch.com/t/589060/java/bean-validation-error-JPA-persist
      *
      * @param <T>
      * @param entity

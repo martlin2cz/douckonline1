@@ -10,11 +10,12 @@ import javax.ws.rs.core.MediaType;
 
 /**
  * Web service for manager.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Path("manager")
 public class ManagerWS {
-    
+
     private final WSAuthorisation auth = new WSAuthorisation();
 
     public ManagerWS() {
@@ -22,9 +23,10 @@ public class ManagerWS {
 
     /**
      * Returns managers profile.
+     *
      * @param username
      * @param authToken
-     * @return 
+     * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)

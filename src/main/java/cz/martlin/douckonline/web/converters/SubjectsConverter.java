@@ -14,15 +14,13 @@ import javax.inject.Named;
  */
 @RequestScoped
 @Named("subjectsConverter")
-public class SubjectsConverter implements  Converter {
+public class SubjectsConverter implements Converter {
 
     private final Subjects SUBJECTS = new Subjects();
-    
-    
+
     public SubjectsConverter() {
     }
-    
-    
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
 	if (value == null) {
@@ -42,5 +40,5 @@ public class SubjectsConverter implements  Converter {
 	String subjectName = subject.getName();
 	return subjectName;
     }
-    
+
 }

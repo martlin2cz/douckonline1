@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Represents subject of teaching, i.e. minions language or holophoner playing.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
@@ -28,7 +29,7 @@ public class Subject implements Serializable {
     @Column(name = "category")
     @Enumerated(EnumType.STRING)
     private SubjectCategory category;
-    
+
     public Subject() {
     }
 
@@ -52,9 +53,6 @@ public class Subject implements Serializable {
     public void setCategory(SubjectCategory category) {
 	this.category = category;
     }
-    
-    
-    
 
     @Override
     public int hashCode() {
@@ -85,5 +83,5 @@ public class Subject implements Serializable {
     public String toString() {
 	return "Subject{" + name + "}";
     }
-    
+
 }

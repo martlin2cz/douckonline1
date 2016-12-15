@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Implements logic about the teachings (teachings and lessons).
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 public class Teachings {
@@ -34,15 +35,16 @@ public class Teachings {
 //<editor-fold defaultstate="collapsed" desc="listing of teaching">
     /**
      * Finds teaching by id.
+     *
      * @param id
-     * @return 
+     * @return
      */
     public Teaching getTeachingById(long id) {
 	LOG.trace("Finding teaching by id");
-	
+
 	return dbl.getById(Teaching.class, id);
     }
-    
+
     /**
      * Lists all teachings of given lector.
      *
@@ -53,11 +55,11 @@ public class Teachings {
 	LOG.trace("Listing teachings of lector");
 
 	List<Teaching> teachings = dbl.listByCond(Teaching.class, false, //
-		new Class<?>[] {Lector.class}, //
-		new String[] {"teaching.lector"}, //
-		new String[] {"lector"}, //
-		new Object[] {lector});
-	
+		new Class<?>[]{Lector.class}, //
+		new String[]{"teaching.lector"}, //
+		new String[]{"lector"}, //
+		new Object[]{lector});
+
 	return teachings;
     }
 
@@ -71,10 +73,10 @@ public class Teachings {
 	LOG.trace("Listing teachings of student");
 
 	List<Teaching> teachings = dbl.listByCond(Teaching.class, false, // 
-		new Class<?>[] {Student.class}, //
-		new String[] {"teaching.student"}, //
-		new String[] {"student"}, //
-		new Object[] {student});
+		new Class<?>[]{Student.class}, //
+		new String[]{"teaching.student"}, //
+		new String[]{"student"}, //
+		new Object[]{student});
 
 	return teachings;
     }
@@ -89,15 +91,15 @@ public class Teachings {
      */
     public List<Teaching> getTeachingsOf(Lector lector, Student student, Subject subject) {
 	LOG.trace("Listing teachins of lector, student and subject");
-	
+
 	List<Teaching> teachings = dbl.listByCond(Teaching.class, true, //
-		new Class<?>[] {Lector.class, Student.class, Subject.class}, //
-		new String[] {"teaching.lector", "teaching.student", "teaching.subject"}, //
-		new String[] {"lector", "student", "subject"}, //
-		new Object[] {lector, student, subject});
-	
+		new Class<?>[]{Lector.class, Student.class, Subject.class}, //
+		new String[]{"teaching.lector", "teaching.student", "teaching.subject"}, //
+		new String[]{"lector", "student", "subject"}, //
+		new Object[]{lector, student, subject});
+
 	return teachings;
-	
+
     }
 
     /**
@@ -115,7 +117,6 @@ public class Teachings {
     }
 
 //</editor-fold>
-    
 //<editor-fold defaultstate="collapsed" desc="start, finish, update teaching">
     /**
      * Starts teaching of specified params.
@@ -129,7 +130,7 @@ public class Teachings {
      */
     public Teaching startTeaching(Lector lector, Student student, Subject subject, Level level, int cost) {
 	LOG.trace("Starting of teaching");
-	
+
 	Teaching teaching = createTeaching(lector, student, subject, level, cost);
 	boolean success = dbm.insertSingle(teaching);
 	if (success) {
@@ -203,12 +204,11 @@ public class Teachings {
     public List<Lesson> getLessonsOf(Student student, Integer daysAgo) {
 	LOG.trace("Listing lessons of student and daysAgo");
 
-	
 	List<Lesson> teachings = dbl.listByCond(Lesson.class, false, //
-		new Class<?>[] {Teaching.class, Student.class}, //
-		new String[] {"lesson.teaching.student"}, //
-		new String[] {"student"}, //
-		new Object[] {student});
+		new Class<?>[]{Teaching.class, Student.class}, //
+		new String[]{"lesson.teaching.student"}, //
+		new String[]{"student"}, //
+		new Object[]{student});
 
 	return teachings;
     }
@@ -224,12 +224,11 @@ public class Teachings {
     public List<Lesson> getLessonsOf(Lector lector, Integer daysAgo) {
 	LOG.trace("Listing lessons of lector and daysAgo");
 
-	
 	List<Lesson> teachings = dbl.listByCond(Lesson.class, false, //
-		new Class<?>[] {Teaching.class, Lector.class}, //
-		new String[] {"lesson.teaching.lector"}, //
-		new String[] {"lector"}, //
-		new Object[] {lector});
+		new Class<?>[]{Teaching.class, Lector.class}, //
+		new String[]{"lesson.teaching.lector"}, //
+		new String[]{"lector"}, //
+		new Object[]{lector});
 
 	return teachings;
     }
@@ -237,7 +236,7 @@ public class Teachings {
     /**
      * Adds lesson to database.
      *
-     * @param lesson 
+     * @param lesson
      * @return
      */
     public boolean addLesson(Lesson lesson) {
@@ -245,7 +244,7 @@ public class Teachings {
 
 	Calendar addedAt = Calendar.getInstance();
 	lesson.setAddedAt(addedAt);
-	
+
 	Teaching teaching = lesson.getTeaching();
 	teaching.getLessons().add(lesson);
 
@@ -264,26 +263,23 @@ public class Teachings {
 
 	Teaching teaching = lesson.getTeaching();
 	teaching.getLessons().remove(lesson);
-	
+
 	return dbm.removeSingle(lesson);
     }
-    
-    
+
     /**
      * Updates given lesson in database.
+     *
      * @param lesson
-     * @return 
+     * @return
      */
     public boolean updateLesson(Lesson lesson) {
 	LOG.trace("Updating lesson");
 
 	LOG.warn("will loose data like AddedAt ... (restore from db and copy it into?)? Or not?");
-	
+
 	return dbm.updateSingle(lesson);
     }
 //</editor-fold>
-
-
-
 
 }

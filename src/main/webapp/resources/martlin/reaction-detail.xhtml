@@ -22,7 +22,7 @@
 
 	    <h:form id="teaching-request-reaction-detail-form">
 		<h:panelGrid columns="2">
-		    
+
 		    <h:outputLabel value="Status:" />
 		    <p:selectOneMenu value="#{requestReactionsController.status}">
 			<f:selectItems value="#{requestReactionsController.allStatuses}" />
@@ -31,7 +31,7 @@
 		    <h:outputLabel value="Description:" />		   
 		    <h:inputTextarea value="#{requestReactionsController.description}" />
 		</h:panelGrid>
-		
+
 		<p:messages />
 
 		<p:commandButton value="Save" 

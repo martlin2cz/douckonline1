@@ -16,7 +16,9 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Lector's reaction to teaching request. Contains just status (accept/deny), description and timestamp.
+ * Lector's reaction to teaching request. Contains just status (accept/deny),
+ * description and timestamp.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
@@ -24,11 +26,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class RequestReaction extends EntityWithLongID {
 
-    
     @ManyToOne
     @JoinColumn(name = "teaching_request_id")
     private TeachingRequest request;
-    
+
     @ManyToOne
     @JoinColumn(name = "lector_name")
     private Lector lector;
@@ -52,7 +53,7 @@ public class RequestReaction extends EntityWithLongID {
 
     public RequestReaction(TeachingRequest request, Lector lector, RequestReactionStatus status, Calendar when, String description) {
 	super();
-	
+
 	this.request = request;
 	this.lector = lector;
 	this.status = status;
@@ -68,8 +69,6 @@ public class RequestReaction extends EntityWithLongID {
 	this.request = request;
     }
 
-    
-    
     public Lector getLector() {
 	return lector;
     }

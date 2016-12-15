@@ -14,7 +14,7 @@ import javax.inject.Named;
 public class TeachingsConverter extends WithLongIdConverter<Teaching> {
 
     private final Teachings TEACHINGS = new Teachings();
-    
+
     public TeachingsConverter() {
     }
 
@@ -22,5 +22,5 @@ public class TeachingsConverter extends WithLongIdConverter<Teaching> {
     protected Teaching findById(long id) {
 	return TEACHINGS.getTeachingById(id);
     }
-    
+
 }

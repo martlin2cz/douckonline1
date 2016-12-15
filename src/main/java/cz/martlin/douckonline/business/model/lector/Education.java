@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
 
 /**
  * Represents lector's education, i.e. high scool or grade.
+ *
  * @author m@rtlin <martlin@seznam.cz>
  */
 @Entity
@@ -27,7 +28,7 @@ public class Education extends EntityWithLongID {
     @Column(name = "degree")
     @Size(min = 1, max = 20)
     private String degree;
-    
+
     @ManyToOne
     @JoinColumn(name = "lector_login_name")
     private Lector lector;
@@ -74,8 +75,6 @@ public class Education extends EntityWithLongID {
     public void setLector(Lector lector) {
 	this.lector = lector;
     }
-
-    
 
     @Override
     public String toString() {
