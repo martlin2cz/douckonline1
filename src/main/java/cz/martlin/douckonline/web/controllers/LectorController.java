@@ -48,5 +48,6 @@ public class LectorController {
 //</editor-fold>
 
 //<editor-fold defaultstate="collapsed" desc="action methods">
+    //TODO update lector, add/remove subjs, certs, edus and practices
 //</editor-fold>
 }

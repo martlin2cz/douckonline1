@@ -4,6 +4,7 @@ import cz.martlin.douckonline.business.logic.Requests;
 import cz.martlin.douckonline.business.model.managment.RequestReaction;
 import cz.martlin.douckonline.business.model.managment.TeachingRequest;
 import cz.martlin.douckonline.business.model.teaching.Level;
+import cz.martlin.douckonline.web.utils.JSFTools;
 import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -55,11 +56,14 @@ public class TeachingRequestsController implements Serializable {
     }
     
     public void saveRequest(TeachingRequest request) {
+	boolean success;
 	if (request.isPersisted()) {
 	    throw new UnsupportedOperationException("Update of request");
 	} else {
-	    REQUESTS.addRequest(request);
+	    success = REQUESTS.addRequest(request);
 	}
+	
+	JSFTools.savedOrFailed(success, "Request saved", "Request save failed");
     }
     
     public void loadReactions(TeachingRequest request) {

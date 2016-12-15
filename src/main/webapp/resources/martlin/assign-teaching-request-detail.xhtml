@@ -38,8 +38,7 @@
 		<p:commandButton value="Assign" 
 				 action="#{assignRequestController.assign(cc.attrs.item)}"
 				 oncomplete="#{cc.attrs.onSaved}"
-				 update="@form">
-		</p:commandButton>
+				 update="@form @widgetVar(growl)" />
 
 	    </h:form>
 

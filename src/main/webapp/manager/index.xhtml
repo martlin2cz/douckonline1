@@ -6,42 +6,20 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:martlin="http://java.sun.com/jsf/composite/martlin"
       >
-    
-  <ui:composition template="/WEB-INF/templates/main-template.xhtml">
-      <ui:define name="title">Manager</ui:define>
-      
-      <ui:define name="main-content">
-	  
-	  <martlin:teaching-requests-table items="#{managerController.currentRequests}" displayAll="true" 
-					   title="Current teaching requests" />
-	  
-	  <martlin:teachings-table items="#{managerController.currentTeachings}" 
-				   title="Currently running teachings" />
-	  
-	<pre>
-Some data queried from db:
-    English lectors: #{managerController.englishLectors}
-    Math lectors:    #{managerController.mathLectors}
 
-    Payments of Eve Milly: #{managerController.paymentsOfEveMilly}
-    Payments of Mike Nerd: #{managerController.paymentsOfMikeNerd}
+    <ui:composition template="/WEB-INF/templates/main-template.xhtml">
+	<ui:define name="title">Manager</ui:define>
 
-    Teaching of Peter Geek: #{managerController.teachingsOfPeterGeek} 
-    Teaching of Jane Bach:  #{managerController.teachingsOfJaneBach}
+	<ui:define name="main-content">
 
-    Teaching of Eve Milly: #{managerController.teachingsOfEveMilly} 
-    Teaching of MikeNerd:  #{managerController.teachingsOfMikeNerd}
+	    <martlin:teaching-requests-table 
+		requests="#{managerController.currentRequests}" 
+		displayAll="true" title="Current teaching requests" />
 
-    Teaching of Geek and Nerd:  #{managerController.teachingsOfGeekAndNerd}
+	    <martlin:teachings-table items="#{managerController.currentTeachings}" 
+				     title="Currently running teachings" />
 
-    Lessons of Peter Geek: #{managerController.lessonsOfGeek}
-    Lessons of Jane Bach:  #{managerController.lessonsOfBach}
-    Lessons of Mike Nerd:  #{managerController.lessonsOfNerd}
-    Lessons of John Lazy:  #{managerController.lessonsOfLazy}
-	</pre>
-	
 
-	  
-    </ui:define>
-  </ui:composition>
+	</ui:define>
+    </ui:composition>
 </html>

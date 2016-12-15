@@ -5,7 +5,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:composite="http://java.sun.com/jsf/composite"
       xmlns:p="http://primefaces.org/ui"
-	  
+
       xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
 
     <composite:interface displayName="Panel with teaching requests">
@@ -16,71 +16,79 @@
     <!-- TODO: displayDates, display... -->
 
     <composite:implementation>
-	<section class="teachings-pane">
-	    <c:if test="#{not empty cc.attrs.title}">
-		<h2>#{cc.attrs.title}</h2>
-	    </c:if>
-
+	<p:panel class="teachings-pane">
 	    <h:form id="teachings-form">
+		<c:if test="#{not empty cc.attrs.title}">
+		    <h2>#{cc.attrs.title}</h2>
+		</c:if>
+
+
 		<p:dataGrid value="#{cc.attrs.items}" var="teaching" 
 			    layout="grid" columns="2"
 			    emptyMessage="No current teaching">
+		    <p:panel>
+			<h:panelGrid columns="4">
+			    <c:if test="#{loginSession.loggedAsManager}">
+				<h:outputLabel value="Lector:" />
+				<h:panelGroup>
+				    <h:outputText value="#{teaching.lector.displayName}" />
+				    <p:button title="Open lector's profile" icon="ui-icon-extlink" target="_blank"
+					      onclick="window.open('lector.xhtml?login-name=#{lector.loginName}')"  />
+				</h:panelGroup>
+			    </c:if>
 
-		    <h:panelGrid columns="4">
-			<c:if test="#{loginSession.loggedAsManager}">
-			    <h:outputLabel value="Lector:" />
+			    <h:outputLabel value="Student:" />
 			    <h:panelGroup>
-				<h:outputText value="#{teaching.lector.displayName}" />
-				<p:commandButton value="Show" />
+				<h:outputText value="#{teaching.student.displayName}" />
+				<p:commandButton title="Show student's profile" icon="ui-icon-extlink" 
+						 disabled="true" />
 			    </h:panelGroup>
-			</c:if>
 
-			<h:outputLabel value="Student:" />
-			<h:panelGroup>
-			    <h:outputText value="#{teaching.student.displayName}" />
-			    <p:commandButton value="Show" />
-			</h:panelGroup>
+			    <c:if test="#{not loginSession.loggedAsManager}">
+				<p:spacer />
+				<p:spacer />
+			    </c:if>
 
-			<c:if test="#{not loginSession.loggedAsManager}">
+			    <h:outputLabel value="Subject:" />
+			    <h:outputText value="#{teaching.subject.name}" />
+
+			    <h:outputLabel value="Level:" />
+			    <h:outputText value="#{teaching.level}" />
+
+			    <h:outputLabel value="Description:" />
 			    <p:spacer />
-			    <p:spacer />
-			</c:if>
-			
-			<h:outputLabel value="Subject:" />
-			<h:outputText value="#{teaching.subject.name}" />
 
-			<h:outputLabel value="Level:" />
-			<h:outputText value="#{teaching.level}" />
+			    <h:outputLabel value="Lessons:" />		   
 
-			<h:outputLabel value="Description:" />		   
-			<p:spacer/>
-			<p:spacer/>
-			
-			<h:panelGroup>
-			    <p:commandButton icon="ui-icon-plusthick" title="Add lesson"
-					     action="#{lessonsController.openNewLesson(teaching)}"
-					     update="@widgetVar(lessonDialog)"
-					     oncomplete="PF('lessonDialog').show()"
-					     />
-			    
-			</h:panelGroup>
-			
-		    </h:panelGrid>
-		    <h:outputText value="#{teaching.statusDescription}" />
+			    <h:panelGroup>
+				<h:outputText value="#{teaching.lessons.size()}" />		   
+
+				<p:commandButton icon="ui-icon-plusthick" title="Add lesson"
+						 action="#{lessonsController.openNewLesson(teaching)}"
+						 update="@widgetVar(lessonDialog)"
+						 oncomplete="PF('lessonDialog').show()"
+						 />
+
+			    </h:panelGroup>
+
+			</h:panelGrid>
+			<h:outputText value="#{teaching.statusDescription}" />
+
+		    </p:panel>
 		</p:dataGrid>
 	    </h:form>
 
 	    <p:dialog header="Lesson" id="lessonDialog" widgetVar="lessonDialog">
 		#{teachingsController.currentTeaching}
-		
+
 		<martlin:lesson-detail
 		    lesson="#{lessonsController.lessonToOpen}" 
 		    teaching="#{lessonsController.teachingToOpen}"
 		    onSaved="hideOnSuccess(xhr, status, args, 'lessonDialog');" />
-		
+
 	    </p:dialog>
-	    
-	</section>
+
+	</p:panel>
     </composite:implementation>
 </html>
 

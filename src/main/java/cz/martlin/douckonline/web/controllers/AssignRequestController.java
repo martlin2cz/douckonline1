@@ -3,6 +3,7 @@ package cz.martlin.douckonline.web.controllers;
 import cz.martlin.douckonline.business.logic.Requests;
 import cz.martlin.douckonline.business.model.lector.Lector;
 import cz.martlin.douckonline.business.model.managment.TeachingRequest;
+import cz.martlin.douckonline.business.model.teaching.Teaching;
 import cz.martlin.douckonline.web.utils.JSFTools;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -61,9 +62,9 @@ public class AssignRequestController {
 //</editor-fold>
     
     public void assign(TeachingRequest request) {
+	Teaching teaching = REQUESTS.requestToTeaching(request, lector, description, cost);
 	
-	
-	REQUESTS.requestToTeaching(request, lector, description, cost);
+	JSFTools.savedOrFailed(teaching != null, "Teaching assigned", "Assignment failed");
     }
     
     

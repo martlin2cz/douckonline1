@@ -9,106 +9,110 @@
       xmlns:martlin="http://xmlns.jcp.org/jsf/composite/martlin">
 
     <composite:interface displayName="Panel with teaching requests">
-	<composite:attribute name="items"  required="true" type="java.util.List" />
+	<composite:attribute name="requests"  required="true" type="java.util.List" />
 	<composite:attribute name="displayAll" default="false" required="false" type="boolean" />
 	<composite:attribute name="title" required="false" type="java.lang.String" default="" />
     </composite:interface>
 
     <composite:implementation>
-	<section class="teaching-requests-pane">
-	    <c:if test="#{not empty cc.attrs.title}">
-		<h2>#{cc.attrs.title}</h2>
-	    </c:if>
-
+	<p:panel class="teaching-requests-pane">
 
 	    <h:form id="teaching-requests-form">
-		<c:if test="#{loginSession.loggedAsManager}">
-		    <p:commandButton value="Add request" action="#{teachingRequestsController.openNewRequest}"
+		<h2>
+		    <h:outputText value="#{cc.attrs.title}" />
+		    <p:commandButton title="Add new Payment" icon="ui-icon-plusthick"
+				     action="#{teachingRequestsController.openNewRequest}"
 				     update="@widgetVar(teachingRequestDialog)"
-				     oncomplete="PF('teachingRequestDialog').show()" />
-		</c:if>
+				     oncomplete="PF('teachingRequestDialog').show()"
+				     rendered="#{loginSession.loggedAsManager}"
+				     />
+		</h2>
 
-		<p:dataGrid value="#{cc.attrs.items}" var="teaching_request" 
+
+
+		<p:dataGrid value="#{cc.attrs.requests}" var="teaching_request" 
 			    layout="grid" columns="2"
 			    emptyMessage="No current teaching requests">
+		    <p:panel>
+			<h:panelGrid columns="4">
 
-		    <h:panelGrid columns="4">
+			    <h:outputLabel value="Subject:" />
+			    <h:outputText value="#{teaching_request.subject.name}" />
 
-			<h:outputLabel value="Subject:" />
-			<h:outputText value="#{teaching_request.subject.name}" />
+			    <h:outputLabel value="Level:" />
+			    <h:outputText value="#{teaching_request.level}" />
 
-			<h:outputLabel value="Level:" />
-			<h:outputText value="#{teaching_request.level}" />
+			    <c:if test="#{cc.attrs.displayAll}">
+				<h:outputLabel value="Registered to:" />
+				<h:outputText value="#{teaching_request.registerName}" />
 
-			<c:if test="#{cc.attrs.displayAll}">
-			    <h:outputLabel value="Registered to:" />
-			    <h:outputText value="#{teaching_request.registerName}" />
-
-			    <h:outputLabel value="Student name:" />
-			    <h:outputText value="#{teaching_request.studentName}" />
-
-
-			    <h:outputLabel value="Email:" />
-			    <h:outputText value="#{teaching_request.email}" />
-
-			    <h:outputLabel value="Phone:" />
-			    <h:outputText value="#{teaching_request.phone}" />
+				<h:outputLabel value="Student name:" />
+				<h:outputText value="#{teaching_request.studentName}" />
 
 
-			    <h:outputLabel value="Added at:" />
-			    <h:outputText value="#{teaching_request.addedAt.time}" />
+				<h:outputLabel value="Email:" />
+				<h:outputText value="#{teaching_request.email}" />
 
-			    <h:outputLabel value="Reactions:" />
-			    <h:panelGroup>
-				<h:outputText value="#{teaching_request.reactions.size()}" />
-				<p:commandButton value="Show" 
-						 action="#{teachingRequestsController.loadReactions(teaching_request)}" 
-						 oncomplete="PF('reactionsDialog').show()"
-						 update="@widgetVar(reactionsDialog)" />			    
-			    </h:panelGroup>
-			</c:if>
+				<h:outputLabel value="Phone:" />
+				<h:outputText value="#{teaching_request.phone}" />
 
-			<h:outputLabel value="Description:" />
-			<p:spacer />
-			<p:spacer />
-			<h:panelGroup>
-			    <c:if test="#{loginSession.loggedAsManager}">
-				<p:commandButton icon="ui-icon-gear" title="Edit"
-					     action="#{teachingRequestsController.openRequest(teaching_request)}"
-					     update="@widgetVar(teachingRequestDialog)"
-					     oncomplete="PF('teachingRequestDialog').show()" />
 
-				<p:commandButton icon="ui-icon-closethick" title="Dismiss" />
+				<h:outputLabel value="Added at:" />
+				<h:outputText value="#{teaching_request.addedAt.time}" />
 
-				<p:commandButton icon="ui-icon-transferthick-e-w" title="Assign to..." 
-					     action="#{teachingRequestsController.openRequest(teaching_request)}"
-					     update="@widgetVar(assignToLectorDialog)"
-					     oncomplete="PF('assignToLectorDialog').show()"
-					     />
+				<h:outputLabel value="Reactions:" />
+				<h:panelGroup>
+				    <h:outputText value="#{teaching_request.reactions.size()}" />
+				    <p:commandButton title="Show reactions" icon="ui-icon-extlink" 
+						     action="#{teachingRequestsController.loadReactions(teaching_request)}" 
+						     oncomplete="PF('reactionsDialog').show()"
+						     update="@widgetVar(reactionsDialog)" />			    
+				</h:panelGroup>
 			    </c:if>
-			    <c:if test="#{loginSession.loggedAsLector}">
-				<p:commandButton icon="ui-icon-transferthick-e-w" title="React" 
-						 action="#{teachingRequestsController.openRequest(teaching_request)}"
-						 update="@widgetVar(reactionDialog)"
-						 oncomplete="PF('reactionDialog').show()" />
-				</c:if>			   
-			</h:panelGroup>
 
-		    </h:panelGrid>
-		    <h:outputText value="#{teaching_request.description}" />
+			    <h:outputLabel value="Description:" />
+			    <p:spacer />
+			    <p:spacer />
+			    <h:panelGroup>
+				<c:if test="#{loginSession.loggedAsManager}">
+				    <p:commandButton icon="ui-icon-gear" title="Edit"
+						     action="#{teachingRequestsController.openRequest(teaching_request)}"
+						     update="@widgetVar(teachingRequestDialog)"
+						     oncomplete="PF('teachingRequestDialog').show()" />
+
+				    <p:commandButton icon="ui-icon-closethick" title="Dismiss" 
+						     disabled="true" />
+
+				    <p:commandButton icon="ui-icon-transferthick-e-w" title="Assign to..." 
+						     action="#{teachingRequestsController.openRequest(teaching_request)}"
+						     update="@widgetVar(assignToLectorDialog)"
+						     oncomplete="PF('assignToLectorDialog').show()"
+						     />
+				</c:if>
+				<c:if test="#{loginSession.loggedAsLector}">
+				    <p:commandButton icon="ui-icon-transferthick-e-w" title="React" 
+						     action="#{teachingRequestsController.openRequest(teaching_request)}"
+						     update="@widgetVar(reactionDialog)"
+						     oncomplete="PF('reactionDialog').show()" />
+				</c:if>			   
+			    </h:panelGroup>
+
+			</h:panelGrid>
+			<h:outputText value="#{teaching_request.description}" />
+		    </p:panel>
 		</p:dataGrid>
 	    </h:form>
 
 	    <p:dialog header="Reactions" widgetVar="reactionsDialog" id="reactionsDialog">
 		<martlin:requests-reactions-table 
-		    items="#{teachingRequestsController.currentReactions}"
+		    reactions="#{teachingRequestsController.currentReactions}"
 		    withActionButtons="true" withRequest="false" />
 	    </p:dialog>
 
 
 	    <p:dialog header="Add teaching request" widgetVar="teachingRequestDialog" id="teachingRequestDialog">
 		<martlin:teaching-request-detail
-		    item="#{teachingRequestsController.currentRequest}" 
+		    item="#{teachingRequestsController.currentRequest}"
 		    onSaved="hideOnSuccess(xhr, status, args, 'teachingRequestDialog');" />
 	    </p:dialog>
 
@@ -117,14 +121,14 @@
 		    item="#{teachingRequestsController.currentRequest}" 
 		    onSaved="hideOnSuccess(xhr, status, args, 'assignToLectorDialog');" />
 	    </p:dialog>
-	    
+
 	    <p:dialog header="Reaction" widgetVar="reactionDialog" id="reactionDialog">
 		<martlin:reaction-detail
 		    request="#{teachingRequestsController.currentRequest}" 
 		    onSaved="hideOnSuccess(xhr, status, args, 'reactionDialog');" />
 	    </p:dialog>
-	    
-	</section>
+
+	</p:panel>
 
 
 

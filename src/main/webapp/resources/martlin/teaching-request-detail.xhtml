@@ -23,7 +23,7 @@
 	    <h:form id="teaching-request-detail-form">
 		<h:panelGrid columns="2">
 		    <h:outputLabel value="Subject:" />
-		    <martlin:subjects-list value="#{cc.attrs.item.subject}" />	 
+		    <martlin:subjects-list value="#{cc.attrs.item.subject}" withOtherSubject="true" />	 
 		    
 		    <h:outputLabel value="Level:" />
 		    <p:selectOneMenu value="#{cc.attrs.item.level}">
@@ -55,7 +55,7 @@
 		<p:commandButton value="Save" 
 				 action="#{teachingRequestsController.saveRequest(cc.attrs.item)}"
 				 oncomplete="#{cc.attrs.onSaved}"
-				 update="@form"
+				 update="@form @widgetVar(growl)"
 				 />
 
 	    </h:form>
